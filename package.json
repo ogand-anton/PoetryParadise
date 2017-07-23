@@ -6,6 +6,9 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "angular": "^1.6.5",
+    "angular-route": "^1.6.5",
+    "bootstrap": "^3.3.7",
     "express": "~4.15.2",
     "mongoose": "^4.11.3"
   }

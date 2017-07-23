@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="pp">
 <head>
     <meta charset="UTF-8">
     <title>Poetry Paradise</title>
+
+    <!-- CSS: Vendors  -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- CSS: App -->
+    <link href="css/style.css" rel="stylesheet"/>
+    <!-- JS: Vendors -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.min.js"></script>
+    <!-- JS: App -->
+    <script src="app.js"></script>
+    <script src="config.js"></script>
+    <!-- JS: Controllers -->
+    <script src="view/home/controllers/controller_home.js"></script>
+    <!-- JS: Services -->
+    <script src="service/service_home.js"></script>
 </head>
 <body>
-    <h1>Poetry Paradise Homepage</h1>
-    <div>Coming soon...</div>
+    <div ng-view></div>
 </body>
 </html>

@@ -1,8 +1,131 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/************************/
+/*        Images        */
+/************************/
+
+img.aoa-icon {
+    height: 30px;
+    width: 30px;
 }
 
-a {
-  color: #00B7FF;
+/************************/
+/*        Nav Bar       */
+/************************/
+nav {
+    background-color: rgb(248, 248, 248);
+    max-height: 50px;
+}
+
+nav + * {
+    margin: 50px 0 50px 0;
+    padding: 10px 0 10px 0;
+}
+
+nav > div {
+    width: 100%;
+}
+
+nav a {
+    height: 100%;
+}
+
+.aoa-navbar-page-name {
+    color: rgb(255, 255, 255);
+    left: 0;
+    margin: 15px 0 15px 0;
+    position: fixed;
+    text-align: center;
+    width:100%;
+    z-index: -1;
+}
+
+.aoa-navbar-item,
+.aoa-navbar-left,
+.aoa-navbar-right {
+    padding: 15px 0 15px 0;
+}
+
+.aoa-navbar-item,
+.aoa-navbar-left {
+    float: left;
+}
+
+.aoa-navbar-right {
+    float: right;
+}
+
+.aoa-navbar-item.aoa-icon-padding,
+.aoa-navbar-left.aoa-icon-padding,
+.aoa-navbar-right.aoa-icon-padding {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.navbar-fixed-bottom {
+    text-align: center;
+}
+
+/************************/
+/*      Overrides       */
+/************************/
+
+a:hover{
+    text-decoration: none;
+    color: rgb(153, 224, 255);
+}
+
+body, a {
+    font-size: 18px !important;
+}
+
+/************************************/
+/*          Panel Container         */
+/************************************/
+
+.aoa-container-panel > div {
+    min-height: 200px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.aoa-container-panel > div:nth-child(even) {
+    background-color: lightskyblue;
+}
+
+.aoa-container-panel img {
+    height: 150px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 150px;
+}
+
+.aoa-container-panel .btn {
+    margin-bottom: 10px;
+}
+/************************/
+/*      Utilities       */
+/************************/
+.aoa-padding-lr-none {
+     padding-left: 0;
+     padding-right: 0;
+ }
+
+.aoa-padding-right-none {
+    padding-right: 0;
+}
+
+.aoa-padding-left-none {
+    padding-left: 0;
+}
+
+.aoa-padding-tb-none {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.aoa-padding-top-none {
+    padding-top: 0;
+}
+
+.aoa-padding-bottom-none {
+    padding-bottom: 0;
 }
