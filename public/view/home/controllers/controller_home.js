@@ -6,16 +6,15 @@
     function homeController(homeService){
         var vm = this;
 
-        vm.test = test;
+        vm.search = search;
 
-        function test(){
-            homeService.search(_searchCb);
-        }
+        function search(searchInfo){
+            var searchCb = function(rs) {
+                vm.successMsg = rs.data;
+            };
 
-        function _searchCb(rs) {
-            console.log("Server responded");
-            console.log(rs);
-            vm.successMsg = rs.data;
+            vm.successMsg = "Searching...";
+            homeService.search(searchInfo, searchCb);
         }
     }
 })();
