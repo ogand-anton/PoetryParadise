@@ -32,6 +32,7 @@ module.exports = function(app)
             //  in: author, title, lines, linecount
             //  sch: string corresponding to in fields (MUST be equal to in size)
             //      [:abs] absolute matching, not just substring
+            //      lines can be separated by ';'
             //  out: author, title, lines, linecount, all/null
             //  format: .json/null, .txt
             options.path = "/" + inputs.join(",") + "/" + searchTerms.join(";") + "/all.json";

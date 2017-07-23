@@ -5,21 +5,33 @@
 <!-- Search form -->
 <div class="form-group">
     <label for="author">Author</label>
-    <input id="author" placeholder="Shelley" ng-model="searchInfo.author">
+    <input id="author" class="form-control" placeholder="Shelley" ng-model="searchInfo.author">
 </div>
 <div class="form-group">
     <label for="title">Title</label>
-    <input id="title" placeholder="Ozymandias" ng-model="searchInfo.title">
+    <input id="title" class="form-control" placeholder="Ozymandias" ng-model="searchInfo.title">
 </div>
 <div class="form-group">
-    <label for="lines">Content</label>
-    <input id="lines" placeholder="Look on my works, ye Mighty, and despair" ng-model="searchInfo.lines">
+    <label for="lines">Lines</label>
+    <input id="lines" class="form-control" placeholder="Look on my works, ye Mighty, and despair" ng-model="searchInfo.lines">
 </div>
 <div class="form-group">
-    <label for="linecount">Lines</label>
-    <input type="number" id="linecount" placeholder="14" ng-model="searchInfo.linecount">
+    <label for="linecount">Line Count</label>
+    <input type="number" id="linecount" class="form-control"  placeholder="14" ng-model="searchInfo.linecount">
 </div>
 
 <button ng-click="model.search(searchInfo)">Search</button>
 
 <div ng-show="model.successMsg">{{model.successMsg}}</div>
+
+<div ng-show="model.results">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="result in model.results">
+            <div><b>{{result.title}}</b></div>
+            <div><i>{{result.author}}</i></div>
+            <div ng-repeat="line in result.lines | limitTo: 10 track by $index">{{line}}</div>
+            <div ng-if="result.linecount > 10">...</div>
+            <div>{{result.linecount}}</div>
+        </li>
+    </ul>
+</div>
