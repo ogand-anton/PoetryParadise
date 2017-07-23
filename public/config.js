@@ -10,5 +10,20 @@
                 controller: "homeController",
                 controllerAs: "model"
             })
+            .when("/:author", {
+                templateUrl: "view/home/templates/template_landing.html",
+                controller: "landingController",
+                controllerAs: "model"
+            })
+            .when("/:author/:title", {
+                templateUrl: "view/home/templates/template_landing.html",
+                controller: "landingController",
+                controllerAs: "model"
+            })
+            .when("/:author/:title/:linecount", {
+                templateUrl: "view/home/templates/template_landing.html",
+                controller: "landingController",
+                controllerAs: "model"
+            })
     }
 })();

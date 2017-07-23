@@ -1,0 +1,13 @@
+<div ng-show="model.successMsg">{{model.successMsg}}</div>
+<div ng-show="model.results">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="result in model.results">
+            <div><b>{{result.title}}</b></div>
+            <div><i>{{result.author}}</i></div>
+            <!-- TODO provide landing page every poem -->
+            <div ng-repeat="line in result.lines | limitTo: model.quantity track by $index">{{line}}</div>
+            <div ng-if="result.linecount > model.quantity">...</div>
+            <div>{{result.linecount}}</div>
+        </li>
+    </ul>
+</div>
