@@ -3,7 +3,7 @@
         .module("pp")
         .controller("landingController", landingController);
 
-    // TODO need to break up landing for poem and landing for collection as two different thigns 
+    // TODO need to break up landing for poem and landing for collection as two different things
     function landingController($routeParams, homeService){
         var vm = this,
             author, title; // betting on this is a unique n-tuple although no guarantees...

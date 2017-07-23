@@ -21,7 +21,7 @@ module.exports = function(app)
             inputs.push("lines");
             searchTerms.push(rq.query.lines);
         }
-        if (rq.query.linecount) {
+        if (rq.query.linecount) { // TODO might have to drop this...causing problems
             inputs.push("linecount");
             searchTerms.push(rq.query.linecount);
         }
