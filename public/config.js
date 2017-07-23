@@ -20,10 +20,5 @@
                 controller: "landingController",
                 controllerAs: "model"
             })
-            .when("/:author/:title/:linecount", {
-                templateUrl: "view/home/templates/template_landing.html",
-                controller: "landingController",
-                controllerAs: "model"
-            })
     }
 })();

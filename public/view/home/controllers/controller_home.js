@@ -25,7 +25,7 @@
         }
 
         function goToLanding(poemInfo){
-            $location.url("/" + poemInfo.author + "/" + poemInfo.title + "/" + poemInfo.linecount);
+            $location.url("/" + poemInfo.author + "/" + poemInfo.title);
         }
     }
 })();

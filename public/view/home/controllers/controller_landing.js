@@ -3,21 +3,20 @@
         .module("pp")
         .controller("landingController", landingController);
 
-    // TODO need convery that a landign can be for a poem and for a collection of poems
+    // TODO need to break up landing for poem and landing for collection as two different thigns 
     function landingController($routeParams, homeService){
         var vm = this,
-            author, title, linecount; // betting on this is a unique n-tuple although no guarantees...
+            author, title; // betting on this is a unique n-tuple although no guarantees...
 
         (function init(){
             author = $routeParams["author"];
             title = $routeParams["title"];
-            linecount = $routeParams["linecount"];
 
             _load();
         })();
 
         function _load(){
-            var searchInfo = {author: author, title: title, linecount: linecount };
+            var searchInfo = {author: author, title: title};
 
             var searchCb = function(rs) {
                 try {
