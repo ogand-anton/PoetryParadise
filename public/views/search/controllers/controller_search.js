@@ -40,7 +40,7 @@
         }
 
         function _loadContent() {
-            vm.maxQuantity = 10;
+            vm.maxLines = 10;
         }
     }
 })();

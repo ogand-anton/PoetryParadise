@@ -2,10 +2,10 @@
     <li class="list-group-item" ng-repeat="result in model.results">
         <div><b>{{result.title}}</b></div>
         <div><i>{{result.author}}</i></div>
-        <div ng-repeat="line in result.lines | limitTo: model.maxQuantity track by $index">{{line}}</div>
-        <div ng-if="result.lines.length > model.maxQuantity">...</div>
+        <div ng-repeat="line in result.lines | limitTo: model.maxLines track by $index">{{line}}</div>
+        <div ng-if="result.lines.length > model.maxLines">...</div>
         <div>{{result.lines.length}}</div>
-        <a ng-if="model.maxQuantity" href="#!/search/{{result.author}}/{{result.title}}">See full poem</a>
+        <a ng-if="model.maxLines" href="#!/search/{{result.author}}/{{result.title}}">See full poem</a>
         <br/>
         <a ng-if="!model.suppressAuthorLink" href="#!/search/{{result.author}}">See more poems by this author</a>
     </li>
