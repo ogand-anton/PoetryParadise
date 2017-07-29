@@ -11,6 +11,7 @@
             login: login,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
+            getNavRightLink: getNavRightLink,
             navToProfile: navToProfile,
             unAuthenticate: unAuthenticate,
             updateUser: updateUser
@@ -47,15 +48,10 @@
             });
         }
 
-        function login(loginCredentials) {
-            return $http({
-                url: "/api/login",
-                method: "GET",
-                params: loginCredentials
-            }).then(function (res) {
-                _rememberUser(res);
-                return res.data;
-            });
+        function getNavRightLink(){
+            return authenticate(true) ? // check if logged in without redirecting
+                {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"} :
+                {href: "#!/login", iconClass: "glyphicon-log-in", name: "Login"};
         }
 
         function findUserById(userId) {
@@ -73,6 +69,18 @@
                 method: "GET",
                 params: {username: username}
             }).then(function (res) {
+                return res.data;
+            });
+        }
+
+        // TODO need mechanism to redirect to previous page on login
+        function login(loginCredentials) {
+            return $http({
+                url: "/api/login",
+                method: "GET",
+                params: loginCredentials
+            }).then(function (res) {
+                _rememberUser(res);
                 return res.data;
             });
         }

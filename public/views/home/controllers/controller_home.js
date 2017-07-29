@@ -19,14 +19,10 @@
         }
 
         function _initHeaderFooter() {
-            var rightLink = uid ?
-                {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"} :
-                {href: "#!/login", iconClass: "glyphicon-log-in", name: "Login"};
-
             vm.navHeader = {
                 leftLink: {href: "../test/index.html", iconClass: "glyphicon-tower", name: "Test Mongo"},
                 name: "Poetry Paradise",
-                rightLink: rightLink
+                rightLink: userService.getNavRightLink()
             };
         }
     }

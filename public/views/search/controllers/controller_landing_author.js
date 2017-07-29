@@ -3,7 +3,7 @@
         .module("pp")
         .controller("landingAuthorController", landingAuthorController);
 
-    function landingAuthorController($routeParams, sharedService, searchService) {
+    function landingAuthorController($routeParams, searchService, sharedService, userService) {
         var vm = this,
             author;
 
@@ -24,7 +24,8 @@
         function _initHeaderFooter() {
             vm.navHeader = {
                 leftLink: {href: "#!/search", iconClass: "glyphicon-search", name: "Search"},
-                name: "Author Results"
+                name: "Author Results",
+                rightLink: userService.getNavRightLink()
             };
         }
 
