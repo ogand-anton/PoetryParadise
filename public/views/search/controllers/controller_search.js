@@ -3,7 +3,7 @@
         .module("pp")
         .controller("searchController", searchController);
 
-    function searchController($location, searchService) {
+    function searchController($location, sharedService, searchService) {
         var vm = this;
 
         vm.search = search;
@@ -11,6 +11,7 @@
 
         (function init() {
             _fetchTemplates();
+            _initHeaderFooter();
             _loadContent();
         })();
 
@@ -26,11 +27,21 @@
         }
 
         function goToLanding(poemInfo) {
-            $location.url("/" + poemInfo.author + "/" + poemInfo.title);
+            $location.url("/search/" + poemInfo.author + "/" + poemInfo.title);
         }
 
         function _fetchTemplates() {
-            vm.templates = searchService.getTemplates();
+            vm.templates = Object.assign(
+                sharedService.getTemplates(),
+                searchService.getTemplates()
+            );
+        }
+
+        function _initHeaderFooter() {
+            vm.navHeader = {
+                leftLink: {href: "#!", iconClass: "glyphicon-home", name: "Home"},
+                name: "Search"
+            };
         }
 
         function _loadContent() {

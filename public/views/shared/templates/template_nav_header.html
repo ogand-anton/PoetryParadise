@@ -1,0 +1,22 @@
+<!-- TODO: should allow for multiple left & right links, like footer -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid navbar-header">
+        <div ng-show="model.navHeader.leftLink">
+            <a class="aoa-navbar-left"
+               href="{{model.navHeader.leftLink.href}}"
+               ng-click="model.navHeader.leftLink.clickCb()">
+                <i class="glyphicon {{model.navHeader.leftLink.iconClass}}"></i>
+                <span>{{model.navHeader.leftLink.name}}</span>
+            </a>
+        </div>
+        <div class="aoa-navbar-page-name">{{model.navHeader.name}}</div>
+        <div ng-show="model.navHeader.rightLink">
+            <a class="aoa-navbar-right"
+               href="{{model.navHeader.rightLink.href}}"
+               ng-click="model.navHeader.rightLink.clickCb()">
+                <span>{{model.navHeader.rightLink.name}}</span>
+                <i class="glyphicon {{model.navHeader.rightLink.iconClass}}"></i>
+            </a>
+        </div>
+    </div>
+</nav>

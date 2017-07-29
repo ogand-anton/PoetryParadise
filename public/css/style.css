@@ -1,10 +1,15 @@
 /************************/
-/*        Images        */
+/*    Misc. Components  */
 /************************/
 
-img.aoa-icon {
-    height: 30px;
-    width: 30px;
+a.col-xs-push-12,
+a.col-xs-pull-12 {
+    position: sticky;
+}
+
+.alert-danger,
+.alert-success {
+    margin-bottom: 10px;
 }
 
 /************************/
@@ -15,7 +20,7 @@ nav {
     max-height: 50px;
 }
 
-nav + * {
+body {
     margin: 50px 0 50px 0;
     padding: 10px 0 10px 0;
 }
@@ -28,13 +33,22 @@ nav a {
     height: 100%;
 }
 
+.navbar-default a:hover {
+    background-color: rgb(197, 197, 197);
+    color: rgb(0, 20, 81);
+}
+
+.navbar-inverse a:hover {
+    color: rgb(153, 224, 255);
+}
+
 .aoa-navbar-page-name {
     color: rgb(255, 255, 255);
     left: 0;
     margin: 15px 0 15px 0;
     position: fixed;
     text-align: center;
-    width:100%;
+    width: 100%;
     z-index: -1;
 }
 
@@ -53,13 +67,6 @@ nav a {
     float: right;
 }
 
-.aoa-navbar-item.aoa-icon-padding,
-.aoa-navbar-left.aoa-icon-padding,
-.aoa-navbar-right.aoa-icon-padding {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
 .navbar-fixed-bottom {
     text-align: center;
 }
@@ -68,46 +75,24 @@ nav a {
 /*      Overrides       */
 /************************/
 
-a:hover{
+a:hover {
     text-decoration: none;
-    color: rgb(153, 224, 255);
 }
 
-body, a {
-    font-size: 18px !important;
+body,
+a,
+input,
+textarea {
+    /*font-size: 18px !important;*/
 }
 
-/************************************/
-/*          Panel Container         */
-/************************************/
-
-.aoa-container-panel > div {
-    min-height: 200px;
-    padding-bottom: 10px;
-    text-align: center;
-}
-
-.aoa-container-panel > div:nth-child(even) {
-    background-color: lightskyblue;
-}
-
-.aoa-container-panel img {
-    height: 150px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    width: 150px;
-}
-
-.aoa-container-panel .btn {
-    margin-bottom: 10px;
-}
 /************************/
 /*      Utilities       */
 /************************/
 .aoa-padding-lr-none {
-     padding-left: 0;
-     padding-right: 0;
- }
+    padding-left: 0;
+    padding-right: 0;
+}
 
 .aoa-padding-right-none {
     padding-right: 0;

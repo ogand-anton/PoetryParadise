@@ -1,0 +1,41 @@
+<div ng-include="model.templates.navHeader"></div>
+
+<div class="container-fluid">
+    <h3 class="text-center">Hello There!</h3>
+
+    <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text"
+               class="form-control"
+               id="username"
+               placeholder="Username"
+               ng-model="userInfo.username">
+    </div>
+    <div class="form-group">
+        <label for="username">Email Address</label>
+        <input type="text"
+               class="form-control"
+               id="emailAddress"
+               placeholder="alice@wonderland.com"
+               ng-model="userInfo.emailAddress">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password"
+               class="form-control"
+               id="password"
+               placeholder="Password"
+               ng-model="userInfo.password">
+    </div>
+    <div class="form-group">
+        <label for="verify-password">Verify Password</label>
+        <input type="password"
+               class="form-control"
+               id="verify-password"
+               placeholder="Verify Password"
+               ng-model="userInfo.verifyPassword">
+    </div>
+    <a class="btn btn-primary btn-block" ng-click="model.registerUser(userInfo)">Register</a>
+</div>

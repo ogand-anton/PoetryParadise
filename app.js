@@ -17,3 +17,4 @@ app.aoaRequire = function (modulePath) {
 // app imports
 app.aoaRequire("test/app.js")(app);
 app.aoaRequire("services/service_search_pdb.js")(app);
+app.aoaRequire("services/service_user.js")(app);

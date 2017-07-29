@@ -4,13 +4,14 @@
         .controller("landingController", landingController);
 
     // TODO need to break up landing for poem and landing for collection as two different things
-    function landingController($routeParams, searchService) {
+    function landingController($routeParams, sharedService, searchService) {
         var vm = this,
             author, title;
 
         (function init() {
             _parseRouteParams();
             _fetchTemplates();
+            _initHeaderFooter();
             _loadContent();
         })();
 
@@ -26,7 +27,16 @@
         }
 
         function _fetchTemplates(){
-            vm.templates = searchService.getTemplates();
+            vm.templates = Object.assign(
+                sharedService.getTemplates(),
+                searchService.getTemplates()
+            );        }
+
+        function _initHeaderFooter() {
+            vm.navHeader = {
+                leftLink: {href: "#!/search", iconClass: "glyphicon-search", name: "Search"},
+                name: "Result" // TODO how to handle page title here? Poem title?
+            };
         }
 
         function _parseRouteParams() {
