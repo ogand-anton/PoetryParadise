@@ -1,16 +1,19 @@
-var express = require('express');
+// dependencies
+var bodyParser = require("body-parser"),
+    express = require("express");
+
+// app initialization
 var app = express();
-
-var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname + "/public"));
+app.listen(process.env.PORT || 3000);
 
-// configure a public directory to host static content
-app.use(express.static(__dirname + '/public'));
+// helper method for importing modules with paths relative to root
+app.aoaRequire = function (modulePath) {
+    return require(__dirname + "/" + modulePath);
+};
 
-require("./test/app.js")(app);
-require("./api.js")(app);
-
-var port = process.env.PORT || 3000;
-
-app.listen(port);
+// app imports
+app.aoaRequire("test/app.js")(app);
+app.aoaRequire("services/service_pdb.js")(app);

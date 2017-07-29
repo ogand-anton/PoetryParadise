@@ -1,0 +1,10 @@
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="result in model.results">
+        <div><b>{{result.title}}</b></div>
+        <div><i>{{result.author}}</i></div>
+        <div ng-repeat="line in result.lines | limitTo: model.maxQuantity track by $index">{{line}}</div>
+        <div ng-if="result.lines.length > model.maxQuantity">...</div>
+        <div>{{result.lines.length}}</div>
+        <a ng-if="model.goToLanding" ng-click="model.goToLanding(result)">See full poem</a>
+    </li>
+</ul>

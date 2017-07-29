@@ -6,17 +6,17 @@
     function configure($routeProvider) {
         $routeProvider
             .when("/", {
-                templateUrl: "view/home/templates/template_home.html",
-                controller: "homeController",
+                templateUrl: "views/search/templates/template_search.html",
+                controller: "searchController",
                 controllerAs: "model"
             })
             .when("/:author", {
-                templateUrl: "view/home/templates/template_landing.html",
+                templateUrl: "views/search/templates/template_landing.html",
                 controller: "landingController",
                 controllerAs: "model"
             })
             .when("/:author/:title", {
-                templateUrl: "view/home/templates/template_landing.html",
+                templateUrl: "views/search/templates/template_landing.html",
                 controller: "landingController",
                 controllerAs: "model"
             })
