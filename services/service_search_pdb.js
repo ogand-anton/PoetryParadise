@@ -1,4 +1,18 @@
 module.exports = function (app) {
+    // chars that need escaping before sending to PoetryDB
+    var charEncoding = {
+        "%5C": "%5C%5C",    // '\'
+        "$": "%5C$",
+        "%5E": "%5C%5E",    // '^'
+        "+": "%5C%2B",      // '^'
+        "(": "%5C(",
+        ")": "%5C)",
+        ".": "%5C.",
+        "*": "%5C*",
+        "%5B": "%5C%5B",    // '['
+        ";": ""             // remove, ';' has special meaning for PoetryDB
+    };
+
     var http = require("http");
 
     app.get("/api/search", search);
@@ -22,8 +36,12 @@ module.exports = function (app) {
         }
 
         // PoetryDB expects parenthesis to be escaped with backslash %5C
-        for (var i = 0; i < searchTerms.length; i++){
-            searchTerms[i] = searchTerms[i].replace("(", "%5C(").replace(")", "%5C)");
+        for (var i = 0; i < searchTerms.length; i++) {
+            for (var char in charEncoding) {
+                if (charEncoding.hasOwnProperty(char)) {
+                    searchTerms[i] = searchTerms[i].replace(char, charEncoding[char]);
+                }
+            }
         }
 
         if (inputs.length && searchTerms.length) {
@@ -55,8 +73,15 @@ module.exports = function (app) {
 
             //the whole response has been received
             dbRes.on("end", function () {
-                var results = JSON.parse(str),
-                    notFoundFlag = results.status === 404 && results.reason === "Not found";
+                var results;
+                try {
+                    results = JSON.parse(str);
+                }
+                catch (ex) {
+                    results = {status: 404, reason: "Not found"}; // request broken due to url issues
+                }
+
+                var notFoundFlag = results.status === 404 && results.reason === "Not found";
 
                 retObj.msg = notFoundFlag ? "Sorry, nothing found..." : null;
                 retObj.results = notFoundFlag ? null : results;
