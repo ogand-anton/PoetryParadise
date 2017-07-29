@@ -43,13 +43,14 @@
 
     <div>
         <label>Favorite Poems</label>
+        <!-- TODO reuse template_search_result_list_group.html even for this and move it out of search dir -->
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="favorite in model.favorites">
                 <div><b>{{favorite.title}}</b></div>
                 <div><i>{{favorite.author}}</i></div>
                 <a href="#!/search/{{favorite.author}}/{{favorite.title}}">Go to Poem</a>
                 <br/>
-                <a class="alert-danger" ng-click="model.unFavoritePoem(favorite._id)">UnFavoritePoem</a>
+                <a class="alert-danger" ng-click="model.unFavoritePoem(favorite._id)">Remove from Favorites</a>
             </li>
         </ul>
     </div>

@@ -12,8 +12,16 @@
         <div ng-show="model.showFavoritesFlag && result.favoriteFlag">
             <i class="glyphicon glyphicon-heart"></i>
             <span>Favorited</span>
+            <br/>
+            <a ng-show="model.showFavoritesFlag && result.favoriteFlag"
+               class="alert-danger"
+               ng-click="model.unFavoritePoem(result.favoriteId)">
+                Remove from favorites
+            </a>
         </div>
         <br/>
-        <a ng-show="model.showFavoritesFlag && !result.favoriteFlag" ng-click="model.favoritePoem(result)">Add to Favorites</a>
+        <a ng-show="model.showFavoritesFlag && !result.favoriteFlag" ng-click="model.favoritePoem(result)">
+            Add to Favorites
+        </a>
     </li>
 </ul>

@@ -10,6 +10,7 @@
             poem;
 
         vm.favoritePoem = favoritePoem;
+        vm.unFavoritePoem = unFavoritePoem;
 
         (function init() {
             uid = userService.authenticate(true);
@@ -26,6 +27,14 @@
                 .then(function () {
                     poem.favoriteFlag = true;
                 });
+        }
+
+        function unFavoritePoem(favoriteId) {
+            poemService
+                .unFavoritePoem(uid, favoriteId)
+                .then(function () {
+                    poem.favoriteFlag = false;
+                })
         }
 
         function _fetchTemplates() {
@@ -64,6 +73,7 @@
                             for (var i = 0; i < userFavorites.length; i++) {
                                 if (userFavorites[i].title === poem.title && userFavorites[i].author === poem.author){
                                     poem.favoriteFlag = true;
+                                    poem.favoriteId = userFavorites[i]._id;
                                     break;
                                 }
                             }
