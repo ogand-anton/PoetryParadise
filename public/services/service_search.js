@@ -17,15 +17,15 @@
             return templates;
         }
 
-        function search(searchInfo) {
+        function search(search) {
             var terms = ["author", "title", "lines"],
                 queryParams = {};
 
             // encode each search field
             for (var i = 0; i < terms.length; i++) {
                 var term = terms[i];
-                if (searchInfo && searchInfo[term]) {
-                    queryParams[term] = encodeURI(searchInfo[term]);
+                if (search && search[term]) {
+                    queryParams[term] = encodeURI(search[term]);
                 }
             }
 

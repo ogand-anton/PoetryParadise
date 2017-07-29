@@ -11,7 +11,7 @@
                class="form-control"
                id="username"
                placeholder="Username"
-               ng-model="userInfo.username">
+               ng-model="user.username">
     </div>
     <div class="form-group">
         <label for="username">Email Address</label>
@@ -19,7 +19,7 @@
                class="form-control"
                id="emailAddress"
                placeholder="alice@wonderland.com"
-               ng-model="userInfo.emailAddress">
+               ng-model="user.emailAddress">
     </div>
     <div class="form-group">
         <label for="password">Password</label>
@@ -27,7 +27,7 @@
                class="form-control"
                id="password"
                placeholder="Password"
-               ng-model="userInfo.password">
+               ng-model="user.password">
     </div>
     <div class="form-group">
         <label for="verify-password">Verify Password</label>
@@ -35,7 +35,7 @@
                class="form-control"
                id="verify-password"
                placeholder="Verify Password"
-               ng-model="userInfo.verifyPassword">
+               ng-model="user.verifyPassword">
     </div>
-    <a class="btn btn-primary btn-block" ng-click="model.registerUser(userInfo)">Register</a>
+    <a class="btn btn-primary btn-block" ng-click="model.registerUser(user)">Register</a>
 </div>

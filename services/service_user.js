@@ -106,7 +106,7 @@ module.exports = function (app) {
     function updateUser(req, res) {
         var retObj = {},
             userId = req.params.userId,
-            newUserInfo = {
+            newuser = {
                 username: req.query.username,
                 password: req.query.password,
                 firstName: req.query.firstName,
@@ -117,14 +117,14 @@ module.exports = function (app) {
         var user = _findUserById(userId);
 
         if (user) {
-            var userWithSameUsername = _findUserByUsername(newUserInfo.username);
+            var userWithSameUsername = _findUserByUsername(newuser.username);
 
             if (!userWithSameUsername || userWithSameUsername._id === user._id) {
-                user.username = newUserInfo.username || user.username;  // not clearable, yet
-                user.password = newUserInfo.password || user.password;  // not clearable, yet
-                user.firstName = newUserInfo.firstName;
-                user.lastName = newUserInfo.lastName;
-                user.emailAddress = newUserInfo.emailAddress;
+                user.username = newuser.username || user.username;  // not clearable, yet
+                user.password = newuser.password || user.password;  // not clearable, yet
+                user.firstName = newuser.firstName;
+                user.lastName = newuser.lastName;
+                user.emailAddress = newuser.emailAddress;
                 retObj.user = user;
             }
             else {

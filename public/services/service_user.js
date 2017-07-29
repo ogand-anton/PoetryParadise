@@ -1,24 +1,39 @@
-(function() {
+(function (cookies) {
     angular
         .module("pp")
         .factory("userService", userService);
 
-    function userService($http) {
+    function userService($location, $http) {
         return {
+            authenticate: authenticate,
             createUser: createUser,
             deleteUser: deleteUser,
-            findUserByCredentials: findUserByCredentials,
+            login: login,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
+            navToProfile: navToProfile,
+            unAuthenticate: unAuthenticate,
             updateUser: updateUser
         };
+
+        // returns logged in user id
+        // if not, redirects to login page
+        function authenticate(preventRedirectFlag) {
+            var userId  = cookies.get("userId");
+            if (userId) {
+                return userId;
+            } else if (!preventRedirectFlag) {
+                $location.url("/login");
+            }
+        }
 
         function createUser(user) {
             return $http({
                 url: "/api/user",
                 method: "POST",
                 params: user
-            }).then(function(res){
+            }).then(function (res) {
+                _rememberUser(res);
                 return res.data;
             });
         }
@@ -27,17 +42,18 @@
             return $http({
                 url: "/api/user/" + userId,
                 method: "DELETE"
-            }).then(function(res){
+            }).then(function (res) {
                 return res.data;
             });
         }
 
-        function findUserByCredentials(loginCredentials) {
+        function login(loginCredentials) {
             return $http({
                 url: "/api/login",
                 method: "GET",
                 params: loginCredentials
-            }).then(function(res){
+            }).then(function (res) {
+                _rememberUser(res);
                 return res.data;
             });
         }
@@ -46,7 +62,7 @@
             return $http({
                 url: "/api/user/" + userId,
                 method: "GET"
-            }).then(function(res){
+            }).then(function (res) {
                 return res.data;
             });
         }
@@ -56,9 +72,18 @@
                 url: "/api/user",
                 method: "GET",
                 params: {username: username}
-            }).then(function(res){
+            }).then(function (res) {
                 return res.data;
             });
+        }
+
+        function navToProfile() {
+            $location.url("/profile");
+        }
+
+        // logs a user out
+        function unAuthenticate() {
+            cookies.remove("userId");
         }
 
         function updateUser(userId, user) {
@@ -66,9 +91,13 @@
                 url: "/api/user/" + userId,
                 method: "PUT",
                 params: user
-            }).then(function(res){
+            }).then(function (res) {
                 return res.data;
             });
         }
+
+        function _rememberUser(res) {
+            cookies.set("userId", res.data && res.data.user && res.data.user._id);
+        }
     }
-})();
+})(Cookies); // TODO: figure out the right way to use globals in angular

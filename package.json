@@ -10,6 +10,7 @@
     "angular-route": "^1.6.5",
     "bootstrap": "^3.3.7",
     "express": "~4.15.2",
+    "js-cookie": "^2.1.4",
     "mongoose": "^4.11.3"
   }
 }

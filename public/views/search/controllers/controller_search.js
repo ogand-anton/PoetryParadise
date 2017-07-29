@@ -14,11 +14,11 @@
             _loadContent();
         })();
 
-        function search(searchInfo) {
+        function search(search) {
             vm.successMsg = "Searching...";
 
             searchService
-                .search(searchInfo)
+                .search(search)
                 .then(function (res) {
                     vm.results = res.results;
                     vm.successMsg = res.msg; // TODO need separate message property for errors

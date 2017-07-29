@@ -11,7 +11,7 @@
                class="form-control"
                id="username"
                placeholder="Username"
-               ng-model="loginInfo.username">
+               ng-model="user.username">
     </div>
     <div class="form-group">
         <label for="password">Password</label>
@@ -19,9 +19,9 @@
                class="form-control"
                id="password"
                placeholder="Password"
-               ng-model="loginInfo.password">
+               ng-model="user.password">
     </div>
-    <a class="btn btn-success btn-block" ng-click="model.login(loginInfo)">Login</a>
+    <a class="btn btn-success btn-block" ng-click="model.login(user)">Login</a>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

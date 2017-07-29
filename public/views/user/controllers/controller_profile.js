@@ -3,13 +3,15 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, sharedService, userService) {
+    function profileController(sharedService, userService) {
         var vm = this,
             uid;
 
         vm.saveUser = saveUser;
 
         (function init() {
+            uid = userService.authenticate();
+
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
@@ -18,7 +20,7 @@
 
         function saveUser() {
             userService
-                .updateUser(uid, vm.profileInfo)
+                .updateUser(uid, vm.profile)
                 .then(function (res) {
                     vm.errorMsg = res.msg;
                     vm.successMsg = res.msg ? null : "Profile Updated";
@@ -47,13 +49,14 @@
                 .findUserById(uid)
                 .then(function (res) {
                     vm.errorMsg = res.msg;
-                    vm.profileInfo = res.user;
+                    vm.profile = res.user;
                 });
         }
 
         function _parseRouteParams() {
-            uid = $routeParams["uid"];
-            vm.uid = uid;
+            // TODO: if userid specified and logged in, search for another user's profile to view
+            // uid = $routeParams["uid"];
+            // vm.uid = uid;
         }
     }
 })();
