@@ -32,12 +32,12 @@
             })
             .when("/search/:author", {
                 templateUrl: "views/search/templates/template_landing.html",
-                controller: "landingController",
+                controller: "landingAuthorController",
                 controllerAs: "model"
             })
             .when("/search/:author/:title", {
                 templateUrl: "views/search/templates/template_landing.html",
-                controller: "landingController",
+                controller: "landingPoemController",
                 controllerAs: "model"
             })
     }

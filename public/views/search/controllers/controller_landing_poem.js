@@ -1,10 +1,9 @@
 (function () {
     angular
         .module("pp")
-        .controller("landingController", landingController);
+        .controller("landingPoemController", landingPoemController);
 
-    // TODO need to break up landing for poem and landing for collection as two different things
-    function landingController($routeParams, sharedService, searchService) {
+    function landingPoemController($routeParams, sharedService, searchService) {
         var vm = this,
             author, title;
 
@@ -15,6 +14,20 @@
             _loadContent();
         })();
 
+        function _fetchTemplates() {
+            vm.templates = Object.assign(
+                sharedService.getTemplates(),
+                searchService.getTemplates()
+            );
+        }
+
+        function _initHeaderFooter() {
+            vm.navHeader = {
+                leftLink: {href: "#!/search", iconClass: "glyphicon-search", name: "Search"},
+                name: "Poem Result"
+            };
+        }
+
         function _loadContent() {
             vm.successMsg = "Loading...";
 
@@ -24,19 +37,6 @@
                     vm.results = res.results;
                     vm.successMsg = res.msg;
                 });
-        }
-
-        function _fetchTemplates(){
-            vm.templates = Object.assign(
-                sharedService.getTemplates(),
-                searchService.getTemplates()
-            );        }
-
-        function _initHeaderFooter() {
-            vm.navHeader = {
-                leftLink: {href: "#!/search", iconClass: "glyphicon-search", name: "Search"},
-                name: "Result" // TODO how to handle page title here? Poem title?
-            };
         }
 
         function _parseRouteParams() {

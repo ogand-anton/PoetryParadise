@@ -1,21 +1,23 @@
 <div ng-include="model.templates.navHeader"></div>
 
-<!-- Search form -->
-<div class="form-group">
-    <label for="author">Author</label>
-    <input id="author" class="form-control" placeholder="Shelley" ng-model="searchInfo.author">
-</div>
-<div class="form-group">
-    <label for="title">Title</label>
-    <input id="title" class="form-control" placeholder="Ozymandias" ng-model="searchInfo.title">
-</div>
-<div class="form-group">
-    <label for="lines">Lines</label>
-    <input id="lines" class="form-control" placeholder="Look on my works, ye Mighty" ng-model="searchInfo.lines">
-</div>
+<div class="container-fluid">
+    <!-- Search form -->
+    <div class="form-group">
+        <label for="author">Author</label>
+        <input id="author" class="form-control" placeholder="Shelley" ng-model="searchInfo.author">
+    </div>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input id="title" class="form-control" placeholder="Ozymandias" ng-model="searchInfo.title">
+    </div>
+    <div class="form-group">
+        <label for="lines">Lines</label>
+        <input id="lines" class="form-control" placeholder="Look on my works, ye Mighty" ng-model="searchInfo.lines">
+    </div>
 
-<button ng-click="model.search(searchInfo)">Search</button>
+    <button ng-click="model.search(searchInfo)">Search</button>
 
-<div ng-show="model.successMsg">{{model.successMsg}}</div>
+    <div ng-show="model.successMsg">{{model.successMsg}}</div>
 
-<div ng-show="model.results" ng-include="model.templates.resultListGroup"></div>
+    <div ng-show="model.results" ng-include="model.templates.resultListGroup"></div>
+</div>

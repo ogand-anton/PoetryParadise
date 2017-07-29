@@ -5,6 +5,8 @@
         <div ng-repeat="line in result.lines | limitTo: model.maxQuantity track by $index">{{line}}</div>
         <div ng-if="result.lines.length > model.maxQuantity">...</div>
         <div>{{result.lines.length}}</div>
-        <a ng-if="model.goToLanding" ng-click="model.goToLanding(result)">See full poem</a>
+        <a ng-if="model.maxQuantity" href="#!/search/{{result.author}}/{{result.title}}">See full poem</a>
+        <br/>
+        <a ng-if="!model.suppressAuthorLink" href="#!/search/{{result.author}}">See more poems by this author</a>
     </li>
 </ul>

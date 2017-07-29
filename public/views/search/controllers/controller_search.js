@@ -3,11 +3,10 @@
         .module("pp")
         .controller("searchController", searchController);
 
-    function searchController($location, sharedService, searchService) {
+    function searchController(sharedService, searchService) {
         var vm = this;
 
         vm.search = search;
-        vm.goToLanding = goToLanding;
 
         (function init() {
             _fetchTemplates();
@@ -24,10 +23,6 @@
                     vm.results = res.results;
                     vm.successMsg = res.msg; // TODO need separate message property for errors
                 });
-        }
-
-        function goToLanding(poemInfo) {
-            $location.url("/search/" + poemInfo.author + "/" + poemInfo.title);
         }
 
         function _fetchTemplates() {
