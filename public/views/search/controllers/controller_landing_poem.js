@@ -3,16 +3,30 @@
         .module("pp")
         .controller("landingPoemController", landingPoemController);
 
-    function landingPoemController($routeParams, searchService, sharedService, userService) {
+    function landingPoemController($routeParams, poemService, searchService, sharedService, userService) {
         var vm = this,
-            author, title;
+            uid,
+            author, title,
+            poem;
+
+        vm.favoritePoem = favoritePoem;
 
         (function init() {
+            uid = userService.authenticate(true);
+
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
         })();
+
+        function favoritePoem(poem) {
+            poemService
+                .favoritePoem(uid, poem)
+                .then(function () {
+                    poem.favoriteFlag = true;
+                });
+        }
 
         function _fetchTemplates() {
             vm.templates = Object.assign(
@@ -30,6 +44,7 @@
         }
 
         function _loadContent() {
+            vm.showFavoritesFlag = !!uid; // show if logged in
             vm.successMsg = "Loading...";
 
             searchService
@@ -37,6 +52,22 @@
                 .then(function (res) {
                     vm.results = res.results;
                     vm.successMsg = res.msg;
+
+                    poem = vm.results[0]; // only one poem expected to be on this page
+
+                    // TODO need better way to check if poem already favorited with DB
+                    poemService
+                        .findFavoritesByUser(uid)
+                        .then(function (res) {
+                            var userFavorites = res.favorites;
+
+                            for (var i = 0; i < userFavorites.length; i++) {
+                                if (userFavorites[i].title === poem.title && userFavorites[i].author === poem.author){
+                                    poem.favoriteFlag = true;
+                                    break;
+                                }
+                            }
+                        });
                 });
         }
 

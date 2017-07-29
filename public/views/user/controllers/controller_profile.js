@@ -3,7 +3,7 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController(sharedService, userService) {
+    function profileController(poemService, sharedService, userService) {
         var vm = this,
             uid;
 
@@ -51,6 +51,12 @@
                     vm.errorMsg = res.msg;
                     vm.profile = res.user;
                 });
+
+            poemService
+                .findFavoritesByUser(uid)
+                .then(function(res){
+                    vm.favorites = res.favorites;
+                })
         }
 
         function _parseRouteParams() {

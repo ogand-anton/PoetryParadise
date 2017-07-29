@@ -41,6 +41,17 @@
         </form>
     </div>
 
+    <div>
+        <label>Favorite Poems</label>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="favorite in model.favorites">
+                <div><b>{{favorite.title}}</b></div>
+                <div><i>{{favorite.author}}</i></div>
+                <a href="#!/search/{{favorite.author}}/{{favorite.title}}">Go to Poem</a>
+            </li>
+        </ul>
+    </div>
+
     <a class="btn btn-success btn-block" href="#!/search">To Search Page</a>
 </div>
 

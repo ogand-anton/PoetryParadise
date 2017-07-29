@@ -8,5 +8,12 @@
         <a ng-if="model.maxLines" href="#!/search/{{result.author}}/{{result.title}}">See full poem</a>
         <br/>
         <a ng-if="!model.suppressAuthorLink" href="#!/search/{{result.author}}">See more poems by this author</a>
+        <br/>
+        <div ng-show="model.showFavoritesFlag && result.favoriteFlag">
+            <i class="glyphicon glyphicon-heart"></i>
+            <span>Favorited</span>
+        </div>
+        <br/>
+        <a ng-show="model.showFavoritesFlag && !result.favoriteFlag" ng-click="model.favoritePoem(result)">Add to Favorites</a>
     </li>
 </ul>
