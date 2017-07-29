@@ -40,6 +40,9 @@
         }
 
         function _loadContent() {
+            var cookiesEnabled = sharedService.testCookies();
+            vm.errorMsg = cookiesEnabled ? null : "Please allow cookies to login";
+
             // TODO: hack; if back on login page, log out
             userService.unAuthenticate();
         }
