@@ -9,3 +9,8 @@
     around the globe.
     
     Enjoy the Paradise!
+
+    Co-dev:
+    Anton Ogandzhanyan
+    Gauhar Bauyrzhankyzy
+    Shravali Reddy
