@@ -48,6 +48,8 @@
                 <div><b>{{favorite.title}}</b></div>
                 <div><i>{{favorite.author}}</i></div>
                 <a href="#!/search/{{favorite.author}}/{{favorite.title}}">Go to Poem</a>
+                <br/>
+                <a class="alert-danger" ng-click="model.unFavoritePoem(favorite._id)">UnFavoritePoem</a>
             </li>
         </ul>
     </div>

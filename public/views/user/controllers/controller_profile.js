@@ -7,6 +7,7 @@
         var vm = this,
             uid;
 
+        vm.unFavoritePoem = unFavoritePoem;
         vm.saveUser = saveUser;
 
         (function init() {
@@ -17,6 +18,14 @@
             _initHeaderFooter();
             _loadContent();
         })();
+
+        function unFavoritePoem(favoriteId){
+            poemService
+                .unFavoritePoem(uid, favoriteId)
+                .then(function () {
+                    _findFavorites();
+                })
+        }
 
         function saveUser() {
             userService
@@ -29,6 +38,14 @@
 
         function _fetchTemplates() {
             vm.templates = sharedService.getTemplates();
+        }
+
+        function _findFavorites() {
+            poemService
+                .findFavoritesByUser(uid)
+                .then(function (res) {
+                    vm.favorites = res.favorites;
+                })
         }
 
         function _initHeaderFooter() {
@@ -52,11 +69,7 @@
                     vm.profile = res.user;
                 });
 
-            poemService
-                .findFavoritesByUser(uid)
-                .then(function(res){
-                    vm.favorites = res.favorites;
-                })
+            _findFavorites();
         }
 
         function _parseRouteParams() {

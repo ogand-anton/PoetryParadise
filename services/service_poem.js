@@ -4,6 +4,7 @@ module.exports = function (app) {
         ],
         nextId = 1;
 
+    app.delete("/api/poem/:userId", unFavoritePoem);
     app.get("/api/poem/:userId", findFavoritesByUser);
     app.put("/api/poem/:userId", favoritePoem);
 
@@ -38,6 +39,21 @@ module.exports = function (app) {
             userId = req.params.userId;
 
         retObj.favorites = _getUserFavorites(userId);
+
+        res.json(retObj);
+    }
+
+    function unFavoritePoem(req, res){
+        var retObj = {},
+            userId = req.params.userId,
+            favoriteId = req.query.favoriteId;
+
+        for (var i = 0; i < favorites.length; i++) {
+            if (favorites[i].userId === userId && favorites[i]._id === favoriteId) {
+                favorites.splice(i, 1);
+                break;
+            }
+        }
 
         res.json(retObj);
     }
