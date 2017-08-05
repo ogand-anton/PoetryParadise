@@ -2,12 +2,18 @@
 <html lang="en" ng-app="pp">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <title>Poetry Paradise</title>
 
     <!-- CSS: Vendors  -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <!-- CSS: App -->
     <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <div ng-view></div>
+
     <!-- JS: Vendors -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.min.js"></script>
@@ -28,8 +34,5 @@
     <script src="services/service_user.js"></script>
     <script src="services/service_search.js"></script>
     <script src="services/service_shared.js"></script>
-</head>
-<body>
-    <div ng-view></div>
 </body>
 </html>
