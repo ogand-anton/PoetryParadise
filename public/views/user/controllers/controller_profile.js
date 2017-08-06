@@ -3,9 +3,10 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController(poemService, sharedService, userService) {
+    function profileController($routeParams, poemService, sharedService, userService) {
         var vm = this,
-            uid;
+            uid,
+            readOnlyFlag;
 
         vm.unFavoritePoem = unFavoritePoem;
         vm.saveUser = saveUser;
@@ -52,7 +53,7 @@
             vm.navHeader = {
                 leftLink: {href: "#!/login", iconClass: "glyphicon-log-out", name: "Logout"},
                 name: "Profile",
-                rightLink: {
+                rightLink: readOnlyFlag ? undefined : {
                     clickCb: saveUser,
                     href: "javacript:void(0)",
                     iconClass: "glyphicon-floppy-save",
@@ -73,9 +74,12 @@
         }
 
         function _parseRouteParams() {
-            // TODO: if userid specified and logged in, search for another user's profile to view
-            // uid = $routeParams["uid"];
-            // vm.uid = uid;
+            // TODO: deal with either seeing your own account in read only mode doing something about it
+            if ($routeParams["uid"]){
+                uid = $routeParams["uid"];
+                readOnlyFlag = true;
+                vm.uid = uid;
+            }
         }
     }
 })();

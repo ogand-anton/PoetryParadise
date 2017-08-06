@@ -25,6 +25,11 @@
                 controller: "profileController",
                 controllerAs: "model"
             })
+            .when("/profile/:uid", {
+                templateUrl: "views/user/templates/template_profile_other.html",
+                controller: "profileController",
+                controllerAs: "model"
+            })
             .when("/search", {
                 templateUrl: "views/search/templates/template_search.html",
                 controller: "searchController",

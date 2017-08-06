@@ -1,0 +1,33 @@
+<div ng-include="model.templates.navHeader"></div>
+
+<!-- Profile -->
+<div class="container-fluid">
+    <div ng-hide="!model.profile">
+        <span><b>Username</b></span>
+        <div>{{model.profile.username}}</div>
+
+        <label>Email Address</label>
+        <div>{{model.profile.emailAddress || "None Listed"}}</div>
+
+        <label>First Name</label>
+        <div>{{model.profile.firstName || "None Listed"}}</div>
+
+        <label>Last Name</label>
+        <div>{{model.profile.lastName || "None Listed"}}</div>
+    </div>
+
+    <div>
+        <label>Favorite Poems</label>
+        <!-- TODO reuse template_search_result_list_group.html even for this and move it out of search dir -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="favorite in model.favorites">
+                <div><b>{{favorite.title}}</b></div>
+                <div><i>{{favorite.author}}</i></div>
+                <a href="#!/search/{{favorite.author}}/{{favorite.title}}">Go to Poem</a>
+                <br/>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div ng-include="model.templates.navFooter"></div>
