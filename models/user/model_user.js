@@ -9,6 +9,7 @@ module.exports = function (app) {
         findUserByCredentials: findUserByCredentials,
         findUserById: findUserById,
         findUserByUsername: findUserByUsername,
+        findUsers: findUsers,
         updateUser: updateUser
     });
 
@@ -30,6 +31,10 @@ module.exports = function (app) {
 
     function findUserByUsername(username) {
         return userModel.findOne({username: username});
+    }
+
+    function findUsers(userIds){
+        return userModel.find({_id: {$in: userIds}});
     }
 
     function updateUser(userId, user) {

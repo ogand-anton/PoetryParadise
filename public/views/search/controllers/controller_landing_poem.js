@@ -80,6 +80,12 @@
                                 }
                             }
                         });
+
+                    poemService
+                        .findFavoriteUsers(poem)
+                        .then(function(users){
+                            vm.users = users;
+                        });
                 });
         }
 

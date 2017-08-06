@@ -6,6 +6,7 @@ module.exports = function (app) {
     return Object.assign(poemFavoriteModel, {
         addFavorite: addFavorite,
         findFavorites: findFavorites,
+        findFavoritesByUser: findFavoritesByUser,
         removeFavorite: removeFavorite
     });
 
@@ -17,7 +18,13 @@ module.exports = function (app) {
         });
     }
 
-    function findFavorites(userId) {
+    function findFavorites(author, title) {
+        return poemFavoriteModel.find({author: author, title: title}, function(err, favorites){
+            return favorites;
+        });
+    }
+
+    function findFavoritesByUser(userId) {
         return poemFavoriteModel.find({_userId: userId});
     }
 

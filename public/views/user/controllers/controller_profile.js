@@ -23,7 +23,7 @@
             poemService
                 .unFavoritePoem(uid, favoriteId)
                 .then(function () {
-                    _findFavorites();
+                    _findFavoritesByUser();
                 })
         }
 
@@ -40,7 +40,7 @@
             vm.templates = sharedService.getTemplates();
         }
 
-        function _findFavorites() {
+        function _findFavoritesByUser() {
             poemService
                 .findFavoritesByUser(uid)
                 .then(function (res) {
@@ -69,7 +69,7 @@
                     vm.profile = res.user;
                 });
 
-            _findFavorites();
+            _findFavoritesByUser();
         }
 
         function _parseRouteParams() {

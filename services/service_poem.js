@@ -1,7 +1,10 @@
 module.exports = function (app, model) {
-    var poemFavoriteModel = model.poemFavoriteModel;
+    var mongoose = require("mongoose"),
+        poemFavoriteModel = model.poemFavoriteModel,
+        userModel = model.userModel;
 
     app.delete("/api/poem/:userId", unFavoritePoem);
+    app.get("/api/poem/users", findFavoriteUsers);
     app.get("/api/poem/:userId", findFavoritesByUser);
     app.put("/api/poem/:userId", favoritePoem);
 
@@ -19,15 +22,30 @@ module.exports = function (app, model) {
         }
     }
 
+    function findFavoriteUsers(req, res) {
+        var author = req.query.author,
+            title = req.query.title;
+
+        poemFavoriteModel
+            .findFavorites(author, title)
+            .then(function (favorites) {
+                var userIds = favorites.map(function (fav) {return mongoose.Types.ObjectId(fav._userId)});
+
+                userModel
+                    .findUsers(userIds)
+                    .then(_genSuccessCb(res), _genErrorCb(res));
+            });
+    }
+
     function findFavoritesByUser(req, res) {
         var userId = req.params.userId;
 
         poemFavoriteModel
-            .findFavorites(userId)
+            .findFavoritesByUser(userId)
             .then(_genSuccessCb(res, "favorites"), _genErrorCb(res));
     }
 
-    function unFavoritePoem(req, res){
+    function unFavoritePoem(req, res) {
         var userId = req.params.userId,
             favoriteId = req.query.favoriteId;
 

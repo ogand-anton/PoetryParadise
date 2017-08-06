@@ -23,5 +23,9 @@
         <a ng-show="model.showFavoritesFlag && !result.favoriteFlag" ng-click="model.favoritePoem(result)">
             Add to Favorites
         </a>
+        <div ng-show="model.users && model.users.length">
+            <label>Users who have favorited this poem</label>
+            <div ng-include="model.templates.favoriteUsersList"></div>
+        </div>
     </li>
 </ul>

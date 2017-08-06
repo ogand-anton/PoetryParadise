@@ -5,7 +5,8 @@
 
     function searchService($http) {
         var templates = {
-            resultListGroup: "views/search/templates/template_result_list_group.html"
+            resultListGroup: "views/search/templates/template_result_list_group.html",
+            favoriteUsersList: "views/search/templates/template_favorite_user_list.html" // TODO does not belong here
         };
 
         return {

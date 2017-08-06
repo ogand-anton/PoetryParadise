@@ -6,6 +6,7 @@
     function poemService($http) {
         return {
             favoritePoem: favoritePoem,
+            findFavoriteUsers: findFavoriteUsers,
             findFavoritesByUser: findFavoritesByUser,
             unFavoritePoem: unFavoritePoem
         };
@@ -17,6 +18,16 @@
                 params: {author: poem.author, title: poem.title}
             }).then(function(res){
                return res.data;
+            });
+        }
+
+        function findFavoriteUsers(poem){
+            return $http({
+                url: "/api/poem/users",
+                method: "GET",
+                params: {author: poem.author, title: poem.title}
+            }).then(function (res) {
+                return res.data;
             });
         }
 
