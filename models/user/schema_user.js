@@ -6,7 +6,7 @@ module.exports = function () {
         password: {type: String, required: true},
         firstName: {type: String},
         lastName: {type: String},
-        email: {type: String},
+        emailAddress: {type: String},
         phone: {type: String},
         dateCreated: {type: Date, required: true, default: Date.now}
     }, {collection: "user"});

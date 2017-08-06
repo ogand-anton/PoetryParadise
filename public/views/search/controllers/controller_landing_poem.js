@@ -24,8 +24,9 @@
         function favoritePoem(poem) {
             poemService
                 .favoritePoem(uid, poem)
-                .then(function () {
+                .then(function (favorite) {
                     poem.favoriteFlag = true;
+                    poem.favoriteId = favorite._id;
                 });
         }
 
@@ -34,6 +35,7 @@
                 .unFavoritePoem(uid, favoriteId)
                 .then(function () {
                     poem.favoriteFlag = false;
+                    poem.favoriteId = undefined;
                 })
         }
 
