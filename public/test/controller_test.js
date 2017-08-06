@@ -1,56 +1,44 @@
-(function() {
+(function () {
     angular
         .module("TestApp", [])
-        .controller("TestController", TestController)
-        .filter('reverse', function() {
-            return function(items) {
-                return items.slice().reverse();
-            };
-        });
+        .controller("TestController", TestController);
 
     function TestController($http) {
         var vm = this;
+
         vm.createMessage = createMessage;
         vm.deleteMessage = deleteMessage;
 
-        function init() {
+        (function init() {
             findAllMessages();
-        }
-        init();
+        })();
 
         function createMessage(message) {
             vm.message = "";
-            var obj = {
-                message: message
-            };
-            $http.post("/api/test", obj)
+
+            $http
+                .post("/api/test", {message: message})
                 .then(
                     findAllMessages,
-                    function(err) {
-                        vm.error = err;
-                    }
+                    function (err) {vm.error = err;}
                 );
         }
 
         function deleteMessage(message) {
-            $http.delete("/api/test/" + message._id)
+            $http
+                .delete("/api/test/" + message._id)
                 .then(
                     findAllMessages,
-                    function(err) {
-                        vm.error = err;
-                    }
+                    function (err) {vm.error = err;}
                 );
         }
 
         function findAllMessages() {
-            $http.get("/api/test")
+            $http
+                .get("/api/test")
                 .then(
-                    function(response) {
-                        vm.messages = response.data;
-                    },
-                    function(err) {
-                        vm.error = err;
-                    }
+                    function (response) {vm.messages = response.data;},
+                    function (err) {vm.error = err;}
                 );
         }
     }

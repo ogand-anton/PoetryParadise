@@ -2,6 +2,8 @@
 <html lang="en" ng-app="TestApp">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <title>Test</title>
 
     <!-- CSS -->
@@ -25,12 +27,7 @@
     </nav>
 
     <div class="container-fluid" ng-controller="TestController as model">
-
-        <div ng-show="model.error"
-             class="alert alert-danger">
-            {{model.error}}
-        </div>
-
+        <div ng-show="model.error" class="alert alert-danger">{{model.error}}</div>
         <table class="table">
             <thead>
                 <tr>
@@ -39,26 +36,20 @@
                 </tr>
                 <tr>
                     <td>
-                        <input ng-model="model.message"
-                               placeholder="message"
-                               class="form-control"/>
+                        <input ng-model="model.message" placeholder="message" class="form-control"/>
                     </td>
                     <td>
-                        <button ng-click="model.createMessage(model.message)"
-                                class="btn btn-primary pull-right">
+                        <button ng-click="model.createMessage(model.message)" class="btn btn-primary pull-right">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </td>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="message in model.messages | reverse">
+                <tr ng-repeat="message in model.messages">
+                    <td>{{message.message}}</td>
                     <td>
-                        {{message.message}}
-                    </td>
-                    <td>
-                        <button ng-click="model.deleteMessage(message)"
-                                class="btn btn-danger pull-right">
+                        <button ng-click="model.deleteMessage(message)" class="btn btn-danger pull-right">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
                     </td>
