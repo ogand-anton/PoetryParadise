@@ -9,9 +9,13 @@
     "angular": "^1.6.5",
     "angular-route": "^1.6.5",
     "bootstrap": "^3.3.7",
+    "cookie-parser": "^1.4.3",
     "express": "~4.15.2",
+    "express-session": "^1.15.5",
     "js-cookie": "^2.1.4",
     "mongoose": "^4.11.3",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "q": "^1.5.0"
   }
 }

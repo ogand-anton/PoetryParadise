@@ -1,12 +1,19 @@
 // dependencies
 var bodyParser = require("body-parser"),
-    express = require("express");
+    express = require("express"),
+    passport = require("passport"),
+    cookieParser = require("cookie-parser"),
+    session = require("express-session");
 
 // app initialization
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
+app.use(session({secret: "this is the secret", resave: true, saveUninitialized: true}));
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.listen(process.env.PORT || 3000);
 
 // helper method for importing modules with paths relative to root
