@@ -29,7 +29,8 @@
             if (userId) {
                 return userId;
             } else if (!preventRedirectFlag) {
-                $location.url("/login");
+                console.log("No User Id Cookie")
+                // $location.url("/login");
             }
         }
 
@@ -111,10 +112,9 @@
         function login(loginCredentials) {
             return $http({
                 url: "/api/login",
-                method: "GET",
+                method: "POST",
                 params: loginCredentials
             }).then(function (res) {
-                _rememberUser(res);
                 return res.data;
             });
         }
@@ -146,10 +146,6 @@
             }).then(function (res) {
                 return res.data;
             });
-        }
-
-        function _rememberUser(res) {
-            cookies.set("userId", res.data && res.data.user && res.data.user._id);
         }
     }
 })(Cookies); // TODO: figure out the right way to use globals in angular

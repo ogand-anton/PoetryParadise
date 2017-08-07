@@ -1,18 +1,82 @@
 module.exports = function (app, model) {
     var mongoose = require("mongoose"),
+        passport = require("passport"),
+        LocalStrategy = require("passport-local").Strategy,
         followerModel = model.followerModel,
         userModel = model.userModel;
 
+    passport.use(new LocalStrategy(localStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
     app.delete("/api/user/:userId/delete", deleteUser);
     app.delete("/api/user/unfollow", unFollowUser);
-    app.get("/api/login", login);
+    app.get("/api/loggedIn", loggedIn);
+    app.get("/api/login", login); // TODO deprecate this. client no longer uses this
     app.get("/api/user", findUserByUsername);
     app.get("/api/user/followers", findFollowers);
     app.get("/api/user/:userId", findUserById);
     app.get("/api/user/:userId/followers", findUserFollowers);
     app.post("/api/user", createUser);
+    app.post("/api/login", passport.authenticate("local"), login2);
+    app.post("/api/logout", logout);
+    // app.post("/api/register", register); //TODO implement register method
     app.post("/api/user/follow", followUser);
     app.put("/api/user/:userId", updateUser);
+
+    // TODO organize the following methods
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(
+                function (user) {
+                    done(null, user);
+                },
+                function (err) {
+                    done(err, null);
+                }
+            );
+    }
+
+    function localStrategy(username, password, done) {
+        userModel
+            .findUserByCredentials(username, password)
+            .then(
+                function (user) {
+                    return done(null, user || false);
+                },
+                function (err) {
+                    if (err) { return done(err); }
+                }
+            );
+    }
+
+    // TODO why do we need this
+    // function authorized(req, res, next) {
+    //     if (!req.isAuthenticated()) {
+    //         res.send(401);
+    //     } else {
+    //         next();
+    //     }
+    // }
+
+    function login2(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    function logout(req, res) {
+        req.logOut();
+        res.send(200);
+    }
+
+    function loggedIn(req, res) {
+        res.send(req.isAuthenticated() ? req.user : "0");
+    }
 
     function createUser(req, res) {
         var newUser = {

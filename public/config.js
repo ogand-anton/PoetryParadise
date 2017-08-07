@@ -1,4 +1,4 @@
-(function() {
+(function (cookies) {
     angular
         .module("pp")
         .config(configure);
@@ -23,7 +23,8 @@
             .when("/profile", {
                 templateUrl: "views/user/templates/template_profile.html",
                 controller: "profileController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {loggedIn: _checkLoggedIn} // TODO protect everything else that is needed to be protected
             })
             .when("/profile/:uid", {
                 templateUrl: "views/user/templates/template_profile_other.html",
@@ -44,6 +45,28 @@
                 templateUrl: "views/search/templates/template_landing.html",
                 controller: "landingPoemController",
                 controllerAs: "model"
-            })
+            });
+
+        // TODO find a better place for this
+        function _checkLoggedIn($q, $timeout, $http, $location, $rootScope) {
+            var deferred = $q.defer();
+            $http
+                .get("/api/loggedIn")
+                .then(function(res){
+                    return res.data;
+                })
+                .then(function (user) {
+                    $rootScope.errorMessage = null;
+                    if (user !== "0") {
+                        cookies.set("userId", user._id);
+                        deferred.resolve(user);
+                    } else {
+                        cookies.remove("userId");
+                        deferred.reject();
+                        $location.url("#!/login");
+                    }
+                });
+            return deferred.promise;
+        }
     }
-})();
+})(Cookies);
