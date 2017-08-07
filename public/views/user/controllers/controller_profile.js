@@ -6,13 +6,17 @@
     function profileController($routeParams, poemService, sharedService, userService) {
         var vm = this,
             uid,
+            authenticatedUid,
             readOnlyFlag;
 
-        vm.unFavoritePoem = unFavoritePoem;
+        vm.followUser = followUser;
         vm.saveUser = saveUser;
+        vm.unFavoritePoem = unFavoritePoem;
+        vm.unFollowUser = unFollowUser;
 
         (function init() {
-            uid = userService.authenticate();
+            authenticatedUid = userService.authenticate();
+            uid = authenticatedUid;
 
             _parseRouteParams();
             _fetchTemplates();
@@ -20,12 +24,13 @@
             _loadContent();
         })();
 
-        function unFavoritePoem(favoriteId){
-            poemService
-                .unFavoritePoem(uid, favoriteId)
-                .then(function () {
-                    _findFavoritesByUser();
-                })
+        function followUser() {
+            // TODO prevent following (a) yourself and (b) someone else multiple times
+            userService
+                .followUser(authenticatedUid, uid)
+                .then(function(){
+                    _findFollowers();
+                });
         }
 
         function saveUser() {
@@ -34,6 +39,22 @@
                 .then(function (res) {
                     vm.errorMsg = res.msg;
                     vm.successMsg = res.msg ? null : "Profile Updated";
+                });
+        }
+
+        function unFavoritePoem(favoriteId) {
+            poemService
+                .unFavoritePoem(uid, favoriteId)
+                .then(function () {
+                    _findFavoritesByUser();
+                })
+        }
+
+        function unFollowUser(followerId) {
+            userService
+                .unFollowUser(authenticatedUid, followerId)
+                .then(function() {
+                   _findFollowers();
                 });
         }
 
@@ -49,16 +70,40 @@
                 })
         }
 
+        function _findFollowers() {
+            if (uid !== authenticatedUid) { // read only profile
+                userService
+                    .findUserFollowers(uid)
+                    .then(function(followers){
+                       vm.followers = followers;
+                    });
+            } else { // your actual profile
+                userService
+                    .findFollowers(uid)
+                    .then(function (followers) {
+                        vm.followers = followers;
+                    });
+            }
+        }
+
         function _initHeaderFooter() {
-            vm.navHeader = {
-                leftLink: {href: "#!/login", iconClass: "glyphicon-log-out", name: "Logout"},
-                name: "Profile",
-                rightLink: readOnlyFlag ? undefined : {
+            var saveUserNav = {
                     clickCb: saveUser,
                     href: "javacript:void(0)",
                     iconClass: "glyphicon-floppy-save",
                     name: "Save"
-                }
+                },
+                followNav = {
+                    clickCb: followUser,
+                    href: "javacript:void(0)",
+                    iconClass: "glyphicon-thumbs-up",
+                    name: "Follow"
+                };
+
+            vm.navHeader = {
+                leftLink: {href: "#!/login", iconClass: "glyphicon-log-out", name: "Logout"},
+                name: "Profile",
+                rightLink: readOnlyFlag ? followNav : saveUserNav
             };
         }
 
@@ -71,11 +116,12 @@
                 });
 
             _findFavoritesByUser();
+            _findFollowers();
         }
 
         function _parseRouteParams() {
             // TODO: deal with either seeing your own account in read only mode doing something about it
-            if ($routeParams["uid"]){
+            if ($routeParams["uid"]) {
                 uid = $routeParams["uid"];
                 readOnlyFlag = true;
                 vm.uid = uid;

@@ -28,6 +28,16 @@
             </li>
         </ul>
     </div>
+
+    <div>
+        <label>Followed By</label>
+        <!-- TODO need generic user list template to use here -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="follower in model.followers">
+                <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

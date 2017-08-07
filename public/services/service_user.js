@@ -9,14 +9,19 @@
             createUser: createUser,
             deleteUser: deleteUser,
             login: login,
+            findFollowers: findFollowers,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
+            findUserFollowers: findUserFollowers,
+            followUser: followUser,
             getNavRightLink: getNavRightLink,
             navToProfile: navToProfile,
             unAuthenticate: unAuthenticate,
+            unFollowUser: unFollowUser,
             updateUser: updateUser
         };
 
+        // TODO checking for authentication should belong on server and checked at every request
         // returns logged in user id
         // if not, redirects to login page
         function authenticate(preventRedirectFlag) {
@@ -41,17 +46,21 @@
 
         function deleteUser(userId) {
             return $http({
-                url: "/api/user/" + userId,
+                url: "/api/user/" + userId + "/delete",
                 method: "DELETE"
             }).then(function (res) {
                 return res.data;
             });
         }
 
-        function getNavRightLink(){
-            return authenticate(true) ? // check if logged in without redirecting
-                {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"} :
-                {href: "#!/login", iconClass: "glyphicon-log-in", name: "Login"};
+        function findFollowers(userId) {
+            return $http({
+                url: "/api/user/followers",
+                method: "GET",
+                params: {userId: userId}
+            }).then(function (res) {
+                return res.data;
+            });
         }
 
         function findUserById(userId) {
@@ -73,6 +82,31 @@
             });
         }
 
+        function findUserFollowers(userId) {
+            return $http({
+                url: "/api/user/" + userId + "/followers",
+                method: "GET"
+            }).then(function (res) {
+                return res.data;
+            });
+        }
+
+        function followUser(userId, followerId) {
+            return $http({
+                url: "/api/user/follow",
+                method: "POST",
+                params: {userId: userId, followerId: followerId}
+            }).then(function (res) {
+                return res.data;
+            });
+        }
+
+        function getNavRightLink() {
+            return authenticate(true) ? // check if logged in without redirecting
+                {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"} :
+                {href: "#!/login", iconClass: "glyphicon-log-in", name: "Login"};
+        }
+
         // TODO need mechanism to redirect to previous page on login
         function login(loginCredentials) {
             return $http({
@@ -92,6 +126,16 @@
         // logs a user out
         function unAuthenticate() {
             cookies.remove("userId");
+        }
+
+        function unFollowUser(userId, followerId) {
+            return $http({
+                url: "/api/user/unfollow",
+                method: "DELETE",
+                params: {userId: userId, followerId: followerId}
+            }).then(function (res) {
+                return res.data;
+            });
         }
 
         function updateUser(userId, user) {

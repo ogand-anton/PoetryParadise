@@ -1,11 +1,17 @@
 module.exports = function (app, model) {
-    var userModel = model.userModel;
+    var mongoose = require("mongoose"),
+        followerModel = model.followerModel,
+        userModel = model.userModel;
 
-    app.delete("/api/user/:userId", deleteUser);
+    app.delete("/api/user/:userId/delete", deleteUser);
+    app.delete("/api/user/unfollow", unFollowUser);
     app.get("/api/login", login);
     app.get("/api/user", findUserByUsername);
+    app.get("/api/user/followers", findFollowers);
     app.get("/api/user/:userId", findUserById);
+    app.get("/api/user/:userId/followers", findUserFollowers);
     app.post("/api/user", createUser);
+    app.post("/api/user/follow", followUser);
     app.put("/api/user/:userId", updateUser);
 
     function createUser(req, res) {
@@ -50,6 +56,20 @@ module.exports = function (app, model) {
             )
     }
 
+    function findFollowers(req, res) {
+        var userId = req.query.userId;
+
+        followerModel
+            .findFollowers(userId)
+            .then(function (followers) {
+                var userIds = followers.map(function (fol) {return mongoose.Types.ObjectId(fol.followerId)});
+
+                userModel
+                    .findUsers(userIds)
+                    .then(_genSuccessCb(res), _genErrorCb(res));
+            });
+    }
+
     function findUserByUsername(req, res) {
         var username = req.query.username;
 
@@ -82,6 +102,30 @@ module.exports = function (app, model) {
                 _genErrorCb(res));
     }
 
+    function findUserFollowers(req, res) {
+        var userId = req.params.userId;
+
+        followerModel
+            .findUsersFollowing(userId)
+            .then(function (followers) {
+                var userIds = followers.map(function (fol) {return mongoose.Types.ObjectId(fol._userId)});
+
+                userModel
+                    .findUsers(userIds)
+                    .then(_genSuccessCb(res), _genErrorCb(res));
+            });
+    }
+
+    function followUser(req, res){
+        var userId = req.query.userId,
+            followerId = req.query.followerId;
+
+        followerModel
+            .addFollower(userId, followerId)
+            .then(_genSuccessCb(res), _genErrorCb(res));
+    }
+
+
     function login(req, res) {
         var username = req.query.username,
             password = req.query.password;
@@ -97,6 +141,15 @@ module.exports = function (app, model) {
                     }
                 }
             );
+    }
+
+    function unFollowUser(req, res) {
+        var userId = req.query.userId,
+            followerId = req.query.followerId;
+
+        followerModel
+            .removeFollower(userId, followerId)
+            .then(_genSuccessCb(res), _genErrorCb(res));
     }
 
     function updateUser(req, res) {
@@ -143,9 +196,15 @@ module.exports = function (app, model) {
         }
     }
 
-    function _genSuccessCb(res) {
+    function _genSuccessCb(res, resultName) {
+        var output = {};
         return function (results) {
-            res.json({user: results});
+            if (resultName) {
+                output[resultName] = results;
+                res.json(output);
+            } else {
+                res.json(results);
+            }
         };
     }
 };

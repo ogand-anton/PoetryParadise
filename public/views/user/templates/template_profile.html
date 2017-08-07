@@ -55,6 +55,19 @@
         </ul>
     </div>
 
+    <div>
+        <label>Following</label>
+        <!-- TODO need generic user list template to use here -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="follower in model.followers">
+                <div class="container-fluid aoa-padding-lr-none">
+                    <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
+                    <a class="btn btn-danger pull-right" ng-click="model.unFollowUser(follower._id)">Unfollow</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
     <a class="btn btn-success btn-block" href="#!/search">To Search Page</a>
 </div>
 
