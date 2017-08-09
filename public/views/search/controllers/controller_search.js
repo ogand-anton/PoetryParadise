@@ -3,7 +3,7 @@
         .module("pp")
         .controller("searchController", searchController);
 
-    function searchController(searchService, sharedService, userService) {
+    function searchController(searchService, sharedService) {
         var vm = this;
 
         vm.search = search;
@@ -36,7 +36,7 @@
             vm.navHeader = {
                 leftLink: {href: "#!", iconClass: "glyphicon-home", name: "Home"},
                 name: "Search",
-                rightLink: userService.getNavRightLink()
+                rightLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"}
             };
         }
 

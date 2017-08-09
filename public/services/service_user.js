@@ -1,38 +1,21 @@
-(function (cookies) {
+(function () {
     angular
         .module("pp")
         .factory("userService", userService);
 
     function userService($location, $http) {
         return {
-            authenticate: authenticate,
             createUser: createUser,
             deleteUser: deleteUser,
-            login: login,
             findFollowers: findFollowers,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
             findUserFollowers: findUserFollowers,
             followUser: followUser,
-            getNavRightLink: getNavRightLink,
             navToProfile: navToProfile,
-            unAuthenticate: unAuthenticate,
             unFollowUser: unFollowUser,
             updateUser: updateUser
         };
-
-        // TODO checking for authentication should belong on server and checked at every request
-        // returns logged in user id
-        // if not, redirects to login page
-        function authenticate(preventRedirectFlag) {
-            var userId  = cookies.get("userId");
-            if (userId) {
-                return userId;
-            } else if (!preventRedirectFlag) {
-                console.log("No User Id Cookie")
-                // $location.url("/login");
-            }
-        }
 
         function createUser(user) {
             return $http({
@@ -40,7 +23,6 @@
                 method: "POST",
                 params: user
             }).then(function (res) {
-                _rememberUser(res);
                 return res.data;
             });
         }
@@ -102,30 +84,8 @@
             });
         }
 
-        function getNavRightLink() {
-            return authenticate(true) ? // check if logged in without redirecting
-                {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"} :
-                {href: "#!/login", iconClass: "glyphicon-log-in", name: "Login"};
-        }
-
-        // TODO need mechanism to redirect to previous page on login
-        function login(loginCredentials) {
-            return $http({
-                url: "/api/login",
-                method: "POST",
-                params: loginCredentials
-            }).then(function (res) {
-                return res.data;
-            });
-        }
-
         function navToProfile() {
             $location.url("/profile");
-        }
-
-        // logs a user out
-        function unAuthenticate() {
-            cookies.remove("userId");
         }
 
         function unFollowUser(userId, followerId) {
@@ -148,4 +108,4 @@
             });
         }
     }
-})(Cookies); // TODO: figure out the right way to use globals in angular
+})();

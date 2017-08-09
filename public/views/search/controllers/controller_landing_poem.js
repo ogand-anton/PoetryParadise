@@ -3,7 +3,7 @@
         .module("pp")
         .controller("landingPoemController", landingPoemController);
 
-    function landingPoemController($routeParams, poemService, searchService, sharedService, userService) {
+    function landingPoemController($routeParams, authService, poemService, searchService, sharedService) {
         var vm = this,
             uid,
             author, title,
@@ -12,14 +12,21 @@
         vm.favoritePoem = favoritePoem;
         vm.unFavoritePoem = unFavoritePoem;
 
-        (function init() {
-            uid = userService.authenticate(true);
-
+        function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        })();
+        }
+
+        authService
+            .authenticate(true)
+            .then(function (user) {
+                if (user) {
+                    uid = user._id;
+                }
+                init();
+            });
 
         function favoritePoem(poem) {
             poemService
@@ -50,7 +57,7 @@
             vm.navHeader = {
                 leftLink: {href: "#!/search", iconClass: "glyphicon-search", name: "Search"},
                 name: "Poem Result",
-                rightLink: userService.getNavRightLink()
+                rightLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"}
             };
         }
 
@@ -72,7 +79,7 @@
                         .then(function (res) {
                             var userFavorites = res.favorites;
 
-                            for (var i = 0; i < userFavorites.length; i++) {
+                            for (var i = 0; userFavorites && i < userFavorites.length; i++) {
                                 if (userFavorites[i].title === poem.title && userFavorites[i].author === poem.author){
                                     poem.favoriteFlag = true;
                                     poem.favoriteId = userFavorites[i]._id;

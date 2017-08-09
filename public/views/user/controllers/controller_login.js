@@ -3,7 +3,7 @@
         .module("pp")
         .controller("loginController", loginController);
 
-    function loginController(sharedService, userService) {
+    function loginController(sharedService, authService, userService) {
         var vm = this;
 
         vm.login = login;
@@ -15,7 +15,7 @@
         })();
 
         function login(user) {
-            userService
+            authService
                 .login(user)
                 .then(function (res) {
                     if (res.msg) {
@@ -42,9 +42,6 @@
         function _loadContent() {
             var cookiesEnabled = sharedService.testCookies();
             vm.errorMsg = cookiesEnabled ? null : "Please allow cookies to login";
-
-            // TODO: hack; if back on login page, log out
-            userService.unAuthenticate();
         }
     }
 })();

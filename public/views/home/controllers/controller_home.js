@@ -3,13 +3,10 @@
         .module("pp")
         .controller("homeController", homeController);
 
-    function homeController(sharedService, userService) {
-        var vm = this,
-            uid;
+    function homeController(sharedService) {
+        var vm = this;
 
         (function init() {
-            uid = userService.authenticate(true);
-
             _fetchTemplates();
             _initHeaderFooter();
         })();
@@ -22,7 +19,7 @@
             vm.navHeader = {
                 leftLink: {href: "../test/index.html", iconClass: "glyphicon-tower", name: "Test Mongo"},
                 name: "Poetry Paradise",
-                rightLink: userService.getNavRightLink()
+                rightLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"}
             };
         }
     }

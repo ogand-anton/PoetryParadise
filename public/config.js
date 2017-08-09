@@ -1,9 +1,11 @@
-(function (cookies) {
+(function () {
     angular
         .module("pp")
         .config(configure);
 
     function configure($routeProvider) {
+        $routeProvider.caseInsensitiveMatch = true;
+
         $routeProvider
             .when("/", {
                 templateUrl: "views/home/templates/template_home.html",
@@ -23,8 +25,7 @@
             .when("/profile", {
                 templateUrl: "views/user/templates/template_profile.html",
                 controller: "profileController",
-                controllerAs: "model",
-                resolve: {loggedIn: _checkLoggedIn} // TODO protect everything else that is needed to be protected
+                controllerAs: "model"
             })
             .when("/profile/:uid", {
                 templateUrl: "views/user/templates/template_profile_other.html",
@@ -45,28 +46,9 @@
                 templateUrl: "views/search/templates/template_landing.html",
                 controller: "landingPoemController",
                 controllerAs: "model"
+            })
+            .otherwise({
+                redirectTo: "/profile"
             });
-
-        // TODO find a better place for this
-        function _checkLoggedIn($q, $timeout, $http, $location, $rootScope) {
-            var deferred = $q.defer();
-            $http
-                .get("/api/loggedIn")
-                .then(function(res){
-                    return res.data;
-                })
-                .then(function (user) {
-                    $rootScope.errorMessage = null;
-                    if (user !== "0") {
-                        cookies.set("userId", user._id);
-                        deferred.resolve(user);
-                    } else {
-                        cookies.remove("userId");
-                        deferred.reject();
-                        $location.url("#!/login");
-                    }
-                });
-            return deferred.promise;
-        }
     }
-})(Cookies);
+})();

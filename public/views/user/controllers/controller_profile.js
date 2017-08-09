@@ -3,7 +3,7 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, poemService, sharedService, userService) {
+    function profileController($routeParams, $location, authService, poemService, sharedService, userService) {
         var vm = this,
             uid,
             authenticatedUid,
@@ -11,18 +11,30 @@
 
         vm.followUser = followUser;
         vm.saveUser = saveUser;
+        vm.logout = logout;
         vm.unFavoritePoem = unFavoritePoem;
         vm.unFollowUser = unFollowUser;
 
-        (function init() {
-            authenticatedUid = userService.authenticate();
-            uid = authenticatedUid;
-
+        // TODO make this delayed load prettier
+        function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        })();
+        }
+
+        authService
+            .authenticate()
+            .then(function(user){
+                if (user) {
+                    authenticatedUid = user._id;
+                    uid = authenticatedUid;
+                } else {
+                    $location.url("login"); // todo move to service
+                }
+                console.log("it worked");
+                init();
+            });
 
         function followUser() {
             // TODO prevent following (a) yourself and (b) someone else multiple times
@@ -31,6 +43,10 @@
                 .then(function(){
                     _findFollowers();
                 });
+        }
+
+        function logout(){
+            authService.logout();
         }
 
         function saveUser() {
@@ -101,7 +117,7 @@
                 };
 
             vm.navHeader = {
-                leftLink: {href: "#!/login", iconClass: "glyphicon-log-out", name: "Logout"},
+                leftLink: {clickCb: logout, href: "javacript:void(0)", iconClass: "glyphicon-log-out", name: "Logout"},
                 name: "Profile",
                 rightLink: readOnlyFlag ? followNav : saveUserNav
             };
