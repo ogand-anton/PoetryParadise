@@ -32,7 +32,6 @@
                 } else {
                     $location.url("login"); // todo move to service
                 }
-                console.log("it worked");
                 init();
             });
 

@@ -1,9 +1,8 @@
 module.exports = function (app, model) {
     var mongoose = require("mongoose"),
+        poemModel = model.poemModel,
         poemFavoriteModel = model.poemFavoriteModel,
         userModel = model.userModel;
-        poemModel = model.poemModel;
-    // var poemModel = require('../models/poem/model_poem');
 
     app.delete("/api/poem/:userId", unFavoritePoem);
     app.get("/api/poem/users", findFavoriteUsers);
@@ -14,22 +13,19 @@ module.exports = function (app, model) {
     app.post("/api/poem", createPoem);
     app.delete("/api/poem", deletePoem);
 
-
     function findPoemById(req, res) {
         var poemId = req.query.poemId;
         if(poemId) {
             poemModel
                 .findPoemById(poemId)
                 .then(function (poem) {
-                    res.json.send(poem);
-
+                    res.json(poem);
                 }, function () {
-                    res.setStus(404).send("poem not found");
+                    res.status(404).send("Poem not found");
                 });
         }
         else {
-            res.setStatus(404).send("userId not defined");
-
+            res.status(404).send("Poem not specified");
         }
     }
 
@@ -38,24 +34,26 @@ module.exports = function (app, model) {
     }
 
     function createPoem(req, res) {
-        var poemId = req.body.poemId;
-        var poem = req.body.poem;
+        var poemId = req.body.poemId,
+            poem = req.body.poem;
+
         if (poemId) {
             poemModel
                 .updatePoem(poemId)
                 .then(function (poem) {
                     res.json(poem);
                 }, function () {
-                    res.setStatus(501).send("unable to update poem");
+                    res.status(501).send("unable to update poem");
                 });
         }
         else {
+            poem.author = req.user._id;
             poemModel
                 .createPoem(poem)
                 .then(function (poem) {
                     res.json(poem);
                 }, function () {
-                    res.setStatus(501).send("unable to create poem");
+                    res.status(501).send("unable to create poem");
                 });
         }
     }
