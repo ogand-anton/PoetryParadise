@@ -33,15 +33,15 @@
             vm.poem.lines = vm.poem.text ? vm.poem.text.split("\n") : [];
 
             poemService
-                .savePoem(poemId, poem)
+                .savePoem(poemId, vm.poem)
                 .then(function () {
-                    model.succesMsg = "Success";
-                    model.errorMsg = undefined;
+                    vm.succesMsg = "Success";
+                    vm.errorMsg = undefined;
                 })
                 .catch(function (res) {
                     console.log(res);
-                    model.succesMsg = null;
-                    model.errorMsg = "Error";
+                    vm.succesMsg = null;
+                    vm.errorMsg = res.statusText;
                 });
         }
 

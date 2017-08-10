@@ -56,7 +56,7 @@
             return $http({
                 url: "/api/poem",
                 method: "POST",
-                params: {poemId: poemId, poem: poem}
+                body: {poemId: poemId, poem: poem}
             }).then(function (res) {
                 return res.data;
             });
