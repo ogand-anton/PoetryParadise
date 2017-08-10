@@ -12,6 +12,16 @@
                 controller: "homeController",
                 controllerAs: "model"
             })
+            .when("/edit", {
+                templateUrl: "views/poem/templates/template_poem_edit.html",
+                controller: "poemEditController",
+                controllerAs: "model"
+            })
+            .when("/edit/:poemId", {
+                templateUrl: "views/poem/templates/template_poem_edit.html",
+                controller: "poemEditController",
+                controllerAs: "model"
+            })
             .when("/login", {
                 templateUrl: "views/user/templates/template_login.html",
                 controller: "loginController",

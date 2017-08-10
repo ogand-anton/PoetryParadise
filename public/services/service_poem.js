@@ -8,6 +8,8 @@
             favoritePoem: favoritePoem,
             findFavoriteUsers: findFavoriteUsers,
             findFavoritesByUser: findFavoritesByUser,
+            findPoem: findPoem,
+            savePoem: savePoem,
             unFavoritePoem: unFavoritePoem
         };
 
@@ -40,10 +42,30 @@
             });
         }
 
+        function findPoem(poemId) {
+            return $http({
+                url: "/api/poem",
+                method: "GET",
+                params: {poemId: poemId}
+            }).then(function (res) {
+                return res.data;
+            });
+        }
+
+        function savePoem(poemId, poem) {
+            return $http({
+                url: "/api/poem",
+                method: "POST",
+                params: {poemId: poemId, poem: poem}
+            }).then(function (res) {
+                return res.data;
+            });
+        }
+
         function unFavoritePoem(userId, favoriteId){
             return $http({
                 url: "/api/poem/" + userId,
-                method: "DELETE",
+                method: "DELETE", // TODO hide specific http actions behind post
                 params: {favoriteId: favoriteId}
             }).then(function (res) {
                 return res.data;
