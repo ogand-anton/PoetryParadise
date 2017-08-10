@@ -11,6 +11,7 @@
         };
 
         function authenticate(preventRedirect) {
+            // TODO look at professors code and see how this can still be in config.js
             // TODO need mechanism to redirect to previous page on login
             // store current url
             // login
