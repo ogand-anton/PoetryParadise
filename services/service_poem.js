@@ -35,11 +35,24 @@ module.exports = function (app, model) {
 
     function findAllPoemsByUser(req, res) {
         var userId = req.query.userId;
+        if(poemId) {
+            poemModel
+                .findAllPoemsByAuthor(userId)
+                .then(function (poems) {
+                    res.json(poems);
+                }, function () {
+                    res.sendStatus(404).send("could not find poems by this author")
+                })
+        }
+        else {
+            res.sendStatus(404).send("userId not defined");
+        }
     }
 
     function createPoem(req, res) {
         var poemId = req.body.poemId;
         var poem = req.body.poem;
+        var deletePoem = req.body.deleteFlag;
         if (poemId) {
             poemModel
                 .updatePoem(poemId)
@@ -47,6 +60,13 @@ module.exports = function (app, model) {
                     res.json(poem);
                 }, function () {
                     res.setStatus(501).send("unable to update poem");
+                });
+        }
+        else if(deletePoem) {
+            poemModel
+                .delete(poem)
+                .then(function () {
+                   return poemModel.deletePoem(poemId);
                 });
         }
         else {
