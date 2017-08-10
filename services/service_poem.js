@@ -2,11 +2,67 @@ module.exports = function (app, model) {
     var mongoose = require("mongoose"),
         poemFavoriteModel = model.poemFavoriteModel,
         userModel = model.userModel;
+        poemModel = model.poemModel;
+    // var poemModel = require('../models/poem/model_poem');
 
     app.delete("/api/poem/:userId", unFavoritePoem);
     app.get("/api/poem/users", findFavoriteUsers);
     app.get("/api/poem/:userId", findFavoritesByUser);
     app.put("/api/poem/:userId", favoritePoem);
+    app.get("/api/poem", findPoemById);
+    app.get("/api/poems", findAllPoemsByUser);
+    app.post("/api/poem", createPoem);
+    app.delete("/api/poem", deletePoem);
+
+
+    function findPoemById(req, res) {
+        var poemId = req.query.poemId;
+        if(poemId) {
+            poemModel
+                .findPoemById(poemId)
+                .then(function (poem) {
+                    res.json.send(poem);
+
+                }, function () {
+                    res.setStus(404).send("poem not found");
+                });
+        }
+        else {
+            res.setStatus(404).send("userId not defined");
+
+        }
+    }
+
+    function findAllPoemsByUser(req, res) {
+        var userId = req.query.userId;
+    }
+
+    function createPoem(req, res) {
+        var poemId = req.body.poemId;
+        var poem = req.body.poem;
+        if (poemId) {
+            poemModel
+                .updatePoem(poemId)
+                .then(function (poem) {
+                    res.json(poem);
+                }, function () {
+                    res.setStatus(501).send("unable to update poem");
+                });
+        }
+        else {
+            poemModel
+                .createPoem(poem)
+                .then(function (poem) {
+                    res.json(poem);
+                }, function () {
+                    res.setStatus(501).send("unable to create poem");
+                });
+        }
+    }
+
+    function deletePoem(req, res) {
+
+    }
 
     function favoritePoem(req, res) {
         var userId = req.params.userId,
