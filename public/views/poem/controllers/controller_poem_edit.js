@@ -25,7 +25,6 @@
                 } else {
                     $location.url("login");
                 }
-                console.log("it worked");
                 init();
             });
 
@@ -35,13 +34,12 @@
             poemService
                 .savePoem(poemId, vm.poem)
                 .then(function () {
-                    vm.succesMsg = "Success";
+                    vm.successMsg = "Success";
                     vm.errorMsg = undefined;
                 })
                 .catch(function (res) {
-                    console.log(res);
-                    vm.succesMsg = null;
-                    vm.errorMsg = res.statusText;
+                    vm.successMsg = null;
+                    vm.errorMsg = res;
                 });
         }
 
@@ -68,11 +66,10 @@
                     .findPoem(poemId)
                     .then(function (res) {
                         vm.poem = res.poem;
-                        model.errorMsg = undefined;
                     })
                     .catch(function (res) {
                         console.log(res);
-                        model.succesMsg = null;
+                        model.successMsg = null;
                         model.errorMsg = "Error";
                     });
             } else {

@@ -18,12 +18,12 @@
                 url: "/api/poem/" + userId,
                 method: "PUT",
                 params: {author: poem.author, title: poem.title}
-            }).then(function(res){
-               return res.data;
+            }).then(function (res) {
+                return res.data;
             });
         }
 
-        function findFavoriteUsers(poem){
+        function findFavoriteUsers(poem) {
             return $http({
                 url: "/api/poem/users",
                 method: "GET",
@@ -33,7 +33,7 @@
             });
         }
 
-        function findFavoritesByUser(userId){
+        function findFavoritesByUser(userId) {
             return $http({
                 url: "/api/poem/" + userId,
                 method: "GET"
@@ -43,26 +43,22 @@
         }
 
         function findPoem(poemId) {
-            return $http({
-                url: "/api/poem",
-                method: "GET",
-                params: {poemId: poemId}
-            }).then(function (res) {
-                return res.data;
-            });
+            return $http
+                .get("/api/poem", {poemId: poemId})
+                .then(function (res) {
+                    return res.data;
+                });
         }
 
         function savePoem(poemId, poem) {
-            return $http({
-                url: "/api/poem",
-                method: "POST",
-                body: {poemId: poemId, poem: poem}
-            }).then(function (res) {
-                return res.data;
-            });
+            return $http
+                .post("/api/poem", {poemId: poemId, poem: poem})
+                .then(function (res) {
+                    return res.data;
+                });
         }
 
-        function unFavoritePoem(userId, favoriteId){
+        function unFavoritePoem(userId, favoriteId) {
             return $http({
                 url: "/api/poem/" + userId,
                 method: "DELETE", // TODO hide specific http actions behind post
