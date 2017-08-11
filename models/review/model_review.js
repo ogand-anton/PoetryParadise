@@ -23,12 +23,15 @@ module.exports = function (app) {
     function findReviewsByReviewer(userId) {
         return reviewModel
             .find({reviewer: userId})
-            .populate("reviewer");
+            .populate({
+                path: "_poem",
+                populate: {path: "author"}
+            });
     }
 
     function findReviewsForPoem(poemId) {
         return reviewModel
-            .find({_poemId: poemId})
+            .find({_poem: poemId})
             .populate("reviewer");
     }
 

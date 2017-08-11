@@ -9,7 +9,7 @@ module.exports = function (app, model) {
 
     function createReview(req, res) {
         var review = req.body.review;
-        review._poemId = req.body.poemId;
+        review._poem = req.body.poemId;
 
         reviewModel
             .createReview(review)
@@ -26,7 +26,7 @@ module.exports = function (app, model) {
         reviewModel
             .deleteReview(reviewId)
             .then(function () {
-                res.status(200);
+                res.sendStatus(200);
             });
     }
 

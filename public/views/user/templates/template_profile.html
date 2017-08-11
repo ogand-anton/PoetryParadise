@@ -104,6 +104,22 @@
         </ul>
     </div>
 
+    <label>Reviews</label>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="review in model.reviews">
+            <b>{{review._poem.title}}</b>
+            <br/>
+            <a href="#!/profile/{{review._poem.author._id}}">
+                <i>{{review._poem.author.username}}</i>
+            </a>
+            <br/>
+            <i class="alert-danger" ng-if="!review.text">Review Not Complete</i>
+            <br/>
+            <a class="btn btn-info" ng-if="!review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Write Review</a>
+            <a class="btn btn-info" ng-if="review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Edit Review</a>
+        </li>
+    </ul>
+
     <!-- TODO add to footer -->
     <a class="btn btn-success btn-block" href="#!/poem">Pen New Poem</a>
     <a class="btn btn-warning btn-block" href="#!/search">To Search Page</a>

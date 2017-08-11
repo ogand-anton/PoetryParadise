@@ -66,9 +66,10 @@
 
             poemService
                 .savePoem(poemId, vm.poem)
-                .then(function () {
+                .then(function (poem) {
                     vm.successMsg = "Success";
                     vm.errorMsg = undefined;
+                    $location.url("poem/" + poem._id);
                 })
                 .catch(function (res) {
                     vm.successMsg = null;

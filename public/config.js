@@ -34,7 +34,7 @@
             })
             .when("/poem/:poemId/review/:reviewId", {
                 templateUrl: "views/review/templates/template_review_landing.html",
-                controller: "translationEditController",
+                controller: "reviewEditController",
                 controllerAs: "model"
             })
             .when("/poem/:poemId/translation", {

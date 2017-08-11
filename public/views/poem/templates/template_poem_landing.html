@@ -5,7 +5,7 @@
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
     <div ng-include="model.templates.poem"></div>
 
-    <div ng-if="model.poemEditFlag">
+    <div ng-if="model.poemEditFlag && model.poem._id">
         <label>Reviews</label>
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="review in model.reviews">

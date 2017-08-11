@@ -3,7 +3,8 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, $location, authService, poemService, sharedService, translationService, userService) {
+    function profileController($routeParams, $location,
+                               authService, poemService, reviewService, sharedService, translationService, userService) {
         var vm = this,
             uid,
             authenticatedUid,
@@ -109,6 +110,16 @@
                 });
         }
 
+        function _findReviews() {
+            if (uid === authenticatedUid) {
+                reviewService
+                    .findReviews(uid)
+                    .then(function(reviews){
+                        vm.reviews = reviews;
+                    });
+            }
+        }
+
         function _findTranslations() {
             translationService
                 .findTranslations(uid)
@@ -154,6 +165,7 @@
             _findFavoritesByUser();
             _findFollowers();
             _findPoems();
+            _findReviews();
             _findTranslations();
         }
 
