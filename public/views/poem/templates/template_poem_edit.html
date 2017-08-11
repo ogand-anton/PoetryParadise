@@ -9,7 +9,12 @@
         <input type="text" id="title" ng-model="model.poem.title" class="form-control" placeholder="Title"/>
     </div>
     <!-- TODO implement elastic library -->
-    <textarea class="form-control" ng-model="model.poem.text" rows="15" placeholder="Write poem here">{{model.poem.text}}</textarea>
+    <div class="form-group">
+        <label for="text">Text</label>
+        <textarea id="text" class="form-control" ng-model="model.poem.text" rows="15" placeholder="Write poem here">{{model.poem.text}}</textarea>
+    </div>
+
+    <a class="btn btn-danger btn-block" ng-click="model.deletePoem()">Delete Poem</a>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>
