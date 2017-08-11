@@ -4,8 +4,8 @@
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
     <div ng-include="model.templates.poem"></div>
+    <a class="btn btn-success btn-block" ng-click="model.addTranslation()">Add Translation</a>
     <a ng-if="!model.readOnlyFlag" class="btn btn-danger btn-block" ng-click="model.deletePoem()">Delete Poem</a>
-    <a ng-if="model.readOnlyFlag" class="btn btn-success btn-block" ng-click="model.addTranslation()">Add Translation</a>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>
