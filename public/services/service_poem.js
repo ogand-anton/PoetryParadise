@@ -44,11 +44,13 @@
         }
 
         function findPoem(poemId) {
-            return $http
-                .get("/api/poem", {poemId: poemId})
-                .then(function (res) {
-                    return res.data;
-                });
+            return $http({
+                url: "/api/poem",
+                method: "GET",
+                params: {poemId: poemId}
+            }).then(function(res){
+                return res.data;
+            });
         }
 
         function findPoems(userId) {

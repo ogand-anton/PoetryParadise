@@ -64,13 +64,13 @@
             if (poemId) {
                 poemService
                     .findPoem(poemId)
-                    .then(function (res) {
-                        vm.poem = res.poem;
+                    .then(function (poem) {
+                        poem.text = poem.lines.join("\n");
+                        vm.poem = poem;
                     })
-                    .catch(function (res) {
-                        console.log(res);
-                        model.successMsg = null;
-                        model.errorMsg = "Error";
+                    .catch(function (err) {
+                        vm.successMsg = null;
+                        vm.errorMsg = err;
                     });
             } else {
                 vm.poem = {};
@@ -80,7 +80,6 @@
         function _parseRouteParams() {
             if ($routeParams["poemId"]) {
                 poemId = $routeParams["poemId"];
-                console.log(poemId);
             }
         }
     }
