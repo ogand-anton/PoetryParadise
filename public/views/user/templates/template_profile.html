@@ -73,7 +73,7 @@
         <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="poem in model.poems">
-                <div><b>{{poem.title}}</b></div>
+                <div><b>{{poem.title || ""}}</b></div>
                 <div ng-repeat="line in poem.lines | limitTo: model.maxLines track by $index">{{line}}</div>
                 <div ng-if="poem.lines.length > model.maxLines">...</div>
                 <div>{{poem.lines.length}}</div>
