@@ -16,7 +16,7 @@ module.exports = function (app) {
 
     function createUser(user) {
         user.password = bcrypt.hashSync(user.password);
-        return userModel.create(user);
+        return userModel.create(user)
     }
 
     function deleteUser(userId) {
@@ -24,18 +24,21 @@ module.exports = function (app) {
     }
 
     function findUserByCredentials(username, password) {
-        return userModel.findOne({username: username}, function (err, user) {
-            if (err) return err;
+        return userModel
+            .findOne({username: username})
+            .select("+password")
+            .exec(function (err, user) {
+                if (err) return err;
 
-            try {
-                if (bcrypt.compareSync(password, user.password)){
-                    return user;
+                try {
+                    if (bcrypt.compareSync(password, user.password)) {
+                        return user;
+                    }
                 }
-            }
-            catch(ex) {
-                return undefined;
-            }
-        });
+                catch (ex) {
+                    return undefined;
+                }
+            });
     }
 
     function findUserById(userId) {
