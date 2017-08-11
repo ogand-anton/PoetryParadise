@@ -22,7 +22,7 @@ app.aoaRequire = function (modulePath) {
 };
 
 // app imports
-app.aoaRequire("db/db.js")();
+app.aoaRequire("db.js")();
 var model = app.aoaRequire("models/model.js")(app);
 app.aoaRequire("services/service_auth.js")(app, model);
 app.aoaRequire("services/service_poem.js")(app, model);

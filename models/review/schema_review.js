@@ -3,8 +3,8 @@ module.exports = function () {
 
     return mongoose.Schema({
         _poemId: {type: mongoose.Schema.Types.ObjectId, ref: "poem"},
-        _userId: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
-        reviewText: String,
+        reviewer: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
+        text: String,
         dateCreated: {type: Date, default: Date.now}
     }, {collection: "review"});
 };
