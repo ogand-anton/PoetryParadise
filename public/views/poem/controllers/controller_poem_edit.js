@@ -8,6 +8,7 @@
             uid,
             poemId;
 
+        vm.deletePoem = deletePoem;
         vm.savePoem = savePoem;
 
         function init() {
@@ -27,6 +28,14 @@
                 }
                 init();
             });
+
+        function deletePoem() {
+            poemService
+                .deletePoem(poemId)
+                .then(function(){
+                   $location.url("profile");
+                });
+        }
 
         function savePoem() {
             vm.poem.lines = vm.poem.text ? vm.poem.text.split("\n") : [];
