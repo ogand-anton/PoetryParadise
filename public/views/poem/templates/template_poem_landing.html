@@ -5,7 +5,7 @@
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
     <div ng-include="model.templates.poem"></div>
 
-    <div>
+    <div ng-if="model.poem._id">
         <label>Translations</label>
         <!-- TODO bring out into separate template -->
         <ul class="list-group">
@@ -17,9 +17,7 @@
                 <div ng-repeat="line in translation.lines | limitTo: model.maxLines track by $index">{{line}}</div>
                 <div ng-if="translation.lines.length > model.maxLines">...</div>
                 <div>{{translation.lines.length}}</div>
-                <a ng-if="model.maxLines"
-                   href="#!/poem/{{model.poem._id}}/translation/{{translation._id}}"
-                >
+                <a href="#!/poem/{{model.poem._id}}/translation/{{translation._id}}">
                     Go to Translation
                 </a>
                 <br/>
@@ -27,7 +25,9 @@
         </ul>
     </div>
 
-    <a class="btn btn-success btn-block" ng-click="model.addTranslation()">Add Translation</a>
+    <a ng-if="model.poem._id"
+       class="btn btn-success btn-block"
+       ng-click="model.addTranslation()">Add Translation</a>
     <!-- TODO what happens when poem with translations is deleted? -->
     <a ng-if="model.poemEditFlag" class="btn btn-danger btn-block" ng-click="model.deletePoem()">Delete Poem</a>
 </div>

@@ -5,6 +5,7 @@
 
     function translationEditController($routeParams, $location, authService, poemService, sharedService, translationService) {
         var vm = this,
+            authenticatedUser,
             uid,
             poemId,
             translationId;
@@ -24,6 +25,7 @@
             .then(function (user) {
                 if (user) {
                     uid = user._id;
+                    authenticatedUser = user;
                 } else {
                     $location.url("login");
                 }
@@ -89,7 +91,7 @@
                         vm.errorMsg = err;
                     });
             } else {
-                vm.translation = {};
+                vm.translation = {author: authenticatedUser};
                 vm.translationEditFlag = true;
             }
         }
