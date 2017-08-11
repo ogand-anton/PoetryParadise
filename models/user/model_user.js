@@ -33,13 +33,7 @@ module.exports = function (app) {
                 }
             }
             catch(ex) {
-                if (ex === "Not a valid BCrypt hash.") {
-                    if (password === user.password) {
-                        return user; // TODO hack temporarily supporting existing users
-                    }
-                } else {
-                    return undefined;
-                }
+                return undefined;
             }
         });
     }
@@ -57,10 +51,6 @@ module.exports = function (app) {
     }
 
     function updateUser(userId, user) {
-        if (user.password === "alice" || user.password === "bob") {
-            user.password = bcrypt.hashSync(user.password); // TODO hack temporarily supporting existing users
-        }
-
         return userModel.update({_id: userId}, {$set: user});
     }
 };
