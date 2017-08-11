@@ -25,37 +25,44 @@
             .when("/poem", {
                 templateUrl: "views/poem/templates/template_poem_landing.html",
                 controller: "poemEditController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: authenticate}
             })
             .when("/poem/:poemId", {
                 templateUrl: "views/poem/templates/template_poem_landing.html",
                 controller: "poemEditController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: authenticate}
             })
             .when("/poem/:poemId/review/:reviewId", {
                 templateUrl: "views/review/templates/template_review_landing.html",
                 controller: "reviewEditController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: authenticate}
             })
             .when("/poem/:poemId/translation", {
                 templateUrl: "views/translation/templates/template_translation_landing.html",
                 controller: "translationEditController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: authenticate}
             })
             .when("/poem/:poemId/translation/:translationId", {
                 templateUrl: "views/translation/templates/template_translation_landing.html",
                 controller: "translationEditController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: authenticate}
             })
             .when("/profile", {
                 templateUrl: "views/user/templates/template_profile.html",
                 controller: "profileController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: authenticate}
             })
             .when("/profile/:uid", {
                 templateUrl: "views/user/templates/template_profile_other.html",
                 controller: "profileController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: authenticate}
             })
             .when("/search", {
                 templateUrl: "views/search/templates/template_search.html",
@@ -75,5 +82,21 @@
             .otherwise({
                 redirectTo: "/profile"
             });
+
+        function authenticate($q, authService) {
+            var authPromise = $q.defer();
+
+            authService
+                .authenticate()
+                .then(function (user) {
+                    if (user) {
+                        authPromise.resolve(user);
+                    } else {
+                        authPromise.reject();
+                    }
+                });
+
+            return authPromise.promise;
+        }
     }
 })();

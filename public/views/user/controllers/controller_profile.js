@@ -3,11 +3,10 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, $location,
+    function profileController($routeParams, $location, authUser,
                                authService, poemService, reviewService, sharedService, translationService, userService) {
         var vm = this,
             uid,
-            authenticatedUid,
             poemEditFlag;
 
         vm.followUser = followUser;
@@ -16,30 +15,17 @@
         vm.unFavoritePoem = unFavoritePoem;
         vm.unFollowUser = unFollowUser;
 
-        // TODO make this delayed load prettier and put it back into config.js
-        function init() {
+        (function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        }
-
-        authService
-            .authenticate()
-            .then(function (user) {
-                if (user) {
-                    authenticatedUid = user._id;
-                    uid = authenticatedUid;
-                    init();
-                } else {
-                    $location.url("login"); // todo move to service
-                }
-            });
+        })();
 
         function followUser() {
             // TODO prevent following (a) yourself and (b) someone else multiple times
             userService
-                .followUser(authenticatedUid, uid)
+                .followUser(authUser._id, uid)
                 .then(function () {
                     _findFollowers();
                 });
@@ -68,7 +54,7 @@
 
         function unFollowUser(followerId) {
             userService
-                .unFollowUser(authenticatedUid, followerId)
+                .unFollowUser(authUser._id, followerId)
                 .then(function () {
                     _findFollowers();
                 });
@@ -87,7 +73,7 @@
         }
 
         function _findFollowers() {
-            if (uid !== authenticatedUid) { // read only profile
+            if (uid !== authUser._id) { // read only profile
                 userService
                     .findUserFollowers(uid)
                     .then(function (followers) {
@@ -111,10 +97,10 @@
         }
 
         function _findReviews() {
-            if (uid === authenticatedUid) {
+            if (uid === authUser._id) {
                 reviewService
                     .findReviews(uid)
-                    .then(function(reviews){
+                    .then(function (reviews) {
                         vm.reviews = reviews;
                     });
             }
@@ -129,12 +115,16 @@
         }
 
         function _findUser() {
-            userService
-                .findUserById(uid)
-                .then(function (res) {
-                    vm.errorMsg = res.msg;
-                    vm.profile = res.user;
-                });
+            if (uid !== authUser._id) {
+                userService
+                    .findUserById(uid)
+                    .then(function (res) {
+                        vm.errorMsg = res.msg;
+                        vm.profile = res.user;
+                    });
+            } else {
+                vm.profile = authUser;
+            }
         }
 
         function _initHeaderFooter() {
@@ -160,23 +150,25 @@
 
         function _loadContent() {
             vm.maxLines = 3;
+            vm.maxReviewLength = 50;
 
-            _findUser();
+            uid = uid || authUser._id;
+
             _findFavoritesByUser();
             _findFollowers();
             _findPoems();
             _findReviews();
             _findTranslations();
+            _findUser();
         }
 
         function _parseRouteParams() {
-            // TODO: deal with either seeing your own account in read only mode doing something about it
             if ($routeParams["uid"]) {
                 uid = $routeParams["uid"];
                 poemEditFlag = true;
                 vm.uid = uid;
 
-                if (uid === authenticatedUid) {
+                if (uid === authUser._id) {
                     $location.url("profile");
                 }
             }

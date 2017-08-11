@@ -4,42 +4,40 @@
 <div class="container-fluid">
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
-    <div ng-hide="!model.profile">
-        <form>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text"
-                       class="form-control"
-                       id="username"
-                       placeholder="Username"
-                       ng-model="model.profile.username">
-            </div>
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email"
-                       class="form-control"
-                       id="email"
-                       placeholder="alice@wonderland.com"
-                       ng-model="model.profile.emailAddress">
-            </div>
-            <div class="form-group">
-                <label for="first-name">First Name</label>
-                <input type="text"
-                       class="form-control"
-                       id="first-name"
-                       placeholder="Alice"
-                       ng-model="model.profile.firstName">
-            </div>
-            <div class="form-group">
-                <label for="last-name">Last Name</label>
-                <input type="text"
-                       class="form-control"
-                       id="last-name"
-                       placeholder="Wonderland"
-                       ng-model="model.profile.lastName">
-            </div>
-        </form>
-    </div>
+    <form>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text"
+                   class="form-control"
+                   id="username"
+                   placeholder="Username"
+                   ng-model="model.profile.username">
+        </div>
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email"
+                   class="form-control"
+                   id="email"
+                   placeholder="alice@wonderland.com"
+                   ng-model="model.profile.emailAddress">
+        </div>
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text"
+                   class="form-control"
+                   id="first-name"
+                   placeholder="Alice"
+                   ng-model="model.profile.firstName">
+        </div>
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text"
+                   class="form-control"
+                   id="last-name"
+                   placeholder="Wonderland"
+                   ng-model="model.profile.lastName">
+        </div>
+    </form>
 
     <div>
         <label>Favorite Poems</label>
@@ -80,7 +78,7 @@
                 <div ng-repeat="line in poem.lines | limitTo: model.maxLines track by $index">{{line}}</div>
                 <div ng-if="poem.lines.length > model.maxLines">...</div>
                 <div>{{poem.lines.length}}</div>
-                <a href="#!/poem/{{poem._id}}">Edit poem</a>
+                <a href="#!/poem/{{poem._id}}">Go to Poem</a>
                 <br/>
             </li>
         </ul>
@@ -114,9 +112,13 @@
             </a>
             <br/>
             <i class="alert-danger" ng-if="!review.text">Review Not Complete</i>
+            <span ng-if="review.text">{{review.text.substring(0, model.maxReviewLength)}}</span>
+            <span ng-if="review.text && review.text.length > model.maxReviewLength">...</span>
             <br/>
-            <a class="btn btn-info" ng-if="!review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Write Review</a>
-            <a class="btn btn-info" ng-if="review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Edit Review</a>
+            <a class="btn btn-info" ng-if="!review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Write
+                Review</a>
+            <a class="btn btn-info" ng-if="review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Edit
+                Review</a>
         </li>
     </ul>
 

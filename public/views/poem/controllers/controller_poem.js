@@ -3,11 +3,10 @@
         .module("pp")
         .controller("poemEditController", poemEditController);
 
-    function poemEditController($routeParams, $location,
+    function poemEditController($routeParams, $location, authUser,
                                 authService, poemService, reviewService, sharedService, translationService, userService) {
         var vm = this,
             authenticatedUser,
-            uid,
             poemId;
 
         vm.addTranslation = addTranslation;
@@ -27,7 +26,7 @@
             .then(function (user) {
                 if (user) {
                     authenticatedUser = user;
-                    uid = user._id;
+                    authUser._id = user._id;
                 } else {
                     $location.url("login");
                 }
@@ -85,9 +84,9 @@
         }
 
         function _findFollowers() {
-            if (uid === authenticatedUser._id) {
+            if (authUser._id === authenticatedUser._id) {
                 userService
-                    .findFollowers(uid)
+                    .findFollowers(authUser._id)
                     .then(function (followers) {
                         vm.followers = followers;
                     });
@@ -101,7 +100,7 @@
                     .then(function (poem) {
                         poem.text = poem.lines.join("\n");
                         vm.poem = poem;
-                        vm.poemEditFlag = poem.author._id === uid;
+                        vm.poemEditFlag = poem.author._id === authUser._id;
                         _initHeaderFooter();
                     })
                     .catch(function (err) {
@@ -115,7 +114,7 @@
         }
 
         function _findReviews() {
-            if (uid === authenticatedUser._id) {
+            if (authUser._id === authenticatedUser._id) {
                 reviewService
                     .findReviews(undefined, poemId)
                     .then(function(reviews){

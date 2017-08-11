@@ -3,34 +3,20 @@
         .module("pp")
         .controller("reviewEditController", reviewEditController);
 
-    function reviewEditController($routeParams, $location, authService, poemService, sharedService, reviewService) {
+    function reviewEditController($routeParams, $location, authUser, poemService, sharedService, reviewService) {
         var vm = this,
-            authenticatedUser,
-            uid,
             poemId,
             reviewId;
 
         vm.deleteReview = deleteReview;
         vm.saveReview = saveReview;
 
-        function init() {
+        (function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        }
-
-        authService
-            .authenticate()
-            .then(function (user) {
-                if (user) {
-                    uid = user._id;
-                    authenticatedUser = user;
-                } else {
-                    $location.url("login");
-                }
-                init();
-            });
+        })();
 
         function deleteReview() {
             reviewService
@@ -80,7 +66,7 @@
                     .findReview(reviewId)
                     .then(function (review) {
                         vm.review = review;
-                        vm.reviewEditFlag = review.reviewer._id === uid;
+                        vm.reviewEditFlag = review.reviewer._id === authUser._id;
                         _initHeaderFooter();
                     })
                     .catch(function (err) {
@@ -88,7 +74,7 @@
                         vm.errorMsg = err;
                     });
             } else {
-                vm.review = {reviewer: authenticatedUser};
+                vm.review = {reviewer: authUser};
                 vm.reviewEditFlag = true;
             }
         }

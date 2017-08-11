@@ -11,11 +11,8 @@
         };
 
         function authenticate(preventRedirect) {
-            // TODO look at professors code and see how this can still be in config.js
             // TODO need mechanism to redirect to previous page on login
-            // store current url
-            // login
-            // if stored url exists, redirect to
+            // store current url, login, if stored url exists, redirect to
             return $http
                 .get("/api/authenticated")
                 .then(function (res) {

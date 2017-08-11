@@ -3,34 +3,21 @@
         .module("pp")
         .controller("translationEditController", translationEditController);
 
-    function translationEditController($routeParams, $location, authService, poemService, sharedService, translationService) {
+    function translationEditController($routeParams, $location, authUser,
+                                       poemService, sharedService, translationService) {
         var vm = this,
-            authenticatedUser,
-            uid,
             poemId,
             translationId;
 
         vm.deleteTranslation = deleteTranslation;
         vm.saveTranslation = saveTranslation;
 
-        function init() {
+        (function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        }
-
-        authService
-            .authenticate()
-            .then(function (user) {
-                if (user) {
-                    uid = user._id;
-                    authenticatedUser = user;
-                } else {
-                    $location.url("login");
-                }
-                init();
-            });
+        })();
 
         function deleteTranslation() {
             translationService
@@ -83,7 +70,7 @@
                     .then(function (translation) {
                         translation.text = translation.lines.join("\n");
                         vm.translation = translation;
-                        vm.translationEditFlag = translation.author._id === uid;
+                        vm.translationEditFlag = translation.author._id === authUser._id;
                         _initHeaderFooter();
                     })
                     .catch(function (err) {
@@ -91,7 +78,7 @@
                         vm.errorMsg = err;
                     });
             } else {
-                vm.translation = {author: authenticatedUser};
+                vm.translation = {author: authUser};
                 vm.translationEditFlag = true;
             }
         }
