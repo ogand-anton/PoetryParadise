@@ -23,7 +23,7 @@ module.exports = function (app) {
     function findTranslationsByAuthor(authorId) {
         return translationModel
             .find({author: authorId})
-            .populate("author", "name")
+            .populate("author")
             .exec();
     }
 

@@ -45,10 +45,31 @@
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="poem in model.poems">
                 <div><b>{{poem.title || ""}}</b></div>
+                <a href="#!/profile/{{poem.author._id}}">
+                    <i>{{poem.author.username}}</i>
+                </a>
                 <div ng-repeat="line in poem.lines | limitTo: model.maxLines track by $index">{{line}}</div>
                 <div ng-if="poem.lines.length > model.maxLines">...</div>
                 <div>{{poem.lines.length}}</div>
                 <a ng-if="model.maxLines" href="#!/poem/{{poem._id}}">Go to Poem</a>
+                <br/>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <label>Penned Translations</label>
+        <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="translation in model.translations">
+                <div><b>{{translation.title || ""}}</b></div>
+                <a href="#!/profile/{{translation.author._id}}">
+                    <i>{{translation.author.username}}</i>
+                </a>
+                <div ng-repeat="line in translation.lines | limitTo: model.maxLines track by $index">{{line}}</div>
+                <div ng-if="translation.lines.length > model.maxLines">...</div>
+                <div>{{translation.lines.length}}</div>
+                <a href="#!/poem/{{translation.originalPoem}}/translation/{{translation._id}}">Go to Translation</a>
                 <br/>
             </li>
         </ul>

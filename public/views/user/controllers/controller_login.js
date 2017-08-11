@@ -24,6 +24,9 @@
                     else {
                         userService.navToProfile();
                     }
+                })
+                .catch(function(err){
+                    vm.errorMsg = err.statusText;
                 });
         }
 

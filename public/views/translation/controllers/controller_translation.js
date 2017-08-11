@@ -96,7 +96,7 @@
 
         function _initHeaderFooter() {
             vm.navHeader = {
-                leftLink: {href: "#!/poem/" + poemId, iconClass: "glyphicon-chevron-left", name: "Back to Poem"},
+                leftLink: {href: "#!/poem/" + poemId, iconClass: "glyphicon-chevron-left", name: "To Poem"},
                 name: "Edit Translation",
                 rightLink: vm.translationEditFlag ? {
                     clickCb: saveTranslation,

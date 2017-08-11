@@ -9,6 +9,13 @@
     />
 </div>
 <div class="form-group">
+    <label >Author</label>
+    <br/>
+    <a href="#!/profile/{{model.poem.author._id}}">
+        <i>{{model.poem.author.username}}</i>
+    </a>
+</div>
+<div class="form-group">
     <label for="text">Text</label>
     <!-- TODO implement elastic library -->
     <textarea id="text"

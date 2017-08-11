@@ -20,14 +20,15 @@ module.exports = function (app) {
     }
 
     function findPoemById(poemId) {
-        return poemModel.findById(poemId);
+        return poemModel
+            .findById(poemId)
+            .populate("author");
     }
 
     function findAllPoemsByAuthor(authorId) {
         return poemModel
-            .find({author: authorId});
-        // .populate('name')
-        // .exec();
+            .find({author: authorId})
+            .populate("author");
     }
 
     function updatePoem(poemId, poem) {

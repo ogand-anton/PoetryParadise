@@ -3,7 +3,7 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, $location, authService, poemService, sharedService, userService) {
+    function profileController($routeParams, $location, authService, poemService, sharedService, translationService, userService) {
         var vm = this,
             uid,
             authenticatedUid,
@@ -109,7 +109,15 @@
                 });
         }
 
-        function _findUser(){
+        function _findTranslations() {
+            translationService
+                .findTranslations(uid)
+                .then(function (translations) {
+                    vm.translations = translations;
+                })
+        }
+
+        function _findUser() {
             userService
                 .findUserById(uid)
                 .then(function (res) {
@@ -146,6 +154,7 @@
             _findFavoritesByUser();
             _findFollowers();
             _findPoems();
+            _findTranslations();
         }
 
         function _parseRouteParams() {

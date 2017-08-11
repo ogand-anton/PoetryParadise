@@ -71,7 +71,7 @@
                     .then(function (poem) {
                         poem.text = poem.lines.join("\n");
                         vm.poem = poem;
-                        vm.poemEditFlag = poem.author === uid;
+                        vm.poemEditFlag = poem.author._id === uid;
                         _initHeaderFooter();
                     })
                     .catch(function (err) {
