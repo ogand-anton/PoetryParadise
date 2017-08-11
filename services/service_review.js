@@ -11,6 +11,7 @@ module.exports = function (app, model) {
 
     function createReview(req, res) {
         var review = req.body.review;
+        review._userId = req.user._id;
         reviewModel
             .createReview(review)
             .then(function (review) {

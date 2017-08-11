@@ -6,6 +6,7 @@ module.exports = function (app) {
     return Object.assign(translationModel, {
         createTranslation: createTranslation,
         findAllTranslationsByAuthor: findAllTranslationsByAuthor,
+        findAllTranslationsForPoem: findAllTranslationsForPoem,
         findTranslationById: findTranslationById,
         updateTranslation: updateTranslation,
         deleteTranslation: deleteTranslation
@@ -28,6 +29,10 @@ module.exports = function (app) {
             .find({author: authorId});
         // .populate('name')
         // .exec();
+    }
+
+    function findAllTranslationsForPoem(poemId) {
+        return translationModel.find({originalPoem: poemId});
     }
 
     function updateTranslation(translationId, translation) {
