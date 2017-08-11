@@ -54,7 +54,10 @@
         }
 
         function _fetchTemplates() {
-            vm.templates = sharedService.getTemplates();
+            vm.templates = Object.assign(
+                sharedService.getTemplates(),
+                poemService.getTemplates()
+            );
         }
 
         function _findPoem() {

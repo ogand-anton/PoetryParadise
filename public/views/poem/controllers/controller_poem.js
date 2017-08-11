@@ -8,6 +8,7 @@
             uid,
             poemId;
 
+        vm.addTranslation = addTranslation;
         vm.deletePoem = deletePoem;
         vm.savePoem = savePoem;
 
@@ -29,11 +30,15 @@
                 init();
             });
 
+        function addTranslation() {
+            $location.url("poem/" + poemId + "/translation");
+        }
+
         function deletePoem() {
             poemService
                 .deletePoem(poemId)
-                .then(function(){
-                   $location.url("profile");
+                .then(function () {
+                    $location.url("profile");
                 });
         }
 
@@ -53,13 +58,16 @@
         }
 
         function _fetchTemplates() {
-            vm.templates = sharedService.getTemplates();
+            vm.templates = Object.assign(
+                sharedService.getTemplates(),
+                poemService.getTemplates()
+            );
         }
 
         function _initHeaderFooter() {
             vm.navHeader = {
                 leftLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"},
-                name: "Edit Poem",
+                name: "Poem",
                 rightLink: {
                     clickCb: savePoem,
                     href: "javacript:void(0)",
@@ -76,6 +84,7 @@
                     .then(function (poem) {
                         poem.text = poem.lines.join("\n");
                         vm.poem = poem;
+                        vm.readOnlyFlag = poem.author && poem.author !== uid;
                     })
                     .catch(function (err) {
                         vm.successMsg = null;

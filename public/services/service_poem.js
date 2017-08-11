@@ -4,6 +4,10 @@
         .factory("poemService", poemService);
 
     function poemService($http) {
+        var templates = {
+            poem: "views/poem/templates/template_poem.html"
+        };
+
         return {
             deletePoem: deletePoem,
             favoritePoem: favoritePoem,
@@ -11,6 +15,7 @@
             findFavoritesByUser: findFavoritesByUser,
             findPoem: findPoem,
             findPoems: findPoems,
+            getTemplates: getTemplates,
             savePoem: savePoem,
             unFavoritePoem: unFavoritePoem
         };
@@ -72,6 +77,10 @@
             }).then(function (res) {
                 return res.data;
             });
+        }
+
+        function getTemplates() {
+            return templates;
         }
 
         function savePoem(poemId, poem) {

@@ -23,12 +23,12 @@
                 controllerAs: "model"
             })
             .when("/poem", {
-                templateUrl: "views/poem/templates/template_poem_edit.html",
+                templateUrl: "views/poem/templates/template_poem_landing.html",
                 controller: "poemEditController",
                 controllerAs: "model"
             })
             .when("/poem/:poemId", {
-                templateUrl: "views/poem/templates/template_poem_edit.html",
+                templateUrl: "views/poem/templates/template_poem_landing.html",
                 controller: "poemEditController",
                 controllerAs: "model"
             })
