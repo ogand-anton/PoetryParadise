@@ -10,8 +10,8 @@ module.exports = function (app, model) {
 
     function createTranslation(req, res) {
         var translation = req.body.translation;
-        translation.reviewer = req.user._id;
-        translation.poemId = req.poem._id;
+        translation.author = req.body.userId;
+        translation.originalPoem = req.body.poemId;
 
         translationModel
             .createTranslation(translation)
