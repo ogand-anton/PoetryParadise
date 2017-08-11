@@ -154,6 +154,10 @@
                 uid = $routeParams["uid"];
                 readOnlyFlag = true;
                 vm.uid = uid;
+
+                if (uid === authenticatedUid) {
+                    $location.url("profile");
+                }
             }
         }
     }
