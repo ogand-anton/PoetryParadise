@@ -3,7 +3,7 @@
         .module("pp")
         .controller("poemEditController", poemEditController);
 
-    function poemEditController($routeParams, $location, authService, poemService, sharedService) {
+    function poemEditController($routeParams, $location, authService, poemService, sharedService, translationService) {
         var vm = this,
             uid,
             poemId;
@@ -64,27 +64,15 @@
             );
         }
 
-        function _initHeaderFooter() {
-            vm.navHeader = {
-                leftLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"},
-                name: "Poem",
-                rightLink: {
-                    clickCb: savePoem,
-                    href: "javacript:void(0)",
-                    iconClass: "glyphicon-floppy-save",
-                    name: "Save"
-                }
-            };
-        }
-
-        function _loadContent() {
+        function _findPoem() {
             if (poemId) {
                 poemService
                     .findPoem(poemId)
                     .then(function (poem) {
                         poem.text = poem.lines.join("\n");
                         vm.poem = poem;
-                        vm.readOnlyFlag = poem.author && poem.author !== uid;
+                        vm.poemEditFlag = poem.author === uid;
+                        _initHeaderFooter();
                     })
                     .catch(function (err) {
                         vm.successMsg = null;
@@ -92,7 +80,38 @@
                     });
             } else {
                 vm.poem = {};
+                vm.translationEditFlag = true;
             }
+        }
+
+        function _findTranslations(){
+            if (poemId) {
+                translationService
+                    .findTranslations(undefined, poemId)
+                    .then(function(translations){
+                        vm.translations = translations;
+                    })
+            }
+        }
+
+        function _initHeaderFooter() {
+            vm.navHeader = {
+                leftLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"},
+                name: "Poem",
+                rightLink: vm.poemEditFlag ? {
+                    clickCb: savePoem,
+                    href: "javacript:void(0)",
+                    iconClass: "glyphicon-floppy-save",
+                    name: "Save"
+                } : undefined
+            };
+        }
+
+        function _loadContent() {
+            vm.maxLines = 5;
+
+            _findPoem();
+            _findTranslations();
         }
 
         function _parseRouteParams() {

@@ -5,23 +5,25 @@
 
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
 
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text"
-               class="form-control"
-               id="username"
-               placeholder="Username"
-               ng-model="user.username">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password"
-               class="form-control"
-               id="password"
-               placeholder="Password"
-               ng-model="user.password">
-    </div>
-    <a class="btn btn-success btn-block" ng-click="model.login(user)">Login</a>
+    <form>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text"
+                   class="form-control"
+                   id="username"
+                   placeholder="Username"
+                   ng-model="user.username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   placeholder="Password"
+                   ng-model="user.password">
+        </div>
+        <input type="submit" class="btn btn-success btn-block" ng-click="model.login(user)" value="Login"/>
+    </form>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

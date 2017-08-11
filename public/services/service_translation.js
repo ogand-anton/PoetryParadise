@@ -4,10 +4,15 @@
         .factory("translationService", translationService);
 
     function translationService($http) {
+        var templates = {
+            translation: "views/translation/templates/template_translation.html"
+        };
+
         return {
             deleteTranslation: deleteTranslation,
             findTranslation: findTranslation,
             findTranslations: findTranslations,
+            getTemplates: getTemplates,
             saveTranslation: saveTranslation
         };
 
@@ -39,6 +44,10 @@
             }).then(function (res) {
                 return res.data;
             });
+        }
+
+        function getTemplates() {
+            return templates;
         }
 
         function saveTranslation(translationId, translation, poemId) {

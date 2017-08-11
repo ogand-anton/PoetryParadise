@@ -34,7 +34,7 @@
             translationService
                 .deleteTranslation(translationId)
                 .then(function () {
-                    $location.url("#!/poem/" + poemId);
+                    $location.url("poem/" + poemId);
                 });
         }
 
@@ -56,7 +56,8 @@
         function _fetchTemplates() {
             vm.templates = Object.assign(
                 sharedService.getTemplates(),
-                poemService.getTemplates()
+                poemService.getTemplates(),
+                translationService.getTemplates()
             );
         }
 
@@ -80,6 +81,8 @@
                     .then(function (translation) {
                         translation.text = translation.lines.join("\n");
                         vm.translation = translation;
+                        vm.translationEditFlag = translation.author._id === uid;
+                        _initHeaderFooter();
                     })
                     .catch(function (err) {
                         vm.successMsg = null;
@@ -87,6 +90,7 @@
                     });
             } else {
                 vm.translation = {};
+                vm.translationEditFlag = true;
             }
         }
 
@@ -94,12 +98,12 @@
             vm.navHeader = {
                 leftLink: {href: "#!/poem/" + poemId, iconClass: "glyphicon-chevron-left", name: "Back to Poem"},
                 name: "Edit Translation",
-                rightLink: {
+                rightLink: vm.translationEditFlag ? {
                     clickCb: saveTranslation,
                     href: "javacript:void(0)",
                     iconClass: "glyphicon-floppy-save",
                     name: "Save"
-                }
+                } : undefined
             };
         }
 

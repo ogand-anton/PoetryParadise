@@ -1,0 +1,21 @@
+<!-- TODO bring out into separate template -->
+<div class="form-group">
+    <label for="translationTitle">Translated Title</label>
+    <input type="text"
+           id="translationTitle"
+           ng-model="model.translation.title"
+           class="form-control"
+           placeholder="Translated Title"
+           ng-readonly="!model.translationEditFlag"
+    />
+</div>
+<div class="form-group">
+    <label for="translationText">Translated Text</label>
+    <textarea id="translationText"
+              class="form-control"
+              ng-model="model.translation.text"
+              rows="{{model.poem.lines.length}}"
+              placeholder="Write translation here"
+              ng-readonly="!model.translationEditFlag"
+    >{{model.translation.text}}</textarea>
+</div>

@@ -7,7 +7,7 @@
         var vm = this,
             uid,
             authenticatedUid,
-            readOnlyFlag;
+            poemEditFlag;
 
         vm.followUser = followUser;
         vm.saveUser = saveUser;
@@ -135,7 +135,7 @@
             vm.navHeader = {
                 leftLink: {clickCb: logout, href: "javacript:void(0)", iconClass: "glyphicon-log-out", name: "Logout"},
                 name: "Profile",
-                rightLink: readOnlyFlag ? followNav : saveUserNav
+                rightLink: poemEditFlag ? followNav : saveUserNav
             };
         }
 
@@ -152,7 +152,7 @@
             // TODO: deal with either seeing your own account in read only mode doing something about it
             if ($routeParams["uid"]) {
                 uid = $routeParams["uid"];
-                readOnlyFlag = true;
+                poemEditFlag = true;
                 vm.uid = uid;
 
                 if (uid === authenticatedUid) {

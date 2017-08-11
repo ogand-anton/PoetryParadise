@@ -1,7 +1,7 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
         poemSchema = app.aoaRequire("models/poem/schema_poem")(),
-        poemModel = mongoose.model("poemModel", poemSchema, poemSchema.options.collection);
+        poemModel = mongoose.model("poem", poemSchema, poemSchema.options.collection);
 
     return Object.assign(poemModel, {
         createPoem: createPoem,

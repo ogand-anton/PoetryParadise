@@ -5,7 +5,7 @@
            class="form-control"
            placeholder="Title"
            ng-model="model.poem.title"
-           ng-readonly="model.readOnlyFlag"
+           ng-readonly="!model.poemEditFlag"
     />
 </div>
 <div class="form-group">
@@ -15,7 +15,7 @@
               class="form-control"
               ng-model="model.poem.text"
               placeholder="Write poem here"
-              rows="{{model.readonlyFlag ? model.poem.lines.length : 15}}"
-              ng-readonly="model.readOnlyFlag"
+              rows="{{!model.poemEditFlag ? model.poem.lines.length : 15}}"
+              ng-readonly="!model.poemEditFlag"
     >{{model.poem.text}}</textarea>
 </div>

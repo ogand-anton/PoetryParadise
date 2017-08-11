@@ -1,7 +1,7 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
         userSchema = app.aoaRequire("models/user/schema_user.js")(app),
-        userModel = mongoose.model("userModel", userSchema, userSchema.options.collection);
+        userModel = mongoose.model("user", userSchema, userSchema.options.collection);
 
     return Object.assign(userModel, {
         createUser: createUser,

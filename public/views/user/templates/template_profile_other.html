@@ -48,7 +48,7 @@
                 <div ng-repeat="line in poem.lines | limitTo: model.maxLines track by $index">{{line}}</div>
                 <div ng-if="poem.lines.length > model.maxLines">...</div>
                 <div>{{poem.lines.length}}</div>
-                <a ng-if="model.maxLines" href="#!/poem/{{poem._id}}">View Full Poem</a>
+                <a ng-if="model.maxLines" href="#!/poem/{{poem._id}}">Go to Poem</a>
                 <br/>
             </li>
         </ul>

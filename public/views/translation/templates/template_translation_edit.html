@@ -1,32 +1,20 @@
 <div ng-include="model.templates.navHeader"></div>
 
-<div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
-<div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
+<div class="container-fluid">
+    <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
+    <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
 
-<div class="container-fluid col-xs-12 col-sm-6">
-    <div ng-include="model.templates.poem"></div>
-</div>
-
-<div class="container-fluid col-xs-12 col-sm-6">
-    <!-- TODO bring out into separate template -->
-    <div class="form-group">
-        <label for="translationTitle">Translated Title</label>
-        <input type="text"
-               id="translationTitle"
-               ng-model="model.translation.title"
-               class="form-control"
-               placeholder="Translated Title"/>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div ng-include="model.templates.poem"></div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div ng-include="model.templates.translation"></div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="translationText">Translated Text</label>
-        <textarea id="translationText"
-                  class="form-control"
-                  ng-model="model.translation.text"
-                  rows="{{model.translation.text + 15}}"
-                  placeholder="Write translation here">{{model.translation.text}}</textarea>
-    </div>
-
-    <a class="btn btn-danger btn-block" ng-click="model.deleteTranslation()">Delete Translation</a>
+    <a ng-if="model.translationEditFlag"
+       class="btn btn-danger btn-block"
+       ng-click="model.deleteTranslation()">Delete Translation</a>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>
