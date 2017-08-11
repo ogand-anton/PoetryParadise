@@ -1,6 +1,6 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
-        translationSchema = app.aoaRequire("models/translation/schema_translation")(),
+        translationSchema = app.aoaRequire("models/poem/schema_translation")(),
         translationModel = mongoose.model("translationModel", translationSchema, translationSchema.options.collection);
 
     return Object.assign(translationModel, {
