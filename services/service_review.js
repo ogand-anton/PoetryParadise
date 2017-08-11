@@ -1,12 +1,11 @@
 module.exports = function (app, model) {
-    var mongoose = require("mongoose"),
-        reviewModel = model.reviewModel;
+    var reviewModel = model.reviewModel;
 
     app.get("/api/poem/reviews", findAllReviews);
     app.get("/api/poem/review", findReviewById);
     app.post("/api/poem/review", createReview);
     app.put("/api/poem/review", updateReview);
-    app.delete("/api/poem/review", deleteReview());
+    app.delete("/api/poem/review", deleteReview);
 
     function createReview(req, res) {
         var review = req.body.review;
@@ -77,5 +76,8 @@ module.exports = function (app, model) {
 
     }
 
+    function updateReview() {
+
+    }
 
 };

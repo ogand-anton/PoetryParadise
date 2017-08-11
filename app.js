@@ -26,6 +26,7 @@ app.aoaRequire("db/db.js")();
 var model = app.aoaRequire("models/model.js")(app);
 app.aoaRequire("services/service_auth.js")(app, model);
 app.aoaRequire("services/service_poem.js")(app, model);
+app.aoaRequire("services/service_review.js")(app, model);
 app.aoaRequire("services/service_search_pdb.js")(app);
 app.aoaRequire("services/service_translation.js")(app, model);
 app.aoaRequire("services/service_user.js")(app, model);
