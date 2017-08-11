@@ -3,7 +3,6 @@ module.exports = function (app, model) {
         reviewModel = model.reviewModel;
 
     app.get("/api/poem/reviews", findAllReviews);
-    // app.get("/api/poem/reviews", findAllReviewsByReviewer);
     app.get("/api/poem/review", findReviewById);
     app.post("/api/poem/review", createReview);
     app.put("/api/poem/review", updateReview);
@@ -11,7 +10,8 @@ module.exports = function (app, model) {
 
     function createReview(req, res) {
         var review = req.body.review;
-        review._userId = req.user._id;
+        review._userId = req.body.userId;
+        review._poemId = req.body.poemId;
         reviewModel
             .createReview(review)
             .then(function (review) {
