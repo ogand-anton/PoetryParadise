@@ -8,6 +8,7 @@
   "dependencies": {
     "angular": "^1.6.5",
     "angular-route": "^1.6.5",
+    "bcrypt-nodejs": "0.0.3",
     "bootstrap": "^3.3.7",
     "cookie-parser": "^1.4.3",
     "express": "~4.15.2",

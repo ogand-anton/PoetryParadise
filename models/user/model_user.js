@@ -1,5 +1,6 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
+        bcrypt = require("bcrypt-nodejs"),
         userSchema = app.aoaRequire("models/user/schema_user.js")(app),
         userModel = mongoose.model("user", userSchema, userSchema.options.collection);
 
@@ -14,6 +15,7 @@ module.exports = function (app) {
     });
 
     function createUser(user) {
+        user.password = bcrypt.hashSync(user.password);
         return userModel.create(user);
     }
 
@@ -22,7 +24,24 @@ module.exports = function (app) {
     }
 
     function findUserByCredentials(username, password) {
-        return userModel.findOne({username: username, password: password});
+        return userModel.findOne({username: username}, function (err, user) {
+            if (err) return err;
+
+            try {
+                if (bcrypt.compareSync(password, user.password)){
+                    return user;
+                }
+            }
+            catch(ex) {
+                if (ex === "Not a valid BCrypt hash.") {
+                    if (password === user.password) {
+                        return user; // TODO hack temporarily supporting existing users
+                    }
+                } else {
+                    return undefined;
+                }
+            }
+        });
     }
 
     function findUserById(userId) {
@@ -33,11 +52,15 @@ module.exports = function (app) {
         return userModel.findOne({username: username});
     }
 
-    function findUsers(userIds){
+    function findUsers(userIds) {
         return userModel.find({_id: {$in: userIds}});
     }
 
     function updateUser(userId, user) {
+        if (user.password === "alice" || user.password === "bob") {
+            user.password = bcrypt.hashSync(user.password); // TODO hack temporarily supporting existing users
+        }
+
         return userModel.update({_id: userId}, {$set: user});
     }
 };
