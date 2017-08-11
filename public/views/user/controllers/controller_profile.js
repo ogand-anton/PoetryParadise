@@ -15,7 +15,7 @@
         vm.unFavoritePoem = unFavoritePoem;
         vm.unFollowUser = unFollowUser;
 
-        // TODO make this delayed load prettier
+        // TODO make this delayed load prettier and put it back into config.js
         function init() {
             _parseRouteParams();
             _fetchTemplates();
@@ -25,26 +25,26 @@
 
         authService
             .authenticate()
-            .then(function(user){
+            .then(function (user) {
                 if (user) {
                     authenticatedUid = user._id;
                     uid = authenticatedUid;
+                    init();
                 } else {
                     $location.url("login"); // todo move to service
                 }
-                init();
             });
 
         function followUser() {
             // TODO prevent following (a) yourself and (b) someone else multiple times
             userService
                 .followUser(authenticatedUid, uid)
-                .then(function(){
+                .then(function () {
                     _findFollowers();
                 });
         }
 
-        function logout(){
+        function logout() {
             authService.logout();
         }
 
@@ -68,8 +68,8 @@
         function unFollowUser(followerId) {
             userService
                 .unFollowUser(authenticatedUid, followerId)
-                .then(function() {
-                   _findFollowers();
+                .then(function () {
+                    _findFollowers();
                 });
         }
 
@@ -89,8 +89,8 @@
             if (uid !== authenticatedUid) { // read only profile
                 userService
                     .findUserFollowers(uid)
-                    .then(function(followers){
-                       vm.followers = followers;
+                    .then(function (followers) {
+                        vm.followers = followers;
                     });
             } else { // your actual profile
                 userService
@@ -99,6 +99,23 @@
                         vm.followers = followers;
                     });
             }
+        }
+
+        function _findPoems() {
+            poemService
+                .findPoems(uid !== authenticatedUid ? uid : undefined)
+                .then(function (poems) {
+                    vm.poems = poems;
+                });
+        }
+
+        function _findUser(){
+            userService
+                .findUserById(uid)
+                .then(function (res) {
+                    vm.errorMsg = res.msg;
+                    vm.profile = res.user;
+                });
         }
 
         function _initHeaderFooter() {
@@ -123,15 +140,12 @@
         }
 
         function _loadContent() {
-            userService
-                .findUserById(uid)
-                .then(function (res) {
-                    vm.errorMsg = res.msg;
-                    vm.profile = res.user;
-                });
+            vm.maxLines = 3;
 
+            _findUser();
             _findFavoritesByUser();
             _findFollowers();
+            _findPoems();
         }
 
         function _parseRouteParams() {

@@ -9,6 +9,7 @@
             findFavoriteUsers: findFavoriteUsers,
             findFavoritesByUser: findFavoritesByUser,
             findPoem: findPoem,
+            findPoems: findPoems,
             savePoem: savePoem,
             unFavoritePoem: unFavoritePoem
         };
@@ -48,6 +49,16 @@
                 .then(function (res) {
                     return res.data;
                 });
+        }
+
+        function findPoems(userId) {
+            return $http({
+                url: "/api/poems",
+                method: "GET",
+                params: userId ? {userId: userId} : undefined
+            }).then(function (res) {
+                return res.data;
+            });
         }
 
         function savePoem(poemId, poem) {
