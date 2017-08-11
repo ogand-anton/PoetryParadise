@@ -5,6 +5,31 @@
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
     <div ng-include="model.templates.poem"></div>
 
+    <div ng-if="model.poemEditFlag">
+        <label>Reviews</label>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="review in model.reviews">
+                <a href="#!/profile/{{review.reviewer._id}}">
+                    <i>{{review.reviewer.username}}</i>
+                </a>
+                <br/>
+                <p ng-if="review.text">{{review.text}}</p>
+                <i ng-if="!review.text">Review Pending...</i>
+            </li>
+        </ul>
+        <br/>
+        <label>Request a Review:</label>
+        <!-- TODO need generic user list template to use here and in profile -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="follower in model.followers">
+                <div class="container-fluid aoa-padding-lr-none">
+                    <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
+                    <a class="btn btn-warning pull-right" ng-click="model.requestReview(follower._id)">Request Review</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
     <div ng-if="model.poem._id">
         <label>Translations</label>
         <!-- TODO bring out into separate template -->

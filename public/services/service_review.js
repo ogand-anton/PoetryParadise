@@ -18,7 +18,7 @@
 
         function deleteReview(reviewId) {
             return $http({
-                url: "/api/poem/review",
+                url: "/api/review",
                 method: "DELETE",
                 params: {reviewId: reviewId}
             }).then(function (res) {
@@ -28,7 +28,7 @@
 
         function findReview(reviewId) {
             return $http({
-                url: "/api/poem/review",
+                url: "/api/review",
                 method: "GET",
                 params: {reviewId: reviewId}
             }).then(function (res) {
@@ -38,7 +38,7 @@
 
         function findReviews(userId, poemId) {
             return $http({
-                url: "/api/poem/reviews",
+                url: "/api/reviews",
                 method: "GET",
                 params: userId ? {userId: userId} : {poemId: poemId}
             }).then(function (res) {
@@ -53,13 +53,13 @@
         function saveReview(reviewId, review, poemId) {
             if (reviewId) {
                 return $http
-                    .put("/api/poem/review", {reviewId: reviewId, review: review})
+                    .put("/api/review", {reviewId: reviewId, review: review})
                     .then(function (res) {
                         return res.data;
                     });
             } else {
                 return $http
-                    .post("/api/poem/review", {review: review, poemId: poemId})
+                    .post("/api/review", {review: review, poemId: poemId})
                     .then(function (res) {
                         return res.data;
                     });

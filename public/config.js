@@ -32,13 +32,18 @@
                 controller: "poemEditController",
                 controllerAs: "model"
             })
+            .when("/poem/:poemId/review/:reviewId", {
+                templateUrl: "views/review/templates/template_review_landing.html",
+                controller: "translationEditController",
+                controllerAs: "model"
+            })
             .when("/poem/:poemId/translation", {
-                templateUrl: "views/translation/templates/template_translation_edit.html",
+                templateUrl: "views/translation/templates/template_translation_landing.html",
                 controller: "translationEditController",
                 controllerAs: "model"
             })
             .when("/poem/:poemId/translation/:translationId", {
-                templateUrl: "views/translation/templates/template_translation_edit.html",
+                templateUrl: "views/translation/templates/template_translation_landing.html",
                 controller: "translationEditController",
                 controllerAs: "model"
             })

@@ -1,16 +1,15 @@
 module.exports = function (app, model) {
     var reviewModel = model.reviewModel;
 
-    app.delete("/api/poem/review", deleteReview);
-    app.get("/api/poem/reviews", findReviews);
-    app.get("/api/poem/review", findReviewById);
-    app.post("/api/poem/review", createReview);
-    app.put("/api/poem/review", updateReview);
+    app.delete("/api/review", deleteReview);
+    app.get("/api/reviews", findReviews);
+    app.get("/api/review", findReviewById);
+    app.post("/api/review", createReview);
+    app.put("/api/review", updateReview);
 
     function createReview(req, res) {
         var review = req.body.review;
         review._poemId = req.body.poemId;
-        review._userId = req.user._id;
 
         reviewModel
             .createReview(review)

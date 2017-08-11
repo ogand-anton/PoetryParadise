@@ -29,6 +29,7 @@ module.exports = function (app) {
     function findReviewsForPoem(poemId) {
         return reviewModel
             .find({_poemId: poemId})
+            .populate("reviewer");
     }
 
     function findReviewById(reviewId) {

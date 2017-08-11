@@ -3,7 +3,8 @@
         .module("pp")
         .controller("poemEditController", poemEditController);
 
-    function poemEditController($routeParams, $location, authService, poemService, sharedService, translationService) {
+    function poemEditController($routeParams, $location,
+                                authService, poemService, reviewService, sharedService, translationService, userService) {
         var vm = this,
             authenticatedUser,
             uid,
@@ -11,6 +12,7 @@
 
         vm.addTranslation = addTranslation;
         vm.deletePoem = deletePoem;
+        vm.requestReview = requestReview;
         vm.savePoem = savePoem;
 
         function init() {
@@ -44,6 +46,21 @@
                 });
         }
 
+        function requestReview(userId) {
+            reviewService
+                .saveReview(undefined, {reviewer: userId}, poemId)
+                .then(function () {
+                    vm.successMsg = "Review Requested";
+                    vm.errorMsg = undefined;
+
+                    _findReviews();
+                })
+                .catch(function (res) {
+                    vm.successMsg = null;
+                    vm.errorMsg = res;
+                });
+        }
+
         function savePoem() {
             vm.poem.lines = vm.poem.text ? vm.poem.text.split("\n") : [];
 
@@ -66,6 +83,16 @@
             );
         }
 
+        function _findFollowers() {
+            if (uid === authenticatedUser._id) {
+                userService
+                    .findFollowers(uid)
+                    .then(function (followers) {
+                        vm.followers = followers;
+                    });
+            }
+        }
+
         function _findPoem() {
             if (poemId) {
                 poemService
@@ -86,11 +113,21 @@
             }
         }
 
-        function _findTranslations(){
+        function _findReviews() {
+            if (uid === authenticatedUser._id) {
+                reviewService
+                    .findReviews(undefined, poemId)
+                    .then(function(reviews){
+                        vm.reviews = reviews;
+                    })
+            }
+        }
+
+        function _findTranslations() {
             if (poemId) {
                 translationService
                     .findTranslations(undefined, poemId)
-                    .then(function(translations){
+                    .then(function (translations) {
                         vm.translations = translations;
                     })
             }
@@ -113,6 +150,8 @@
             vm.maxLines = 5;
 
             _findPoem();
+            _findFollowers();
+            _findReviews();
             _findTranslations();
         }
 

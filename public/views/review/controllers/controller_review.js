@@ -1,17 +1,17 @@
 (function () {
     angular
         .module("pp")
-        .controller("translationEditController", translationEditController);
+        .controller("reviewEditController", reviewEditController);
 
-    function translationEditController($routeParams, $location, authService, poemService, sharedService, translationService) {
+    function reviewEditController($routeParams, $location, authService, poemService, sharedService, reviewService) {
         var vm = this,
             authenticatedUser,
             uid,
             poemId,
-            translationId;
+            reviewId;
 
-        vm.deleteTranslation = deleteTranslation;
-        vm.saveTranslation = saveTranslation;
+        vm.deleteReview = deleteReview;
+        vm.saveReview = saveReview;
 
         function init() {
             _parseRouteParams();
@@ -32,19 +32,17 @@
                 init();
             });
 
-        function deleteTranslation() {
-            translationService
-                .deleteTranslation(translationId)
+        function deleteReview() {
+            reviewService
+                .deleteReview(reviewId)
                 .then(function () {
                     $location.url("poem/" + poemId);
                 });
         }
 
-        function saveTranslation() {
-            vm.translation.lines = vm.translation.text ? vm.translation.text.split("\n") : [];
-
-            translationService
-                .saveTranslation(translationId, vm.translation, poemId)
+        function saveReview() {
+            reviewService
+                .saveReview(reviewId, vm.review, poemId)
                 .then(function () {
                     vm.successMsg = "Success";
                     vm.errorMsg = undefined;
@@ -59,7 +57,7 @@
             vm.templates = Object.assign(
                 sharedService.getTemplates(),
                 poemService.getTemplates(),
-                translationService.getTemplates()
+                reviewService.getTemplates()
             );
         }
 
@@ -67,7 +65,7 @@
             poemService
                 .findPoem(poemId)
                 .then(function (poem) {
-                    poem.text = poem.lines.join("\n");
+                    poem.text = poem.lines.join("\n"); // TODO this splitting belongs in the service or server
                     vm.poem = poem;
                 })
                 .catch(function (err) {
@@ -76,14 +74,13 @@
                 });
         }
 
-        function _findTranslation() {
-            if (translationId) {
-                translationService
-                    .findTranslation(translationId)
-                    .then(function (translation) {
-                        translation.text = translation.lines.join("\n");
-                        vm.translation = translation;
-                        vm.translationEditFlag = translation.author._id === uid;
+        function _findReview() {
+            if (reviewId) {
+                reviewService
+                    .findReview(reviewId)
+                    .then(function (review) {
+                        vm.review = review;
+                        vm.reviewEditFlag = review.reviewer._id === uid;
                         _initHeaderFooter();
                     })
                     .catch(function (err) {
@@ -91,17 +88,17 @@
                         vm.errorMsg = err;
                     });
             } else {
-                vm.translation = {author: authenticatedUser};
-                vm.translationEditFlag = true;
+                vm.review = {reviewer: authenticatedUser};
+                vm.reviewEditFlag = true;
             }
         }
 
         function _initHeaderFooter() {
             vm.navHeader = {
                 leftLink: {href: "#!/poem/" + poemId, iconClass: "glyphicon-chevron-left", name: "To Poem"},
-                name: "Translation",
-                rightLink: vm.translationEditFlag === undefined || vm.translationEditFlag ? {
-                    clickCb: saveTranslation,
+                name: "Review",
+                rightLink: vm.reviewEditFlag === undefined || vm.reviewEditFlag ? {
+                    clickCb: saveReview,
                     href: "javacript:void(0)",
                     iconClass: "glyphicon-floppy-save",
                     name: "Save"
@@ -111,13 +108,13 @@
 
         function _loadContent() {
             _findPoem();
-            _findTranslation();
+            _findReview();
         }
 
         function _parseRouteParams() {
             poemId = $routeParams["poemId"];
-            if ($routeParams["translationId"]) {
-                translationId = $routeParams["translationId"];
+            if ($routeParams["reviewId"]) { // TODO are these checks necessary?
+                reviewId = $routeParams["reviewId"];
             }
         }
     }
