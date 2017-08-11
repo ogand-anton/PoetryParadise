@@ -1,6 +1,6 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
-        reviewSchema = app.aoaRequire("models/poem/schema_review")(),
+        reviewSchema = app.aoaRequire("models/review/schema_review")(),
         reviewModel = mongoose.model("reviewModel", reviewSchema, reviewSchema.options.collection);
 
     return Object.assign(reviewModel, {
