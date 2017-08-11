@@ -11,6 +11,7 @@ module.exports = function (app, model) {
     app.get("/api/authenticated", authenticated);
     app.post("/api/login", passport.authenticate("local"), login);
     app.post("/api/logout", logout);
+    app.post("/api/register", registerUser);
 
     function authenticated(req, res) {
         res.json(req.isAuthenticated() ? req.user : "0");
@@ -23,6 +24,49 @@ module.exports = function (app, model) {
     function logout(req, res) {
         req.logOut(); // req.logOut() is a passport method
         res.sendStatus(200);
+    }
+
+    function registerUser(req, res) {
+        var newUser = {
+                username: req.query.username,
+                password: req.query.password,
+                emailAddress: req.query.emailAddress
+            },
+            passwordVerified = req.query.verifyPassword;
+
+        if (!(newUser.username && newUser.password)) {
+            res.json({msg: "User must have a username and a password"});
+        } else if (newUser.password !== passwordVerified) {
+            res.json({msg: "Passwords do not match"});
+        } else {
+            userModel
+                .findUserByUsername(newUser.username)
+                .then(function (user) {
+                    if (user) {
+                        res.json({msg: "Username taken"});
+                        return user;
+                    }
+                })
+                .then(function (user) {
+                    if (user) {
+                        return user;
+                    }
+
+                    userModel
+                        .createUser(newUser)
+                        .then(function (user) {
+                            if (user) {
+                                req.login(user, function (err) {
+                                    if (err) {
+                                        res.status(400).send(err);
+                                    } else {
+                                        res.json(user);
+                                    }
+                                });
+                            }
+                        });
+                })
+        }
     }
 
     // PASSPORT

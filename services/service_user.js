@@ -11,41 +11,10 @@ module.exports = function (app, model) {
     app.get("/api/user/followers", findFollowers);
     app.get("/api/user/:userId", findUserById);
     app.get("/api/user/:userId/followers", findUserFollowers);
-    
-    app.post("/api/user", createUser);
-    // app.post("/api/register", register); //TODO implement register method
+
     app.post("/api/user/follow", followUser);
-    
+
     app.put("/api/user/:userId", updateUser);
-
-    function createUser(req, res) {
-        var newUser = {
-                username: req.query.username,
-                password: req.query.password,
-                emailAddress: req.query.emailAddress
-            },
-            passwordVerified = req.query.verifyPassword;
-
-        if (!(newUser.username && newUser.password)) {
-            res.json({msg: "User must have a username and a password"});
-        } else if (newUser.password !== passwordVerified) {
-            res.json({msg: "Passwords do not match"});
-        } else {
-            userModel
-                .findUserByUsername(newUser.username)
-                .then(
-                    function (user) {
-                        if (user) {
-                            res.json({msg: "Username taken"});
-                        } else {
-                            userModel
-                                .createUser(newUser)
-                                .then(_genSuccessCb(res), _genErrorCb(res));
-                        }
-                    }
-                )
-        }
-    }
 
     function deleteUser(req, res) {
         var userId = req.param.userId;
@@ -120,7 +89,7 @@ module.exports = function (app, model) {
             });
     }
 
-    function followUser(req, res){
+    function followUser(req, res) {
         var userId = req.query.userId,
             followerId = req.query.followerId;
 
