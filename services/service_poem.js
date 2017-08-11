@@ -31,17 +31,24 @@ module.exports = function (app, model) {
 
     function findAllPoemsByUser(req, res) {
         var userId = req.query.userId;
-        if(poemId) {
+        if(userId) {
             poemModel
                 .findAllPoemsByAuthor(userId)
                 .then(function (poems) {
                     res.json(poems);
                 }, function () {
-                    res.sendStatus(404).send("could not find poems by this author")
+                    res.status(404).send("could not find poems by this author")
                 })
-        }
-        else {
-            res.sendStatus(404).send("userId not defined");
+        } else if (req.user && req.user._id) {
+            poemModel
+                .findAllPoemsByAuthor(req.user._id)
+                .then(function (poems) {
+                    res.json(poems);
+                }, function () {
+                    res.status(404).send("could not find poems by this author")
+                })
+        } else {
+            res.status(404);
         }
     }
 

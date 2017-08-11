@@ -9,7 +9,7 @@
         <input type="text" id="title" ng-model="model.poem.title" class="form-control" placeholder="Title"/>
     </div>
     <!-- TODO implement elastic library -->
-    <textarea class="form-control" ng-model="model.poem.text" rows="15" placeholder="Write poem here"></textarea>
+    <textarea class="form-control" ng-model="model.poem.text" rows="15" placeholder="Write poem here">{{model.poem.text}}</textarea>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>
