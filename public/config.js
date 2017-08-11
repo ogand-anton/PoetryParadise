@@ -12,16 +12,6 @@
                 controller: "homeController",
                 controllerAs: "model"
             })
-            .when("/edit", {
-                templateUrl: "views/poem/templates/template_poem_edit.html",
-                controller: "poemEditController",
-                controllerAs: "model"
-            })
-            .when("/edit/:poemId", {
-                templateUrl: "views/poem/templates/template_poem_edit.html",
-                controller: "poemEditController",
-                controllerAs: "model"
-            })
             .when("/login", {
                 templateUrl: "views/user/templates/template_login.html",
                 controller: "loginController",
@@ -30,6 +20,26 @@
             .when("/register", {
                 templateUrl: "views/user/templates/template_register.html",
                 controller: "registerController",
+                controllerAs: "model"
+            })
+            .when("/poem", {
+                templateUrl: "views/poem/templates/template_poem_edit.html",
+                controller: "poemEditController",
+                controllerAs: "model"
+            })
+            .when("/poem/:poemId", {
+                templateUrl: "views/poem/templates/template_poem_edit.html",
+                controller: "poemEditController",
+                controllerAs: "model"
+            })
+            .when("/poem/:poemId/translation", {
+                templateUrl: "views/translation/templates/template_translation_edit.html",
+                controller: "translationEditController",
+                controllerAs: "model"
+            })
+            .when("/poem/:poemId/translation/:translationId", {
+                templateUrl: "views/translation/templates/template_translation_edit.html",
+                controller: "translationEditController",
                 controllerAs: "model"
             })
             .when("/profile", {

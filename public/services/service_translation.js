@@ -32,26 +32,16 @@
         }
 
         function findTranslations(userId, poemId) {
-            if(userId) {
-                return $http({
-                    url: "/api/translations",
-                    method: "GET",
-                    params: userId ? {userId: userId} : undefined
-                }).then(function (res) {
-                    return res.data;
-                });
-            } else {
-                return $http({
-                    url: "/api/translations",
-                    method: "GET",
-                    params: poemId ? {poemId: poemId} : undefined
-                }).then(function (res) {
-                    return res.data;
-                });
-            }
+            return $http({
+                url: "/api/translations",
+                method: "GET",
+                params: userId ? {userId: userId} : {poemId: poemId}
+            }).then(function (res) {
+                return res.data;
+            });
         }
 
-        function saveTranslation(translationId, translation, userId, poemId) {
+        function saveTranslation(translationId, translation, poemId) {
             if (translationId) {
                 return $http
                     .put("/api/translation", {translationId: translationId, translation: translation})
@@ -60,7 +50,7 @@
                     });
             } else {
                 return $http
-                    .post("/api/translation", {translation: translation, userId: userId, poemId: poemId})
+                    .post("/api/translation", {translation: translation, poemId: poemId})
                     .then(function (res) {
                         return res.data;
                     });

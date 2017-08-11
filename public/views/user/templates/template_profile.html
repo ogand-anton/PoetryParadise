@@ -77,14 +77,14 @@
                 <div ng-repeat="line in poem.lines | limitTo: model.maxLines track by $index">{{line}}</div>
                 <div ng-if="poem.lines.length > model.maxLines">...</div>
                 <div>{{poem.lines.length}}</div>
-                <a ng-if="model.maxLines" href="#!/edit/{{poem._id}}">Edit poem</a>
+                <a ng-if="model.maxLines" href="#!/poem/{{poem._id}}">Edit poem</a>
                 <br/>
             </li>
         </ul>
     </div>
 
     <a class="btn btn-warning btn-block" href="#!/search">To Search Page</a>
-    <a class="btn btn-success btn-block" href="#!/edit">Pen New Poem</a>
+    <a class="btn btn-success btn-block" href="#!/poem">Pen New Poem</a>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

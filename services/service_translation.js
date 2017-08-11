@@ -1,6 +1,5 @@
 module.exports = function (app, model) {
-    var mongoose = require("mongoose"),
-        translationModel = model.translationModel;
+    var translationModel = model.translationModel;
 
     app.delete("/api/translation", deleteTranslation);
     app.get("/api/translation", findTranslationById);
@@ -10,8 +9,8 @@ module.exports = function (app, model) {
 
     function createTranslation(req, res) {
         var translation = req.body.translation;
-        translation.author = req.body.userId;
         translation.originalPoem = req.body.poemId;
+        translation.author = req.user && req.user._id;
 
         translationModel
             .createTranslation(translation)
@@ -36,6 +35,7 @@ module.exports = function (app, model) {
 
     function findTranslationById(req, res) {
         var translationId = req.query.translationId;
+
         if (translationId) {
             translationModel
                 .findTranslationById(translationId)
@@ -51,28 +51,25 @@ module.exports = function (app, model) {
     }
 
     function findTranslations(req, res) {
-        var userId = req.query.userId;
-        var poemId = req.query.poemId;
-        if (userId) {
-            translationModel
-                .findAllTranslationsByAuthor(userId)
-                .then(function (translations) {
-                    res.json(translations);
-                }, function () {
-                    res.status(404).send("Could not find translations by this author")
-                })
-        }
+        var userId = req.query.userId,
+            poemId = req.query.poemId;
+
         if (poemId) {
             translationModel
-                .findAllTranslationsForPoem(poemId)
+                .findTranslationsForPoem(poemId)
                 .then(function (translations) {
                     res.json(translations);
                 }, function () {
                     res.status(404).send("Could not find translations for this poem")
                 })
-        }
-        else {
-            res.status(404);
+        } else {
+            translationModel
+                .findTranslationsByAuthor(userId || req.user._id)
+                .then(function (translations) {
+                    res.json(translations);
+                }, function () {
+                    res.status(404).send("Could not find translations by this author")
+                })
         }
     }
 
@@ -88,6 +85,4 @@ module.exports = function (app, model) {
                 res.status(501).send("Unable to update translation");
             });
     }
-
-
 };

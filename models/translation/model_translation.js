@@ -5,11 +5,11 @@ module.exports = function (app) {
 
     return Object.assign(translationModel, {
         createTranslation: createTranslation,
-        findAllTranslationsByAuthor: findAllTranslationsByAuthor,
-        findAllTranslationsForPoem: findAllTranslationsForPoem,
+        deleteTranslation: deleteTranslation,
+        findTranslationsByAuthor: findTranslationsByAuthor,
+        findTranslationsForPoem: findTranslationsForPoem,
         findTranslationById: findTranslationById,
-        updateTranslation: updateTranslation,
-        deleteTranslation: deleteTranslation
+        updateTranslation: updateTranslation
     });
 
     function createTranslation(translation) {
@@ -20,18 +20,18 @@ module.exports = function (app) {
         return translationModel.remove({_id: translationId});
     }
 
-    function findTranslationById(translationId) {
-        return translationModel.findById(translationId);
-    }
-
-    function findAllTranslationsByAuthor(authorId) {
+    function findTranslationsByAuthor(authorId) {
         return translationModel
             .find({author: authorId});
         // .populate('name')
         // .exec();
     }
 
-    function findAllTranslationsForPoem(poemId) {
+    function findTranslationById(translationId) {
+        return translationModel.findById(translationId);
+    }
+
+    function findTranslationsForPoem(poemId) {
         return translationModel.find({originalPoem: poemId});
     }
 

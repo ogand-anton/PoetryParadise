@@ -11,7 +11,11 @@
     <!-- TODO implement elastic library -->
     <div class="form-group">
         <label for="text">Text</label>
-        <textarea id="text" class="form-control" ng-model="model.poem.text" rows="15" placeholder="Write poem here">{{model.poem.text}}</textarea>
+        <textarea id="text"
+                  class="form-control"
+                  ng-model="model.poem.text"
+                  rows="{{model.poem.lines.length + 15}}"
+                  placeholder="Write poem here">{{model.poem.text}}</textarea>
     </div>
 
     <a class="btn btn-danger btn-block" ng-click="model.deletePoem()">Delete Poem</a>
