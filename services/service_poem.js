@@ -112,7 +112,7 @@ module.exports = function (app, model) {
         else {
             poem.author = req.user._id;
             poemModel
-                .handlePoem(poem)
+                .createPoem(poem)
                 .then(function (poem) {
                     res.json(poem);
                 }, function () {
