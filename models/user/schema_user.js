@@ -8,6 +8,10 @@ module.exports = function () {
         lastName: {type: String},
         emailAddress: {type: String},
         phone: {type: String},
+        google: {
+            id: {type: String},
+            token: {type: String}
+        },
         dateCreated: {type: Date, required: true, default: Date.now}
     }, {collection: "user"});
 };

@@ -1,15 +1,28 @@
 module.exports = function (app, model) {
+    var googleConfig = {
+        clientID: process.env.GOOGLE_CLIENTID,
+        clientSecret: process.env.GOOGLE_CLIENTSECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL
+    };
+
     var passport = require("passport"),
-        LocalStrategy = require("passport-local").Strategy;
+        LocalStrategy = require("passport-local").Strategy,
+        GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
     var userModel = model.userModel;
 
     passport.use(new LocalStrategy(_localStrategy));
+    passport.use(new GoogleStrategy(googleConfig, _googleStrategy));
     passport.serializeUser(_serializeUser);
     passport.deserializeUser(_deserializeUser);
 
     app.get("/api/authenticated", authenticated);
+    app.get("/api/login/google/callback", passport.authenticate("google", {
+        successRedirect: "/#/profile",
+        failureRedirect: "/#/login"
+    }));
     app.post("/api/login", passport.authenticate("local"), login);
+    app.post("/api/login/google", passport.authenticate("google", {scope: ["profile", "email"]}), login);
     app.post("/api/logout", logout);
     app.post("/api/register", registerUser);
 
@@ -86,6 +99,43 @@ module.exports = function (app, model) {
     // PASSPORT
     function _serializeUser(user, done) {
         done(null, user);
+    }
+
+    function _googleStrategy(token, refreshToken, profile, done) {
+        userModel
+            .findUserByGoogleId(profile.id)
+            .then(
+                function (user) {
+                    if (user) {
+                        return done(null, user);
+                    } else {
+                        var email = profile.emails[0].value;
+                        var emailParts = email.split("@");
+                        var newGoogleUser = {
+                            username: emailParts[0],
+                            firstName: profile.name.givenName,
+                            lastName: profile.name.familyName,
+                            emailAddress: email,
+                            google: {
+                                id: profile.id,
+                                token: token
+                            }
+                        };
+                        return userModel.createUser(newGoogleUser);
+                    }
+                },
+                function (err) {
+                    if (err) { return done(err); }
+                }
+            )
+            .then(
+                function (user) {
+                    return done(null, user);
+                },
+                function (err) {
+                    if (err) { return done(err); }
+                }
+            );
     }
 
     // PASSPORT: authenticate a new session

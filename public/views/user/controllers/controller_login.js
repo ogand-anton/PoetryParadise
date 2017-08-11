@@ -7,12 +7,15 @@
         var vm = this;
 
         vm.login = login;
+        vm.loginGoogle = loginGoogle;
 
         (function init() {
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
         })();
+
+
 
         function login(user) {
             authService
@@ -25,7 +28,23 @@
                         userService.navToProfile();
                     }
                 })
-                .catch(function(err){
+                .catch(function (err) {
+                    vm.errorMsg = err.statusText;
+                });
+        }
+
+        function loginGoogle(user) {
+            authService
+                .loginGoogle(user)
+                .then(function (res) {
+                    if (res.msg) {
+                        vm.errorMsg = res.msg;
+                    }
+                    else {
+                        userService.navToProfile();
+                    }
+                })
+                .catch(function (err) {
                     vm.errorMsg = err.statusText;
                 });
         }

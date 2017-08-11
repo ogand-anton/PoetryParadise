@@ -7,6 +7,7 @@
         return {
             authenticate: authenticate,
             login: login,
+            loginGoogle: loginGoogle,
             logout: logout
         };
 
@@ -30,6 +31,16 @@
         function login(loginCredentials) {
             return $http({
                 url: "/api/login",
+                method: "POST",
+                params: loginCredentials
+            }).then(function (res) {
+                return res.data;
+            });
+        }
+
+        function loginGoogle(loginCredentials) {
+            return $http({
+                url: "/api/login/google",
                 method: "POST",
                 params: loginCredentials
             }).then(function (res) {
