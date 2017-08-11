@@ -103,7 +103,7 @@
 
         function _findPoems() {
             poemService
-                .findPoems(uid !== authenticatedUid ? uid : undefined)
+                .findPoems(uid)
                 .then(function (poems) {
                     vm.poems = poems;
                 });
