@@ -100,7 +100,7 @@
             vm.navHeader = {
                 leftLink: {href: "#!/poem/" + poemId, iconClass: "glyphicon-chevron-left", name: "To Poem"},
                 name: "Edit Translation",
-                rightLink: vm.translationEditFlag ? {
+                rightLink: vm.translationEditFlag === undefined || vm.translationEditFlag ? {
                     clickCb: saveTranslation,
                     href: "javacript:void(0)",
                     iconClass: "glyphicon-floppy-save",
@@ -110,6 +110,8 @@
         }
 
         function _loadContent() {
+            vm.translationEditFlag = true; // TODO hack, assume true at first
+
             _findPoem();
             _findTranslation();
         }

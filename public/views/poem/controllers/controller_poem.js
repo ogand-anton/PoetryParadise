@@ -100,7 +100,7 @@
             vm.navHeader = {
                 leftLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"},
                 name: "Poem",
-                rightLink: vm.poemEditFlag ? {
+                rightLink: vm.poemEditFlag === undefined || vm.poemEditFlag ? {
                     clickCb: savePoem,
                     href: "javacript:void(0)",
                     iconClass: "glyphicon-floppy-save",
