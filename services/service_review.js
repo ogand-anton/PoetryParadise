@@ -68,10 +68,11 @@ module.exports = function (app, model) {
     }
 
     function updateReview(req, res) {
-        var review = req.body.review;
+        var review = req.body.review,
+            reviewId = req.body.reviewId;
 
         reviewModel
-            .updateReview(review._id, review)
+            .updateReview(reviewId, review)
             .then(function (review) {
                 res.json(review);
             }, function () {

@@ -4,10 +4,15 @@
         .factory("reviewService", reviewService);
 
     function reviewService($http) {
+        var templates = {
+            review: "views/review/templates/template_review.html"
+        };
+
         return {
             deleteReview: deleteReview,
             findReview: findReview,
             findReviews: findReviews,
+            getTemplates: getTemplates,
             saveReview: saveReview
         };
 
@@ -32,26 +37,20 @@
         }
 
         function findReviews(userId, poemId) {
-            if(userId) {
-                return $http({
-                    url: "/api/poem/reviews",
-                    method: "GET",
-                    params: userId ? {userId: userId} : undefined
-                }).then(function (res) {
-                    return res.data;
-                });
-            } else {
-                return $http({
-                    url: "/api/poem/reviews",
-                    method: "GET",
-                    params: poemId ? {poemId: poemId} : undefined
-                }).then(function (res) {
-                    return res.data;
-                });
-            }
+            return $http({
+                url: "/api/poem/reviews",
+                method: "GET",
+                params: userId ? {userId: userId} : {poemId: poemId}
+            }).then(function (res) {
+                return res.data;
+            });
         }
 
-        function saveReview(reviewId, review, userId, poemId) {
+        function getTemplates() {
+            return templates;
+        }
+
+        function saveReview(reviewId, review, poemId) {
             if (reviewId) {
                 return $http
                     .put("/api/poem/review", {reviewId: reviewId, review: review})
@@ -60,12 +59,11 @@
                     });
             } else {
                 return $http
-                    .post("/api/poem/review", {review: review, userId: userId, poemId: poemId})
+                    .post("/api/poem/review", {review: review, poemId: poemId})
                     .then(function (res) {
                         return res.data;
                     });
             }
         }
-
     }
 })();
