@@ -17,7 +17,7 @@
 
         function _initHeaderFooter() {
             vm.navHeader = {
-                leftLink: {href: "../test/index.html", iconClass: "glyphicon-tower", name: "Test Mongo"},
+                leftLink: {href: "../test/index.html", iconClass: "glyphicon-tower", name: "Mongo"},
                 name: "Poetry Paradise",
                 rightLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"}
             };

@@ -1,13 +1,12 @@
-<!-- TODO bring back when there is something worthwhile to put in footer -->
-<!--<nav class="navbar navbar-default navbar-fixed-bottom">-->
-    <!--<div class="container-fluid aoa-padding-lr-none navbar-header">-->
-        <!--<div ng-repeat="footerLink in model.navFooter">-->
-            <!--<a class="aoa-navbar-item {{footerLink.sizeClass}}"-->
-               <!--href="{{footerLink.href}}"-->
-               <!--ng-click="footerLink.clickCb()">-->
-                <!--<i class="glyphicon {{footerLink.iconClass}}"></i>-->
-                <!--<span>{{footerLink.name}}</span>-->
-            <!--</a>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</nav>-->
+<nav ng-if="model.navFooter" class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid aoa-padding-lr-none navbar-header">
+        <div ng-repeat="footerLink in model.navFooter">
+            <a class="aoa-navbar-item {{footerLink.sizeClass}}"
+               href="{{footerLink.href}}"
+               ng-click="footerLink.clickCb()">
+                <i class="glyphicon {{footerLink.iconClass}}"></i>
+                <span>{{footerLink.name}}</span>
+            </a>
+        </div>
+    </div>
+</nav>

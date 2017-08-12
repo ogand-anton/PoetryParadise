@@ -3,11 +3,11 @@
 /************************/
 
 .background {
-    background: url("images/background_parchment.jpg") no-repeat 0 0 fixed;
+    background: url("images/background_parchment.jpg") no-repeat left top fixed;
     background-size: cover;
     height: 100%;
     left: 0;
-    opacity: 0.85;
+    opacity: 1;
     position: fixed;
     top: 0;
     width: 100%;
