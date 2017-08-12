@@ -18,12 +18,41 @@
 }
 
 /************************/
+/*       List Box       */
+/************************/
+
+.aoa-list-box {
+    margin-bottom: 20px;
+}
+
+.aoa-list-box ul {
+    background-color: rgba(255, 255, 255, 0.5);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+@media (min-width: 769px) {
+    .aoa-list-box ul {
+        height: 300px;
+    }
+}
+
+/************************/
 /*    Misc. Components  */
 /************************/
 
 a.col-xs-push-12,
 a.col-xs-pull-12 {
     position: sticky;
+}
+
+.aoa-ellipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
 }
 
 /************************/
@@ -89,6 +118,10 @@ nav a {
 /*      Overrides       */
 /************************/
 
+* {
+    word-wrap: break-word;
+}
+
 a:hover {
     text-decoration: none;
 }
@@ -102,12 +135,20 @@ textarea {
 .aoa-list-group > .list-group-item:last-child {
     background-color: rgba(255, 255, 255, 0.75);
     border-radius: 4px;
+}
+
+.aoa-list-group > .list-group-item:not(:last-child) {
     margin-bottom: 10px;
 }
 
 /************************/
 /*      Utilities       */
 /************************/
+.aoa-margin-lr-none {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .aoa-padding-lr-none {
     padding-left: 0;
     padding-right: 0;

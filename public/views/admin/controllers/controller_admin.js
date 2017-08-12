@@ -1,13 +1,12 @@
 (function () {
     angular
-        .module("admin")
+        .module("pp")
         .controller("adminController", adminController);
 
-    function adminController($routeParams, $location, adminService, reviewService, authService, poemService, sharedService, userService) {
+    function adminController($location, authUser,
+                             adminService, poemService, sharedService, userService) {
         var vm = this,
-            uid,
-            authenticatedUid,
-            readOnlyFlag;
+            authenticatedUid;
 
         vm.deleteUser = deleteUser;
         vm.deletePoemByUser = deletePoemByUser;

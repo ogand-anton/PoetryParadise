@@ -27,7 +27,7 @@
             userService
                 .followUser(authUser._id, uid)
                 .then(function () {
-                    _findFollowers();
+                    _findFollowedBy();
                 });
         }
 
@@ -57,7 +57,7 @@
             userService
                 .unFollowUser(authUser._id, followerId)
                 .then(function () {
-                    _findFollowers();
+                    _findFollowing();
                 });
         }
 
@@ -73,22 +73,22 @@
                 })
         }
 
-        function _findFollowers() {
-            if (uid !== authUser._id) { // read only profile
-                userService
-                    .findUserFollowers(uid)
-                    .then(function (followers) {
-                        vm.followers = followers;
-                        followingFlag = !!followers.find(function (a) {return a._id === authUser._id});
-                        _initHeaderFooter(); // TODO prevent double work
-                    });
-            } else { // your actual profile
-                userService
-                    .findFollowers(uid)
-                    .then(function (followers) {
-                        vm.followers = followers;
-                    });
-            }
+        function _findFollowedBy() {
+            userService
+                .findUserFollowers(uid)
+                .then(function (followers) {
+                    vm.followers = followers;
+                    followingFlag = !!followers.find(function (a) {return a._id === authUser._id});
+                    _initHeaderFooter(); // TODO prevent double work
+                });
+        }
+
+        function _findFollowing() {
+            userService
+                .findFollowers(uid)
+                .then(function (followers) {
+                    vm.following = followers;
+                });
         }
 
         function _findPoems() {
@@ -149,16 +149,21 @@
                 name: "Profile",
                 rightLink: profileEditFlag ? saveUserNav : followNav
             };
+
+            vm.navFooter = [
+                {href: "#!/poem", iconClass: "glyphicon-pencil", name: "Pen a Poem", sizeClass: "col-xs-6"},
+                {href: "#!/search", iconClass: "glyphicon-search", name: "Search", sizeClass: "col-xs-6"}
+            ];
         }
 
         function _loadContent() {
             vm.maxLines = 3;
-            vm.maxReviewLength = 50;
 
             uid = uid || authUser._id;
 
             _findFavoritesByUser();
-            _findFollowers();
+            _findFollowedBy();
+            _findFollowing();
             _findPoems();
             _findReviews();
             _findTranslations();

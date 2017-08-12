@@ -4,164 +4,165 @@
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
 
-    <form ng-if="model.profileEditFlag">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text"
-                   class="form-control"
-                   id="username"
-                   placeholder="Username"
-                   ng-model="model.profile.username">
-        </div>
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email"
-                   class="form-control"
-                   id="email"
-                   placeholder="alice@wonderland.com"
-                   ng-model="model.profile.emailAddress">
-        </div>
-        <div class="form-group">
-            <label for="first-name">First Name</label>
-            <input type="text"
-                   class="form-control"
-                   id="first-name"
-                   placeholder="Alice"
-                   ng-model="model.profile.firstName">
-        </div>
-        <div class="form-group">
-            <label for="last-name">Last Name</label>
-            <input type="text"
-                   class="form-control"
-                   id="last-name"
-                   placeholder="Wonderland"
-                   ng-model="model.profile.lastName">
-        </div>
-    </form>
+    <div class="aoa-list-box col-xs-12 col-sm-6">
+        <form ng-if="model.profileEditFlag">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text"
+                       class="form-control"
+                       id="username"
+                       placeholder="Username"
+                       ng-model="model.profile.username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       placeholder="alice@wonderland.com"
+                       ng-model="model.profile.emailAddress">
+            </div>
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="first-name"
+                       placeholder="Alice"
+                       ng-model="model.profile.firstName">
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="last-name"
+                       placeholder="Wonderland"
+                       ng-model="model.profile.lastName">
+            </div>
+        </form>
 
-    <form ng-if="!model.profileEditFlag">
-        <div class="form-group">
-            <label>Username</label>
-            <div>{{model.profile.username}}</div>
-        </div>
-        <div class="form-group">
-            <label>Email Address</label>
-            <div>{{model.profile.emailAddress || "None Listed"}}</div>
-        </div>
-        <div class="form-group">
-            <label>First Name</label>
-            <div>{{model.profile.firstName || "None Listed"}}</div>
-        </div>
-        <div class="form-group">
-            <label>Last Name</label>
-            <div>{{model.profile.lastName || "None Listed"}}</div>
-        </div>
-    </form>
+        <form ng-if="!model.profileEditFlag">
+            <div class="form-group">
+                <label>Username</label>
+                <div>{{model.profile.username}}</div>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <div>{{model.profile.emailAddress || "None Listed"}}</div>
+            </div>
+            <div class="form-group">
+                <label>First Name</label>
+                <div>{{model.profile.firstName || "None Listed"}}</div>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <div>{{model.profile.lastName || "None Listed"}}</div>
+            </div>
+        </form>
+    </div>
 
-    <div>
+    <div class="aoa-list-box col-xs-12 col-sm-6">
         <label>Favorite Poems</label>
         <!-- TODO reuse template_search_result_list_group.html even for this and move it out of search dir -->
         <ul class="list-group aoa-list-group">
-            <li class="list-group-item" ng-repeat="favorite in model.favorites">
-                <div><b>{{favorite.title}}</b></div>
-                <div><i>{{favorite.author}}</i></div>
-                <a href="#!/search/{{favorite.author}}/{{favorite.title}}">Go to Poem</a>
-                <br/>
-                <a ng-if="model.profileEditFlag"
-                   class="alert-danger"
-                   ng-click="model.unFavoritePoem(favorite._id)"
-                >
-                    Remove from Favorites
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <div ng-if="model.profileEditFlag">
-        <label>Following</label>
-        <!-- TODO need generic user list template to use here -->
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="follower in model.followers">
-                <div class="container-fluid aoa-padding-lr-none">
-                    <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
-                    <a class="btn btn-danger pull-right" ng-click="model.unFollowUser(follower._id)">Unfollow</a>
+            <li class="list-group-item row aoa-margin-lr-none" ng-repeat="favorite in model.favorites">
+                <div class="col-xs-9">
+                    <a href="#!/search/{{favorite.author}}/{{favorite.title}}">
+                        <b>{{favorite.title}}</b>
+                    </a>
+                    <div>
+                        <i>{{favorite.author}}</i>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <button ng-if="model.profileEditFlag"
+                            class="btn btn-danger pull-right glyphicon glyphicon-remove"
+                            ng-click="model.unFavoritePoem(favorite._id)"
+                    >
+                    </button>
                 </div>
             </li>
         </ul>
     </div>
 
-    <div ng-if="!model.profileEditFlag">
+    <div class="aoa-list-box col-xs-12 col-sm-6">
+        <label>Following</label>
+        <!-- TODO need generic user list template to use here -->
+        <ul class="list-group aoa-list-group">
+            <li class="list-group-item row aoa-margin-lr-none" ng-repeat="follower in model.following">
+                <div class="col-xs-9">
+                    <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
+                </div>
+                <div class="col-xs-3">
+                    <button ng-if="model.profileEditFlag"
+                            class="btn btn-danger pull-right glyphicon glyphicon-remove"
+                            ng-click="model.unFollowUser(follower._id)"
+                    >
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="aoa-list-box col-xs-12 col-sm-6">
         <label>Followed By</label>
         <!-- TODO need generic user list template to use here -->
-        <ul class="list-group">
+        <ul class="list-group aoa-list-group">
             <li class="list-group-item" ng-repeat="follower in model.followers">
                 <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
             </li>
         </ul>
     </div>
 
-    <div>
+    <div class="aoa-list-box col-xs-12 col-sm-6">
         <label>Penned Poems</label>
         <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
         <ul class="list-group aoa-list-group">
             <li class="list-group-item" ng-repeat="poem in model.poems">
-                <div><b>{{poem.title || ""}}</b></div>
-                <a href="#!/profile/{{poem.author._id}}">
-                    <i>{{poem.author.username}}</i>
+                <a href="#!/poem/{{poem._id}}">
+                    <b>{{poem.title || "NO TITLE"}}</b>
                 </a>
                 <div ng-repeat="line in poem.lines | limitTo: model.maxLines track by $index">{{line}}</div>
-                <div ng-if="poem.lines.length > model.maxLines">...</div>
-                <div>{{poem.lines.length}}</div>
-                <a href="#!/poem/{{poem._id}}">Go to Poem</a>
-                <br/>
+                <span ng-if="poem.lines.length > model.maxLines">...</span>
             </li>
         </ul>
     </div>
 
-    <div>
+    <div class="aoa-list-box col-xs-12 col-sm-6">
         <label>Penned Translations</label>
         <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
         <ul class="list-group aoa-list-group">
             <li class="list-group-item" ng-repeat="translation in model.translations">
-                <div><b>{{translation.title || ""}}</b></div>
-                <a href="#!/profile/{{translation.author._id}}">
-                    <i>{{translation.author.username}}</i>
+                <a href="#!/poem/{{translation.originalPoem}}/translation/{{translation._id}}">
+                    <b>{{translation.title || "NO TITLE"}}</b>
                 </a>
                 <div ng-repeat="line in translation.lines | limitTo: model.maxLines track by $index">{{line}}</div>
-                <div ng-if="translation.lines.length > model.maxLines">...</div>
-                <div>{{translation.lines.length}}</div>
-                <a href="#!/poem/{{translation.originalPoem}}/translation/{{translation._id}}">Go to Translation</a>
-                <br/>
+                <span ng-if="translation.lines.length > model.maxLines">...</span>
             </li>
         </ul>
     </div>
 
-    <div ng-if="model.profileEditFlag">
-        <label>Reviews</label>
+    <div ng-if="model.profileEditFlag" class="aoa-list-box col-xs-12 col-sm-6">
+        <label>Your Reviews</label>
         <ul class="list-group aoa-list-group">
-            <li class="list-group-item" ng-repeat="review in model.reviews">
-                <b>{{review._poem.title}}</b>
-                <br/>
-                <a href="#!/profile/{{review._poem.author._id}}">
-                    <i>{{review._poem.author.username}}</i>
-                </a>
-                <br/>
-                <i class="alert-danger" ng-if="!review.text">Review Not Complete</i>
-                <span ng-if="review.text">{{review.text.substring(0, model.maxReviewLength)}}</span>
-                <span ng-if="review.text && review.text.length > model.maxReviewLength">...</span>
-                <br/>
-                <a class="btn btn-info" ng-if="!review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Write
-                    Review</a>
-                <a class="btn btn-info" ng-if="review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Edit
-                    Review</a>
+            <li class="list-group-item row aoa-margin-lr-none" ng-repeat="review in model.reviews">
+                <div class="col-xs-10">
+                    <div>
+                        <b>{{review._poem.title}}</b>
+                    </div>
+                    <div>
+                        <i>{{review._poem.author.username}}</i>
+                    </div>
+                    <span class="alert-danger" ng-if="!review.text">Review Incomplete</span>
+                    <span class="aoa-ellipsis">{{review.text}}</span>
+                </div>
+                <div class="col-xs-2">
+                    <a href="#!/poem/{{review._poem._id}}/review/{{review._id}}"
+                       class="btn btn-info glyphicon glyphicon-edit pull-right"
+                    >
+                    </a>
+                </div>
             </li>
         </ul>
-    </div>
-
-    <!-- TODO add to footer -->
-    <div ng-if="model.profileEditFlag">
-        <a class="btn btn-success btn-block" href="#!/poem">Pen New Poem</a>
-        <a class="btn btn-warning btn-block" href="#!/search">To Search Page</a>
     </div>
 </div>
 

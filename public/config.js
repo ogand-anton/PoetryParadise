@@ -15,7 +15,8 @@
             .when("/admin", {
                 templateUrl: "views/home/templates/template_admin_profile.html",
                 controller: "adminController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/login", {
                 templateUrl: "views/user/templates/template_login.html",

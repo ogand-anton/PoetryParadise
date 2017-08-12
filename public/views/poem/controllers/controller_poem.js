@@ -134,7 +134,7 @@
         }
 
         function _loadContent() {
-            vm.maxLines = 5;
+            vm.maxLines = 3;
 
             _findPoem();
             _findFollowers();
