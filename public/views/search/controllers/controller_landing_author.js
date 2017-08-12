@@ -31,7 +31,7 @@
 
         function _loadContent() {
             vm.suppressAuthorLink = true;
-            vm.maxLines = 10;
+            vm.maxLines = 5;
             vm.successMsg = "Loading...";
 
             searchService

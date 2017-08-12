@@ -41,7 +41,7 @@
         }
 
         function _loadContent() {
-            vm.maxLines = 10;
+            vm.maxLines = 5;
         }
     }
 })();

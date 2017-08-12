@@ -1,4 +1,4 @@
-(function () {
+(function (cookies) {
     angular
         .module("pp")
         .config(configure);
@@ -26,43 +26,43 @@
                 templateUrl: "views/poem/templates/template_poem_landing.html",
                 controller: "poemEditController",
                 controllerAs: "model",
-                resolve: {authUser: authenticate}
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/poem/:poemId", {
                 templateUrl: "views/poem/templates/template_poem_landing.html",
                 controller: "poemEditController",
                 controllerAs: "model",
-                resolve: {authUser: authenticate}
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/poem/:poemId/review/:reviewId", {
                 templateUrl: "views/review/templates/template_review_landing.html",
                 controller: "reviewEditController",
                 controllerAs: "model",
-                resolve: {authUser: authenticate}
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/poem/:poemId/translation", {
                 templateUrl: "views/translation/templates/template_translation_landing.html",
                 controller: "translationEditController",
                 controllerAs: "model",
-                resolve: {authUser: authenticate}
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/poem/:poemId/translation/:translationId", {
                 templateUrl: "views/translation/templates/template_translation_landing.html",
                 controller: "translationEditController",
                 controllerAs: "model",
-                resolve: {authUser: authenticate}
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/profile", {
                 templateUrl: "views/user/templates/template_profile.html",
                 controller: "profileController",
                 controllerAs: "model",
-                resolve: {authUser: authenticate}
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/profile/:uid", {
                 templateUrl: "views/user/templates/template_profile.html",
                 controller: "profileController",
                 controllerAs: "model",
-                resolve: {authUser: authenticate}
+                resolve: {authUser: genAuthenticateCb()}
             })
             .when("/search", {
                 templateUrl: "views/search/templates/template_search.html",
@@ -82,8 +82,10 @@
             .otherwise({
                 redirectTo: "/profile"
             });
+    }
 
-        function authenticate($q, authService) {
+    function genAuthenticateCb(preventRedirect) {
+        return function ($q, $location, authService) {
             var authPromise = $q.defer();
 
             authService
@@ -91,12 +93,18 @@
                 .then(function (user) {
                     if (user) {
                         authPromise.resolve(user);
+                        cookies.remove("referrerUrl");
                     } else {
                         authPromise.reject();
+
+                        if (!preventRedirect) {
+                            cookies.set("referrerUrl", $location.$$url);
+                            $location.url("login");
+                        }
                     }
                 });
 
             return authPromise.promise;
         }
     }
-})();
+})(Cookies);

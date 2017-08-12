@@ -11,19 +11,13 @@
         };
 
         function authenticate(preventRedirect) {
-            // TODO need mechanism to redirect to previous page on login
-            // store current url, login, if stored url exists, redirect to
             return $http
                 .get("/api/authenticated")
                 .then(function (res) {
                     return res.data;
                 })
                 .then(function (user) {
-                    if (user !== "0") {
-                        return user;
-                    } else if (!preventRedirect) {
-                        $location.url("login");
-                    }
+                    return user !== "0" ? user : undefined;
                 });
         }
 

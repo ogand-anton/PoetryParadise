@@ -1,9 +1,9 @@
-(function () {
+(function (cookies) {
     angular
         .module("pp")
         .controller("loginController", loginController);
 
-    function loginController(sharedService, authService, userService) {
+    function loginController($location, sharedService, authService) {
         var vm = this;
 
         vm.login = login;
@@ -22,7 +22,7 @@
                         vm.errorMsg = res.msg;
                     }
                     else {
-                        userService.navToProfile();
+                        $location.url(cookies.get("referrerUrl") || "profile");
                     }
                 })
                 .catch(function (err) {
@@ -47,4 +47,4 @@
             vm.errorMsg = cookiesEnabled ? null : "Please allow cookies to login";
         }
     }
-})();
+})(Cookies);
