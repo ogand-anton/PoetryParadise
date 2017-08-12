@@ -2,7 +2,7 @@ module.exports = function (app, model) {
     var googleConfig = {
         clientID: process.env.GOOGLE_CLIENTID,
         clientSecret: process.env.GOOGLE_CLIENTSECRET,
-        callbackURL: process.env.GOOGLE_CALLBACK_URL
+        callbackURL: process.env.GOOGLE_CALLBACK
     };
 
     var passport = require("passport"),
