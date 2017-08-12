@@ -15,8 +15,6 @@
             _loadContent();
         })();
 
-
-
         function login(user) {
             authService
                 .login(user)
