@@ -22,7 +22,7 @@ module.exports = function (app, model) {
         failureRedirect: "/#/login"
     }));
     app.post("/api/login", passport.authenticate("local"), login);
-    app.post("/api/login/google", passport.authenticate("google", {scope: ["profile", "email"]}), login);
+    app.post("/api/login/google", passport.authenticate("google", {scope: ["profile", "email"]}));
     app.post("/api/logout", logout);
     app.post("/api/register", registerUser);
 
@@ -101,17 +101,17 @@ module.exports = function (app, model) {
         done(null, user);
     }
 
+    // PASSPORT
     function _googleStrategy(token, refreshToken, profile, done) {
         userModel
             .findUserByGoogleId(profile.id)
-            .then(
-                function (user) {
-                    if (user) {
-                        return done(null, user);
-                    } else {
-                        var email = profile.emails[0].value;
-                        var emailParts = email.split("@");
-                        var newGoogleUser = {
+            .then(function (user) {
+                if (user) {
+                    return done(null, user);
+                } else {
+                    var email = profile.emails[0].value,
+                        emailParts = email.split("@"),
+                        newGoogleUser = {
                             username: emailParts[0],
                             firstName: profile.name.givenName,
                             lastName: profile.name.familyName,
@@ -121,21 +121,17 @@ module.exports = function (app, model) {
                                 token: token
                             }
                         };
-                        return userModel.createUser(newGoogleUser);
-                    }
-                },
-                function (err) {
-                    if (err) { return done(err); }
+
+                    return userModel.createUser(newGoogleUser);
                 }
-            )
-            .then(
-                function (user) {
-                    return done(null, user);
-                },
-                function (err) {
-                    if (err) { return done(err); }
-                }
-            );
+            }, function (err) {
+                if (err) { return done(err); }
+            })
+            .then(function (user) {
+                return done(null, user);
+            }, function (err) {
+                if (err) { return done(err); }
+            });
     }
 
     // PASSPORT: authenticate a new session
