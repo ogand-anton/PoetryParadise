@@ -38,15 +38,6 @@
             });
         }
 
-        function loginGoogle() {
-            return $http({
-                url: "/api/login/google",
-                method: "GET"
-            }).then(function (res) {
-                return res.data;
-            });
-        }
-
         function logout() {
             return $http({
                 url: "/api/logout",

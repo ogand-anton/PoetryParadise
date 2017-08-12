@@ -7,7 +7,6 @@
         var vm = this;
 
         vm.login = login;
-        vm.loginGoogle = loginGoogle;
 
         (function init() {
             _fetchTemplates();
@@ -18,22 +17,6 @@
         function login(user) {
             authService
                 .login(user)
-                .then(function (res) {
-                    if (res.msg) {
-                        vm.errorMsg = res.msg;
-                    }
-                    else {
-                        userService.navToProfile();
-                    }
-                })
-                .catch(function (err) {
-                    vm.errorMsg = err.statusText;
-                });
-        }
-
-        function loginGoogle() {
-            authService
-                .loginGoogle()
                 .then(function (res) {
                     if (res.msg) {
                         vm.errorMsg = res.msg;
