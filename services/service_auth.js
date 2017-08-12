@@ -17,12 +17,12 @@ module.exports = function (app, model) {
     passport.deserializeUser(_deserializeUser);
 
     app.get("/api/authenticated", authenticated);
+    app.get("/api/login/google", passport.authenticate("google", {scope: ["profile", "email"]}));
     app.get("/api/login/google/callback", passport.authenticate("google", {
         successRedirect: "/#/profile",
         failureRedirect: "/#/login"
     }));
     app.post("/api/login", passport.authenticate("local"), login);
-    app.post("/api/login/google", passport.authenticate("google", {scope: ["profile", "email"]}));
     app.post("/api/logout", logout);
     app.post("/api/register", registerUser);
 
