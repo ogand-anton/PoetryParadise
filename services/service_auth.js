@@ -103,8 +103,6 @@ module.exports = function (app, model) {
 
     // PASSPORT
     function _googleStrategy(token, refreshToken, profile, done) {
-        console.log(token);
-        console.log(profile);
         userModel
             .findUserByGoogleId(profile.id)
             .then(function (user) {
