@@ -72,8 +72,8 @@ module.exports = function (app, model) {
 
         reviewModel
             .updateReview(reviewId, review)
-            .then(function (review) {
-                res.json(review);
+            .then(function () {
+                res.json({_id: reviewId});
             }, function () {
                 res.status(404).send("Unable to update review");
             });

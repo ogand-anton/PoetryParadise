@@ -29,9 +29,10 @@
         function saveReview() {
             reviewService
                 .saveReview(reviewId, vm.review, poemId)
-                .then(function () {
+                .then(function (review) {
                     vm.successMsg = "Success";
                     vm.errorMsg = undefined;
+                    $location.url("poem/" + poemId + "/review/" + review._id)
                 })
                 .catch(function (res) {
                     vm.successMsg = null;
