@@ -28,7 +28,7 @@ module.exports = function (app, model) {
     passport.deserializeUser(_deserializeUser);
 
     app.get("/api/authenticated", authenticated);
-    app.get("api/login/facebook", passport.authenticate("facebook", {scope: "email"}));
+    app.get("/api/login/facebook", passport.authenticate("facebook", {scope: "email"}));
     app.get("/api/login/facebook/callback", passport.authenticate("facebook", {
         successRedirect: "/#/profile",
         failureRedirect: "/#/login"
