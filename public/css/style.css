@@ -1,15 +1,29 @@
 /************************/
+/*       Background     */
+/************************/
+
+.background {
+    background: url("images/background_parchment.jpg") no-repeat left top fixed;
+    background-size: cover;
+    height: 100%;
+    left: 0;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+/************************/
 /*    Misc. Components  */
 /************************/
 
 a.col-xs-push-12,
 a.col-xs-pull-12 {
     position: sticky;
-}
-
-.alert-danger,
-.alert-success {
-    margin-bottom: 10px;
 }
 
 /************************/
@@ -81,6 +95,14 @@ a:hover {
 
 textarea {
     width: 100%;
+}
+
+.aoa-list-group > .list-group-item,
+.aoa-list-group > .list-group-item:first-child,
+.aoa-list-group > .list-group-item:last-child {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 /************************/

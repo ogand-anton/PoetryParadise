@@ -1,7 +1,7 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
         poemSchema = app.aoaRequire("models/poem/schema_poem")(),
-        poemModel = mongoose.model("poemModel", poemSchema, poemSchema.options.collection);
+        poemModel = mongoose.model("poem", poemSchema, poemSchema.options.collection);
 
     return Object.assign(poemModel, {
         createPoem: createPoem,
@@ -20,14 +20,15 @@ module.exports = function (app) {
     }
 
     function findPoemById(poemId) {
-        return poemModel.findById(poemId);
+        return poemModel
+            .findById(poemId)
+            .populate("author");
     }
 
     function findAllPoemsByAuthor(authorId) {
         return poemModel
-            .find({author: authorId});
-        // .populate('name')
-        // .exec();
+            .find({author: authorId})
+            .populate("author");
     }
 
     function updatePoem(poemId, poem) {

@@ -5,23 +5,33 @@
 
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
 
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text"
-               class="form-control"
-               id="username"
-               placeholder="Username"
-               ng-model="user.username">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password"
-               class="form-control"
-               id="password"
-               placeholder="Password"
-               ng-model="user.password">
-    </div>
-    <a class="btn btn-success btn-block" ng-click="model.login(user)">Login</a>
+    <form>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text"
+                   class="form-control"
+                   id="username"
+                   placeholder="Username"
+                   ng-model="user.username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   placeholder="Password"
+                   ng-model="user.password">
+        </div>
+        <input type="submit" class="btn btn-success btn-block" ng-click="model.login(user)" value="Login"/>
+        <a href="/api/login/facebook" class="btn btn-primary btn-block">
+            <span class="fa fa-facebook"></span>
+            Facebook Login
+        </a>
+        <a href="/api/login/google" class="btn btn-danger btn-block">
+            <span class="fa fa-google-plus"></span>
+            Google Login
+        </a>
+    </form>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

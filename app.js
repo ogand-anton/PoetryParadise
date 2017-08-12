@@ -9,9 +9,9 @@ var bodyParser = require("body-parser"),
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use(express.static(__dirname + "/public"));
 app.use(session({secret: "this is the secret", resave: true, saveUninitialized: true}));
-app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.listen(process.env.PORT || 3000);
@@ -22,10 +22,12 @@ app.aoaRequire = function (modulePath) {
 };
 
 // app imports
-app.aoaRequire("db/db.js")();
+app.aoaRequire("db.js")();
 var model = app.aoaRequire("models/model.js")(app);
 app.aoaRequire("services/service_auth.js")(app, model);
 app.aoaRequire("services/service_poem.js")(app, model);
+app.aoaRequire("services/service_review.js")(app, model);
 app.aoaRequire("services/service_search_pdb.js")(app);
+app.aoaRequire("services/service_translation.js")(app, model);
 app.aoaRequire("services/service_user.js")(app, model);
 app.aoaRequire("test/app_test.js")(app);

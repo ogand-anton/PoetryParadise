@@ -1,8 +1,24 @@
 <div ng-include="model.templates.navHeader"></div>
 
-<!-- TODO Flesh out home page -->
 <div class="container-fluid text-center">
-    <i>Look on my works, ye Mighty, and despair!</i>
+    <h1>Welcome to Paradise!</h1>
     <br/>
-    <a class="btn btn-success" href="#!/search">To Search Page</a>
+    <i>
+        Despite the abundance of published poetry, there are still many poems which are never looked upon by more
+        than a single pairs of eyes.
+    </i>
+    <br/>
+    <br/>
+    <span>
+        Poetry Paradise is a web platform that not only allows access to published poetry,
+        but also gives users the ability to post their own compositions, receive feedback,
+        edit masterpieces in progress, translate poems,
+        or simply enjoy reading pieces of art from talented people around the globe.
+    </span>
+    <br/>
+    <br/>
+    <a class="btn btn-primary" href="#!/poem">Pen a Poem</a>
+    <a class="btn btn-success" href="#!/search">Search Poems</a>
 </div>
+
+<div ng-include="model.templates.navFooter"></div>

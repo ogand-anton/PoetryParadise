@@ -1,7 +1,7 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
         poemFavoriteSchema = app.aoaRequire("models/poem/schema_poem_favorite.js")(app),
-        poemFavoriteModel = mongoose.model("poemFavoriteModel", poemFavoriteSchema, poemFavoriteSchema.options.collection);
+        poemFavoriteModel = mongoose.model("poemFavorite", poemFavoriteSchema, poemFavoriteSchema.options.collection);
 
     return Object.assign(poemFavoriteModel, {
         addFavorite: addFavorite,

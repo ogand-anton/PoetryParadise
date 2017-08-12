@@ -8,10 +8,12 @@
 
     <!-- CSS: Vendors  -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <!-- CSS: App -->
     <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
+    <div class="background"></div>
     <div ng-view></div>
 
     <!-- JS: Vendors -->
@@ -23,7 +25,9 @@
     <script src="config.js"></script>
     <!-- JS: Controllers -->
     <script src="views/home/controllers/controller_home.js"></script>
-    <script src="views/poem/controllers/controller_poem_edit.js"></script>
+    <script src="views/poem/controllers/controller_poem.js"></script>
+    <script src="views/review/controllers/controller_review.js"></script>
+    <script src="views/translation/controllers/controller_translation.js"></script>
     <script src="views/user/controllers/controller_login.js"></script>
     <script src="views/user/controllers/controller_profile.js"></script>
     <script src="views/user/controllers/controller_register.js"></script>
@@ -33,8 +37,11 @@
     <!-- JS: Services -->
     <script src="services/service_auth.js"></script>
     <script src="services/service_poem.js"></script>
+    <script src="services/service_review.js"></script>
     <script src="services/service_user.js"></script>
     <script src="services/service_search.js"></script>
     <script src="services/service_shared.js"></script>
+    <script src="services/service_translation.js"></script>
+    <script src="services/service_review.js"></script>
 </body>
 </html>

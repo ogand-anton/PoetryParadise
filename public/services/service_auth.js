@@ -1,4 +1,4 @@
-(function () {
+(function (cookies) {
     angular
         .module("pp")
         .factory("authService", authService);
@@ -7,26 +7,19 @@
         return {
             authenticate: authenticate,
             login: login,
-            logout: logout
+            logout: logout,
+            referBack: referBack,
+            referToLogin: referToLogin
         };
 
-        function authenticate(preventRedirect) {
-            // TODO look at professors code and see how this can still be in config.js
-            // TODO need mechanism to redirect to previous page on login
-            // store current url
-            // login
-            // if stored url exists, redirect to
+        function authenticate() {
             return $http
                 .get("/api/authenticated")
                 .then(function (res) {
                     return res.data;
                 })
                 .then(function (user) {
-                    if (user !== "0") {
-                        return user;
-                    } else if (!preventRedirect) {
-                        $location.url("login");
-                    }
+                    return user !== "0" ? user : undefined;
                 });
         }
 
@@ -48,5 +41,16 @@
                 $location.url("login");
             });
         }
+
+        function referBack() {
+            var referrerUrl = cookies.get("referrerUrl");
+            cookies.remove("referrerUrl");
+            $location.url(referrerUrl || "profile");
+        }
+
+        function referToLogin(){
+            cookies.set("referrerUrl", $location.$$url);
+            $location.url("login");
+        }
     }
-})();
+})(Cookies);

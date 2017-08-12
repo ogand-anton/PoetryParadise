@@ -1,7 +1,7 @@
 module.exports = function (app) {
     var mongoose = require("mongoose"),
         followerSchema = app.aoaRequire("models/user/schema_follower.js")(app),
-        followerModel = mongoose.model("followerModel", followerSchema, followerSchema.options.collection);
+        followerModel = mongoose.model("follower", followerSchema, followerSchema.options.collection);
 
     return Object.assign(followerModel, {
         addFollower: addFollower,

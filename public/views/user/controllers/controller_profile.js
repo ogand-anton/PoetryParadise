@@ -3,11 +3,12 @@
         .module("pp")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, $location, authService, poemService, sharedService, userService) {
+    function profileController($routeParams, $location, authUser,
+                               authService, poemService, reviewService, sharedService, translationService, userService) {
         var vm = this,
             uid,
-            authenticatedUid,
-            readOnlyFlag;
+            profileEditFlag,
+            followingFlag;
 
         vm.followUser = followUser;
         vm.saveUser = saveUser;
@@ -15,30 +16,16 @@
         vm.unFavoritePoem = unFavoritePoem;
         vm.unFollowUser = unFollowUser;
 
-        // TODO make this delayed load prettier and put it back into config.js
-        function init() {
+        (function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        }
-
-        authService
-            .authenticate()
-            .then(function (user) {
-                if (user) {
-                    authenticatedUid = user._id;
-                    uid = authenticatedUid;
-                    init();
-                } else {
-                    $location.url("login"); // todo move to service
-                }
-            });
+        })();
 
         function followUser() {
-            // TODO prevent following (a) yourself and (b) someone else multiple times
             userService
-                .followUser(authenticatedUid, uid)
+                .followUser(authUser._id, uid)
                 .then(function () {
                     _findFollowers();
                 });
@@ -66,8 +53,9 @@
         }
 
         function unFollowUser(followerId) {
+            followerId = followerId || uid;
             userService
-                .unFollowUser(authenticatedUid, followerId)
+                .unFollowUser(authUser._id, followerId)
                 .then(function () {
                     _findFollowers();
                 });
@@ -86,11 +74,13 @@
         }
 
         function _findFollowers() {
-            if (uid !== authenticatedUid) { // read only profile
+            if (uid !== authUser._id) { // read only profile
                 userService
                     .findUserFollowers(uid)
                     .then(function (followers) {
                         vm.followers = followers;
+                        followingFlag = !!followers.find(function (a) {return a._id === authUser._id});
+                        _initHeaderFooter(); // TODO prevent double work
                     });
             } else { // your actual profile
                 userService
@@ -103,19 +93,41 @@
 
         function _findPoems() {
             poemService
-                .findPoems(uid !== authenticatedUid ? uid : undefined)
+                .findPoems(uid)
                 .then(function (poems) {
                     vm.poems = poems;
                 });
         }
 
-        function _findUser(){
-            userService
-                .findUserById(uid)
-                .then(function (res) {
-                    vm.errorMsg = res.msg;
-                    vm.profile = res.user;
-                });
+        function _findReviews() {
+            if (uid === authUser._id) {
+                reviewService
+                    .findReviews(uid)
+                    .then(function (reviews) {
+                        vm.reviews = reviews;
+                    });
+            }
+        }
+
+        function _findTranslations() {
+            translationService
+                .findTranslations(uid)
+                .then(function (translations) {
+                    vm.translations = translations;
+                })
+        }
+
+        function _findUser() {
+            if (uid !== authUser._id) {
+                userService
+                    .findUserById(uid)
+                    .then(function (res) {
+                        vm.errorMsg = res.msg;
+                        vm.profile = res.user;
+                    });
+            } else {
+                vm.profile = authUser;
+            }
         }
 
         function _initHeaderFooter() {
@@ -126,34 +138,46 @@
                     name: "Save"
                 },
                 followNav = {
-                    clickCb: followUser,
+                    clickCb: followingFlag ? unFollowUser : followUser,
                     href: "javacript:void(0)",
-                    iconClass: "glyphicon-thumbs-up",
-                    name: "Follow"
+                    iconClass: followingFlag ? "glyphicon-thumbs-down" : "glyphicon-thumbs-up",
+                    name: followingFlag ? "Stop Following" : "Follow"
                 };
 
             vm.navHeader = {
                 leftLink: {clickCb: logout, href: "javacript:void(0)", iconClass: "glyphicon-log-out", name: "Logout"},
                 name: "Profile",
-                rightLink: readOnlyFlag ? followNav : saveUserNav
+                rightLink: profileEditFlag ? saveUserNav : followNav
             };
         }
 
         function _loadContent() {
             vm.maxLines = 3;
+            vm.maxReviewLength = 50;
 
-            _findUser();
+            uid = uid || authUser._id;
+
             _findFavoritesByUser();
             _findFollowers();
             _findPoems();
+            _findReviews();
+            _findTranslations();
+            _findUser();
+
+            vm.profileEditFlag = profileEditFlag;
         }
 
         function _parseRouteParams() {
-            // TODO: deal with either seeing your own account in read only mode doing something about it
             if ($routeParams["uid"]) {
                 uid = $routeParams["uid"];
-                readOnlyFlag = true;
+                profileEditFlag = false;
                 vm.uid = uid;
+
+                if (uid === authUser._id) {
+                    $location.url("profile");
+                }
+            } else {
+                profileEditFlag = true;
             }
         }
     }

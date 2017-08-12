@@ -3,43 +3,38 @@
         .module("pp")
         .controller("landingPoemController", landingPoemController);
 
-    function landingPoemController($routeParams, authService, poemService, searchService, sharedService) {
+    function landingPoemController($routeParams, authUser,
+                                   authService, poemService, searchService, sharedService) {
         var vm = this,
-            uid,
             author, title,
             poem;
 
         vm.favoritePoem = favoritePoem;
         vm.unFavoritePoem = unFavoritePoem;
 
-        function init() {
+        (function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        }
-
-        authService
-            .authenticate(true)
-            .then(function (user) {
-                if (user) {
-                    uid = user._id;
-                }
-                init();
-            });
+        })();
 
         function favoritePoem(poem) {
-            poemService
-                .favoritePoem(uid, poem)
-                .then(function (favorite) {
-                    poem.favoriteFlag = true;
-                    poem.favoriteId = favorite._id;
-                });
+            if (authUser) {
+                poemService
+                    .favoritePoem(authUser._id, poem)
+                    .then(function (favorite) {
+                        poem.favoriteFlag = true;
+                        poem.favoriteId = favorite._id;
+                    });
+            } else {
+                authService.referToLogin();
+            }
         }
 
         function unFavoritePoem(favoriteId) {
             poemService
-                .unFavoritePoem(uid, favoriteId)
+                .unFavoritePoem(authUser._id, favoriteId)
                 .then(function () {
                     poem.favoriteFlag = false;
                     poem.favoriteId = undefined;
@@ -53,6 +48,33 @@
             );
         }
 
+        function _findFavoriteUsers() {
+            poemService
+                .findFavoriteUsers(poem)
+                .then(function (users) {
+                    vm.users = users;
+                });
+        }
+
+        function _findIfUserFavorited() {
+            if (authUser) {
+                // TODO need better way to check if poem already favorited with DB
+                poemService
+                    .findFavoritesByUser(authUser._id)
+                    .then(function (res) {
+                        var userFavorites = res.favorites;
+
+                        for (var i = 0; userFavorites && i < userFavorites.length; i++) {
+                            if (userFavorites[i].title === poem.title && userFavorites[i].author === poem.author) {
+                                poem.favoriteFlag = true;
+                                poem.favoriteId = userFavorites[i]._id;
+                                break;
+                            }
+                        }
+                    });
+            }
+        }
+
         function _initHeaderFooter() {
             vm.navHeader = {
                 leftLink: {href: "#!/search", iconClass: "glyphicon-search", name: "Search"},
@@ -62,7 +84,7 @@
         }
 
         function _loadContent() {
-            vm.showFavoritesFlag = !!uid; // show if logged in
+            vm.showFavoritesFlag = true;
             vm.successMsg = "Loading...";
 
             searchService
@@ -73,26 +95,8 @@
 
                     poem = vm.results[0]; // only one poem expected to be on this page
 
-                    // TODO need better way to check if poem already favorited with DB
-                    poemService
-                        .findFavoritesByUser(uid)
-                        .then(function (res) {
-                            var userFavorites = res.favorites;
-
-                            for (var i = 0; userFavorites && i < userFavorites.length; i++) {
-                                if (userFavorites[i].title === poem.title && userFavorites[i].author === poem.author){
-                                    poem.favoriteFlag = true;
-                                    poem.favoriteId = userFavorites[i]._id;
-                                    break;
-                                }
-                            }
-                        });
-
-                    poemService
-                        .findFavoriteUsers(poem)
-                        .then(function(users){
-                            vm.users = users;
-                        });
+                    _findIfUserFavorited();
+                    _findFavoriteUsers();
                 });
         }
 

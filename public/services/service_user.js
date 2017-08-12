@@ -19,7 +19,7 @@
 
         function createUser(user) {
             return $http({
-                url: "/api/user",
+                url: "/api/register",
                 method: "POST",
                 params: user
             }).then(function (res) {

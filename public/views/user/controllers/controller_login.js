@@ -3,7 +3,7 @@
         .module("pp")
         .controller("loginController", loginController);
 
-    function loginController(sharedService, authService, userService) {
+    function loginController(authService, sharedService) {
         var vm = this;
 
         vm.login = login;
@@ -22,8 +22,11 @@
                         vm.errorMsg = res.msg;
                     }
                     else {
-                        userService.navToProfile();
+                        authService.referBack();
                     }
+                })
+                .catch(function (err) {
+                    vm.errorMsg = err.statusText;
                 });
         }
 

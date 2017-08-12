@@ -1,4 +1,4 @@
-<ul class="list-group">
+<ul class="list-group aoa-list-group">
     <li class="list-group-item" ng-repeat="result in model.results">
         <div><b>{{result.title}}</b></div>
         <div><i>{{result.author}}</i></div>
@@ -8,21 +8,19 @@
         <a ng-if="model.maxLines" href="#!/search/{{result.author}}/{{result.title}}">See full poem</a>
         <br/>
         <a ng-if="!model.suppressAuthorLink" href="#!/search/{{result.author}}">See more poems by this author</a>
-        <br/>
-        <div ng-show="model.showFavoritesFlag && result.favoriteFlag">
-            <i class="glyphicon glyphicon-heart"></i>
-            <span>Favorited</span>
+
+        <div ng-if="model.showFavoritesFlag">
+            <i ng-show="result.favoriteFlag" class="glyphicon glyphicon-heart"></i>
+            <span ng-show="result.favoriteFlag">Favorited</span>
             <br/>
-            <a ng-show="model.showFavoritesFlag && result.favoriteFlag"
-               class="alert-danger"
-               ng-click="model.unFavoritePoem(result.favoriteId)">
+            <a ng-show="result.favoriteFlag" class="btn btn-danger" ng-click="model.unFavoritePoem(result.favoriteId)">
                 Remove from favorites
+            </a>
+            <a class="btn btn-success" ng-hide="result.favoriteFlag" ng-click="model.favoritePoem(result)">
+                Add to Favorites
             </a>
         </div>
         <br/>
-        <a ng-show="model.showFavoritesFlag && !result.favoriteFlag" ng-click="model.favoritePoem(result)">
-            Add to Favorites
-        </a>
         <div ng-show="model.users && model.users.length">
             <label>Users who have favorited this poem</label>
             <div ng-include="model.templates.favoriteUsersList"></div>

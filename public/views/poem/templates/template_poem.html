@@ -1,0 +1,28 @@
+<div class="form-group">
+    <label for="title">Title</label>
+    <input type="text"
+           id="title"
+           class="form-control"
+           placeholder="Title"
+           ng-model="model.poem.title"
+           ng-readonly="!model.poemEditFlag"
+    />
+</div>
+<div class="form-group">
+    <label >Author</label>
+    <br/>
+    <a href="#!/profile/{{model.poem.author._id}}">
+        <i>{{model.poem.author.username}}</i>
+    </a>
+</div>
+<div class="form-group">
+    <label for="text">Text</label>
+    <!-- TODO implement elastic library -->
+    <textarea id="text"
+              class="form-control"
+              ng-model="model.poem.text"
+              placeholder="Write poem here"
+              rows="{{!model.poemEditFlag ? model.poem.lines.length : 15}}"
+              ng-readonly="!model.poemEditFlag"
+    >{{model.poem.text}}</textarea>
+</div>

@@ -1,0 +1,20 @@
+<div ng-include="model.templates.navHeader"></div>
+
+<div class="container-fluid">
+    <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
+    <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div ng-include="model.templates.poem"></div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div ng-include="model.templates.translation"></div>
+        </div>
+    </div>
+    <a ng-if="model.translationEditFlag"
+       class="btn btn-danger btn-block"
+       ng-click="model.deleteTranslation()">Delete Translation</a>
+</div>
+
+<div ng-include="model.templates.navFooter"></div>
