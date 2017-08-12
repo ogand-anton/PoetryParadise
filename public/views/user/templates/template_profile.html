@@ -1,10 +1,10 @@
 <div ng-include="model.templates.navHeader"></div>
 
-<!-- Profile -->
 <div class="container-fluid">
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
-    <form>
+
+    <form ng-if="model.profileEditFlag">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text"
@@ -39,6 +39,25 @@
         </div>
     </form>
 
+    <form ng-if="!model.profileEditFlag">
+        <div class="form-group">
+            <label>Username</label>
+            <div>{{model.profile.username}}</div>
+        </div>
+        <div class="form-group">
+            <label>Email Address</label>
+            <div>{{model.profile.emailAddress || "None Listed"}}</div>
+        </div>
+        <div class="form-group">
+            <label>First Name</label>
+            <div>{{model.profile.firstName || "None Listed"}}</div>
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            <div>{{model.profile.lastName || "None Listed"}}</div>
+        </div>
+    </form>
+
     <div>
         <label>Favorite Poems</label>
         <!-- TODO reuse template_search_result_list_group.html even for this and move it out of search dir -->
@@ -48,12 +67,17 @@
                 <div><i>{{favorite.author}}</i></div>
                 <a href="#!/search/{{favorite.author}}/{{favorite.title}}">Go to Poem</a>
                 <br/>
-                <a class="alert-danger" ng-click="model.unFavoritePoem(favorite._id)">Remove from Favorites</a>
+                <a ng-if="model.profileEditFlag"
+                   class="alert-danger"
+                   ng-click="model.unFavoritePoem(favorite._id)"
+                >
+                    Remove from Favorites
+                </a>
             </li>
         </ul>
     </div>
 
-    <div>
+    <div ng-if="model.profileEditFlag">
         <label>Following</label>
         <!-- TODO need generic user list template to use here -->
         <ul class="list-group">
@@ -62,6 +86,16 @@
                     <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
                     <a class="btn btn-danger pull-right" ng-click="model.unFollowUser(follower._id)">Unfollow</a>
                 </div>
+            </li>
+        </ul>
+    </div>
+
+    <div ng-if="!model.profileEditFlag">
+        <label>Followed By</label>
+        <!-- TODO need generic user list template to use here -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="follower in model.followers">
+                <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
             </li>
         </ul>
     </div>
@@ -96,35 +130,39 @@
                 <div ng-repeat="line in translation.lines | limitTo: model.maxLines track by $index">{{line}}</div>
                 <div ng-if="translation.lines.length > model.maxLines">...</div>
                 <div>{{translation.lines.length}}</div>
-                <a href="#!/poem/{{translation.originalPoem}}/translation/{{translation._id}}">Edit Translation</a>
+                <a href="#!/poem/{{translation.originalPoem}}/translation/{{translation._id}}">Go to Translation</a>
                 <br/>
             </li>
         </ul>
     </div>
 
-    <label>Reviews</label>
-    <ul class="list-group">
-        <li class="list-group-item" ng-repeat="review in model.reviews">
-            <b>{{review._poem.title}}</b>
-            <br/>
-            <a href="#!/profile/{{review._poem.author._id}}">
-                <i>{{review._poem.author.username}}</i>
-            </a>
-            <br/>
-            <i class="alert-danger" ng-if="!review.text">Review Not Complete</i>
-            <span ng-if="review.text">{{review.text.substring(0, model.maxReviewLength)}}</span>
-            <span ng-if="review.text && review.text.length > model.maxReviewLength">...</span>
-            <br/>
-            <a class="btn btn-info" ng-if="!review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Write
-                Review</a>
-            <a class="btn btn-info" ng-if="review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Edit
-                Review</a>
-        </li>
-    </ul>
+    <div ng-if="model.profileEditFlag">
+        <label>Reviews</label>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="review in model.reviews">
+                <b>{{review._poem.title}}</b>
+                <br/>
+                <a href="#!/profile/{{review._poem.author._id}}">
+                    <i>{{review._poem.author.username}}</i>
+                </a>
+                <br/>
+                <i class="alert-danger" ng-if="!review.text">Review Not Complete</i>
+                <span ng-if="review.text">{{review.text.substring(0, model.maxReviewLength)}}</span>
+                <span ng-if="review.text && review.text.length > model.maxReviewLength">...</span>
+                <br/>
+                <a class="btn btn-info" ng-if="!review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Write
+                    Review</a>
+                <a class="btn btn-info" ng-if="review.text" href="#!/poem/{{review._poem._id}}/review/{{review._id}}">Edit
+                    Review</a>
+            </li>
+        </ul>
+    </div>
 
     <!-- TODO add to footer -->
-    <a class="btn btn-success btn-block" href="#!/poem">Pen New Poem</a>
-    <a class="btn btn-warning btn-block" href="#!/search">To Search Page</a>
+    <div ng-if="model.profileEditFlag">
+        <a class="btn btn-success btn-block" href="#!/poem">Pen New Poem</a>
+        <a class="btn btn-warning btn-block" href="#!/search">To Search Page</a>
+    </div>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

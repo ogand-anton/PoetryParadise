@@ -97,6 +97,14 @@ textarea {
     width: 100%;
 }
 
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
 /************************/
 /*      Utilities       */
 /************************/

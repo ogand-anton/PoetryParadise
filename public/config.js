@@ -59,7 +59,7 @@
                 resolve: {authUser: authenticate}
             })
             .when("/profile/:uid", {
-                templateUrl: "views/user/templates/template_profile_other.html",
+                templateUrl: "views/user/templates/template_profile.html",
                 controller: "profileController",
                 controllerAs: "model",
                 resolve: {authUser: authenticate}

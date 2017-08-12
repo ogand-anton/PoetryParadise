@@ -7,7 +7,8 @@
                                authService, poemService, reviewService, sharedService, translationService, userService) {
         var vm = this,
             uid,
-            poemEditFlag;
+            profileEditFlag,
+            followingFlag;
 
         vm.followUser = followUser;
         vm.saveUser = saveUser;
@@ -23,7 +24,6 @@
         })();
 
         function followUser() {
-            // TODO prevent following (a) yourself and (b) someone else multiple times
             userService
                 .followUser(authUser._id, uid)
                 .then(function () {
@@ -53,6 +53,7 @@
         }
 
         function unFollowUser(followerId) {
+            followerId = followerId || uid;
             userService
                 .unFollowUser(authUser._id, followerId)
                 .then(function () {
@@ -78,6 +79,8 @@
                     .findUserFollowers(uid)
                     .then(function (followers) {
                         vm.followers = followers;
+                        followingFlag = !!followers.find(function (a) {return a._id === authUser._id});
+                        _initHeaderFooter(); // TODO prevent double work
                     });
             } else { // your actual profile
                 userService
@@ -135,16 +138,16 @@
                     name: "Save"
                 },
                 followNav = {
-                    clickCb: followUser,
+                    clickCb: followingFlag ? unFollowUser : followUser,
                     href: "javacript:void(0)",
-                    iconClass: "glyphicon-thumbs-up",
-                    name: "Follow"
+                    iconClass: followingFlag ? "glyphicon-thumbs-down" : "glyphicon-thumbs-up",
+                    name: followingFlag ? "Stop Following" : "Follow"
                 };
 
             vm.navHeader = {
                 leftLink: {clickCb: logout, href: "javacript:void(0)", iconClass: "glyphicon-log-out", name: "Logout"},
                 name: "Profile",
-                rightLink: poemEditFlag ? followNav : saveUserNav
+                rightLink: profileEditFlag ? saveUserNav : followNav
             };
         }
 
@@ -160,17 +163,21 @@
             _findReviews();
             _findTranslations();
             _findUser();
+
+            vm.profileEditFlag = profileEditFlag;
         }
 
         function _parseRouteParams() {
             if ($routeParams["uid"]) {
                 uid = $routeParams["uid"];
-                poemEditFlag = true;
+                profileEditFlag = false;
                 vm.uid = uid;
 
                 if (uid === authUser._id) {
                     $location.url("profile");
                 }
+            } else {
+                profileEditFlag = true;
             }
         }
     }
