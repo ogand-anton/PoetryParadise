@@ -1,4 +1,4 @@
-(function () {
+(function (cookies) {
     angular
         .module("pp")
         .factory("authService", authService);
@@ -7,10 +7,12 @@
         return {
             authenticate: authenticate,
             login: login,
-            logout: logout
+            logout: logout,
+            referBack: referBack,
+            referToLogin: referToLogin
         };
 
-        function authenticate(preventRedirect) {
+        function authenticate() {
             return $http
                 .get("/api/authenticated")
                 .then(function (res) {
@@ -39,5 +41,16 @@
                 $location.url("login");
             });
         }
+
+        function referBack() {
+            var referrerUrl = cookies.get("referrerUrl");
+            cookies.remove("referrerUrl");
+            $location.url(referrerUrl || "profile");
+        }
+
+        function referToLogin(){
+            cookies.set("referrerUrl", $location.$$url);
+            $location.url("login");
+        }
     }
-})();
+})(Cookies);

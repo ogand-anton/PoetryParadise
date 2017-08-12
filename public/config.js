@@ -1,4 +1,4 @@
-(function (cookies) {
+(function () {
     angular
         .module("pp")
         .config(configure);
@@ -77,34 +77,30 @@
             .when("/search/:author/:title", {
                 templateUrl: "views/search/templates/template_landing.html",
                 controller: "landingPoemController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {authUser: genAuthenticateCb(false)}
             })
             .otherwise({
                 redirectTo: "/profile"
             });
     }
 
-    function genAuthenticateCb(preventRedirect) {
-        return function ($q, $location, authService) {
+    function genAuthenticateCb(redirectFlag) {
+        return function ($q, authService) {
             var authPromise = $q.defer();
 
             authService
                 .authenticate()
                 .then(function (user) {
-                    if (user) {
+                    if (user || redirectFlag === false) {
                         authPromise.resolve(user);
-                        cookies.remove("referrerUrl");
                     } else {
                         authPromise.reject();
-
-                        if (!preventRedirect) {
-                            cookies.set("referrerUrl", $location.$$url);
-                            $location.url("login");
-                        }
+                        authService.referToLogin();
                     }
                 });
 
             return authPromise.promise;
         }
     }
-})(Cookies);
+})();

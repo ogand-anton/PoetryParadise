@@ -61,7 +61,7 @@
     <div>
         <label>Favorite Poems</label>
         <!-- TODO reuse template_search_result_list_group.html even for this and move it out of search dir -->
-        <ul class="list-group">
+        <ul class="list-group aoa-list-group">
             <li class="list-group-item" ng-repeat="favorite in model.favorites">
                 <div><b>{{favorite.title}}</b></div>
                 <div><i>{{favorite.author}}</i></div>
@@ -103,7 +103,7 @@
     <div>
         <label>Penned Poems</label>
         <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
-        <ul class="list-group">
+        <ul class="list-group aoa-list-group">
             <li class="list-group-item" ng-repeat="poem in model.poems">
                 <div><b>{{poem.title || ""}}</b></div>
                 <a href="#!/profile/{{poem.author._id}}">
@@ -121,7 +121,7 @@
     <div>
         <label>Penned Translations</label>
         <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
-        <ul class="list-group">
+        <ul class="list-group aoa-list-group">
             <li class="list-group-item" ng-repeat="translation in model.translations">
                 <div><b>{{translation.title || ""}}</b></div>
                 <a href="#!/profile/{{translation.author._id}}">
@@ -138,7 +138,7 @@
 
     <div ng-if="model.profileEditFlag">
         <label>Reviews</label>
-        <ul class="list-group">
+        <ul class="list-group aoa-list-group">
             <li class="list-group-item" ng-repeat="review in model.reviews">
                 <b>{{review._poem.title}}</b>
                 <br/>
