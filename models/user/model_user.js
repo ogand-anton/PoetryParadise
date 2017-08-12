@@ -8,6 +8,7 @@ module.exports = function (app) {
         createUser: createUser,
         deleteUser: deleteUser,
         findUserByCredentials: findUserByCredentials,
+        findUserByFacebookId: findUserByFacebookId,
         findUserByGoogleId: findUserByGoogleId,
         findUserById: findUserById,
         findUserByUsername: findUserByUsername,
@@ -46,6 +47,10 @@ module.exports = function (app) {
 
     function findUserById(userId) {
         return userModel.findOne({_id: userId});
+    }
+
+    function findUserByFacebookId(facebookId) {
+        return userModel.findOne({"facebook.id": facebookId});
     }
 
     function findUserByGoogleId(googleId) {

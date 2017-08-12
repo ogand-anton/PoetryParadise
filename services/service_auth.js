@@ -1,22 +1,34 @@
 module.exports = function (app, model) {
     var googleConfig = {
-        clientID: process.env.GOOGLE_CLIENTID,
-        clientSecret: process.env.GOOGLE_CLIENTSECRET,
-        callbackURL: process.env.GOOGLE_CALLBACK
-    };
+            clientID: process.env.GOOGLE_CLIENTID,
+            clientSecret: process.env.GOOGLE_CLIENTSECRET,
+            callbackURL: process.env.GOOGLE_CALLBACK
+        },
+        facebookConfig = {
+            clientID: process.env.FACEBOOK_CLIENTID,
+            clientSecret: process.env.FACEBOOK_CLIENTSECRET,
+            callbackURL: process.env.FACEBOOK_CALLBACK
+        };
 
     var passport = require("passport"),
         LocalStrategy = require("passport-local").Strategy,
-        GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+        GoogleStrategy = require("passport-google-oauth").OAuth2Strategy,
+        FacebookStrategy = require("passport-facebook").Strategy;
 
     var userModel = model.userModel;
 
     passport.use(new LocalStrategy(_localStrategy));
     passport.use(new GoogleStrategy(googleConfig, _googleStrategy));
+    passport.use(new FacebookStrategy(facebookConfig, _facebookStrategy));
     passport.serializeUser(_serializeUser);
     passport.deserializeUser(_deserializeUser);
 
     app.get("/api/authenticated", authenticated);
+    app.get("api/login/facebook", passport.authenticate("facebook", {scope: "email"}));
+    app.get("/api/login/facebook/callback", passport.authenticate("facebook", {
+        successRedirect: "/#/profile",
+        failureRedirect: "/#/login"
+        }));
     app.get("/api/login/google", passport.authenticate("google", {scope: ["profile", "email"]}));
     app.get("/api/login/google/callback", passport.authenticate("google", {
         successRedirect: "/#/profile",
@@ -99,6 +111,40 @@ module.exports = function (app, model) {
     // PASSPORT
     function _serializeUser(user, done) {
         done(null, user);
+    }
+
+    // PASSPORT
+    function _facebookStrategy(token, refreshToken, profile, done) {
+        console.log(profile);
+        userModel
+            .findUserByFacebookId(profile.id)
+            .then(function (user) {
+                if (user) {
+                    return done(null, user);
+                } else {
+                    var email = profile.emails[0].value,
+                        emailParts = email.split("@"),
+                        newGoogleUser = {
+                            username: emailParts[0],
+                            firstName: profile.name.givenName,
+                            lastName: profile.name.familyName,
+                            emailAddress: email,
+                            facebook: {
+                                id: profile.id,
+                                token: token
+                            }
+                        };
+
+                    return userModel.createUser(newGoogleUser);
+                }
+            }, function (err) {
+                if (err) { return done(err); }
+            })
+            .then(function (user) {
+                return done(null, user);
+            }, function (err) {
+                if (err) { return done(err); }
+            });
     }
 
     // PASSPORT
