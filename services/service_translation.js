@@ -79,8 +79,8 @@ module.exports = function (app, model) {
 
         translationModel
             .updateTranslation(translationId, translation)
-            .then(function (translation) {
-                res.json(translation);
+            .then(function () {
+                res.json({_id: translationId});
             }, function () {
                 res.status(501).send("Unable to update translation");
             });

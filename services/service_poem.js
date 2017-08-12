@@ -130,8 +130,8 @@ module.exports = function (app, model) {
 
         poemModel
             .updatePoem(poemId, poem)
-            .then(function (poem) {
-                res.json(poem);
+            .then(function () {
+                res.json({_id: poemId});
             }, function () {
                 res.status(501).send("unable to update poem");
             });

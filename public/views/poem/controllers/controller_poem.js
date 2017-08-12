@@ -4,9 +4,8 @@
         .controller("poemEditController", poemEditController);
 
     function poemEditController($routeParams, $location, authUser,
-                                authService, poemService, reviewService, sharedService, translationService, userService) {
+                                poemService, reviewService, sharedService, translationService, userService) {
         var vm = this,
-            authenticatedUser,
             poemId;
 
         vm.addTranslation = addTranslation;
@@ -14,24 +13,12 @@
         vm.requestReview = requestReview;
         vm.savePoem = savePoem;
 
-        function init() {
+        (function init() {
             _parseRouteParams();
             _fetchTemplates();
             _initHeaderFooter();
             _loadContent();
-        }
-
-        authService
-            .authenticate()
-            .then(function (user) {
-                if (user) {
-                    authenticatedUser = user;
-                    authUser._id = user._id;
-                } else {
-                    $location.url("login");
-                }
-                init();
-            });
+        })();
 
         function addTranslation() {
             $location.url("poem/" + poemId + "/translation");
@@ -84,7 +71,7 @@
         }
 
         function _findFollowers() {
-            if (authUser._id === authenticatedUser._id) {
+            if (authUser._id === authUser._id) {
                 userService
                     .findFollowers(authUser._id)
                     .then(function (followers) {
@@ -108,13 +95,13 @@
                         vm.errorMsg = err;
                     });
             } else {
-                vm.poem = {author: authenticatedUser};
+                vm.poem = {author: authUser};
                 vm.poemEditFlag = true;
             }
         }
 
         function _findReviews() {
-            if (authUser._id === authenticatedUser._id) {
+            if (authUser._id === authUser._id) {
                 reviewService
                     .findReviews(undefined, poemId)
                     .then(function(reviews){
