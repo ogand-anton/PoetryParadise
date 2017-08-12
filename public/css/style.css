@@ -21,19 +21,43 @@
 /*       List Box       */
 /************************/
 
-.aoa-list-box {
+.aoa-list-box-200,
+.aoa-list-box-300,
+.aoa-list-box-400 {
     margin-bottom: 20px;
 }
 
-.aoa-list-box ul {
+.aoa-list-box-200 ul,
+.aoa-list-box-300 ul,
+.aoa-list-box-400 ul{
     background-color: rgba(255, 255, 255, 0.5);
     max-height: 300px;
     overflow-y: auto;
 }
 
+.aoa-list-box-200 ul {
+    max-height: 200px;
+}
+
+.aoa-list-box-300 ul {
+    max-height: 300px;
+}
+
+.aoa-list-box-400 ul {
+    max-height: 400px;
+}
+
 @media (min-width: 769px) {
-    .aoa-list-box ul {
+    .aoa-list-box-200:not(.aoa-no-height-force) ul {
+        height: 200px;
+    }
+
+    .aoa-list-box-300:not(.aoa-no-height-force) ul {
         height: 300px;
+    }
+
+    .aoa-list-box-400:not(.aoa-no-height-force) ul {
+        height: 400px;
     }
 }
 

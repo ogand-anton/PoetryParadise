@@ -4,40 +4,50 @@
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
 
-    <div class="col-xs-12 col-sm-6">
+    <div ng-if="model.poemEditFlag && model.poem._id" class="col-xs-12 col-sm-6">
+        <div ng-include="model.templates.poem"></div>
+    </div>
+
+    <div ng-if="!(model.poemEditFlag && model.poem._id)" class="col-xs-12">
         <div ng-include="model.templates.poem"></div>
     </div>
 
     <div ng-if="model.poemEditFlag && model.poem._id" class="col-xs-12 col-sm-6">
-        <div ng-if="model.reviews.length">
+        <div ng-if="model.reviews.length" class="aoa-list-box-200">
             <label>Reviews</label>
             <ul class="list-group aoa-list-group">
                 <li class="list-group-item" ng-repeat="review in model.reviews">
                     <a href="#!/profile/{{review.reviewer._id}}">
                         <i>{{review.reviewer.username}}</i>
                     </a>
-                    <br/>
-                    <p ng-if="review.text">{{review.text}}</p>
-                    <i ng-if="!review.text">Review Pending...</i>
+                    <div ng-if="review.text">{{review.text}}</div>
+                    <div ng-if="!review.text">
+                        <i class="alert-danger">Review Pending...</i>
+                    </div>
                 </li>
             </ul>
             <br/>
         </div>
 
-        <label>Request a Review:</label>
-        <!-- TODO need generic user list template to use here and in profile -->
-        <ul class="list-group aoa-list-group">
-            <li class="list-group-item" ng-repeat="follower in model.followers">
-                <div class="container-fluid aoa-padding-lr-none">
-                    <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
-                    <a class="btn btn-warning pull-right" ng-click="model.requestReview(follower._id)">Request
-                        Review</a>
-                </div>
-            </li>
-        </ul>
+        <div class="aoa-list-box-200">
+            <label>Request a Review:</label>
+            <!-- TODO need generic user list template to use here and in profile -->
+            <ul class="list-group aoa-list-group">
+                <li class="list-group-item row aoa-margin-lr-none" ng-repeat="follower in model.followers">
+                    <div class="col-xs-7">
+                        <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
+                    </div>
+                    <div class="col-xs-5">
+                        <button class="btn btn-warning pull-right" ng-click="model.requestReview(follower._id)">
+                            Request Review
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <div ng-if="model.poem._id" class="col-xs-12">
+    <div ng-if="model.poem._id && model.translations.length" class="col-xs-12 aoa-list-box-400 aoa-no-height-force">
         <label>Translations</label>
         <!-- TODO bring out into separate template -->
         <ul class="list-group aoa-list-group">
@@ -52,13 +62,13 @@
                 <span ng-if="translation.lines.length > model.maxLines">...</span>
             </li>
         </ul>
+        <a ng-click="model.addTranslation()" class="btn btn-success btn-block">Add Translation</a>
     </div>
 
-    <!--<a ng-if="model.poem._id"-->
-       <!--class="btn btn-success btn-block"-->
-       <!--ng-click="model.addTranslation()">Add Translation</a>-->
-    <!--&lt;!&ndash; TODO what happens when poem with translations is deleted? &ndash;&gt;-->
-    <!--<a ng-if="model.poemEditFlag" class="btn btn-danger btn-block" ng-click="model.deletePoem()">Delete Poem</a>-->
+    <div ng-if="model.poemEditFlag" class="col-xs-12">
+        <!-- TODO what happens when poem with translations is deleted? -->
+        <a class="btn btn-danger btn-block" ng-click="model.deletePoem()">Delete Poem</a>
+    </div>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

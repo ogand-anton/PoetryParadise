@@ -4,12 +4,11 @@
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
 
-    <div class="aoa-list-box col-xs-12 col-sm-6">
+    <div class="aoa-list-box-300 col-xs-12 col-sm-6">
         <form ng-if="model.profileEditFlag">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text"
-                       class="form-control"
+                <input class="form-control"
                        id="username"
                        placeholder="Username"
                        ng-model="model.profile.username">
@@ -24,16 +23,14 @@
             </div>
             <div class="form-group">
                 <label for="first-name">First Name</label>
-                <input type="text"
-                       class="form-control"
+                <input class="form-control"
                        id="first-name"
                        placeholder="Alice"
                        ng-model="model.profile.firstName">
             </div>
             <div class="form-group">
                 <label for="last-name">Last Name</label>
-                <input type="text"
-                       class="form-control"
+                <input class="form-control"
                        id="last-name"
                        placeholder="Wonderland"
                        ng-model="model.profile.lastName">
@@ -60,7 +57,7 @@
         </form>
     </div>
 
-    <div class="aoa-list-box col-xs-12 col-sm-6">
+    <div class="aoa-list-box-300 col-xs-12 col-sm-6">
         <label>Favorite Poems</label>
         <!-- TODO reuse template_search_result_list_group.html even for this and move it out of search dir -->
         <ul class="list-group aoa-list-group">
@@ -84,7 +81,7 @@
         </ul>
     </div>
 
-    <div class="aoa-list-box col-xs-12 col-sm-6">
+    <div class="aoa-list-box-300 col-xs-12 col-sm-6">
         <label>Following</label>
         <!-- TODO need generic user list template to use here -->
         <ul class="list-group aoa-list-group">
@@ -103,7 +100,7 @@
         </ul>
     </div>
 
-    <div class="aoa-list-box col-xs-12 col-sm-6">
+    <div class="aoa-list-box-300 col-xs-12 col-sm-6">
         <label>Followed By</label>
         <!-- TODO need generic user list template to use here -->
         <ul class="list-group aoa-list-group">
@@ -113,7 +110,7 @@
         </ul>
     </div>
 
-    <div class="aoa-list-box col-xs-12 col-sm-6">
+    <div class="aoa-list-box-300 col-xs-12 col-sm-6">
         <label>Penned Poems</label>
         <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
         <ul class="list-group aoa-list-group">
@@ -127,7 +124,7 @@
         </ul>
     </div>
 
-    <div class="aoa-list-box col-xs-12 col-sm-6">
+    <div class="aoa-list-box-300 col-xs-12 col-sm-6">
         <label>Penned Translations</label>
         <!-- TODO bring out into separate template perhaps again merging with template_search_result_list_group.html -->
         <ul class="list-group aoa-list-group">
@@ -141,7 +138,7 @@
         </ul>
     </div>
 
-    <div ng-if="model.profileEditFlag" class="aoa-list-box col-xs-12 col-sm-6">
+    <div ng-if="model.profileEditFlag" class="aoa-list-box-300 col-xs-12 col-sm-6">
         <label>Your Reviews</label>
         <ul class="list-group aoa-list-group">
             <li class="list-group-item row aoa-margin-lr-none" ng-repeat="review in model.reviews">

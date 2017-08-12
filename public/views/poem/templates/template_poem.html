@@ -9,10 +9,11 @@
 </div>
 <div ng-if="!model.poemEditFlag" class="form-group">
     <label>Author</label>
-    <br/>
-    <a href="#!/profile/{{model.poem.author._id}}">
-        <i>{{model.poem.author.username}}</i>
-    </a>
+    <div>
+        <a href="#!/profile/{{model.poem.author._id}}">
+            <i>{{model.poem.author.username}}</i>
+        </a>
+    </div>
 </div>
 <div class="form-group">
     <label for="text">Text</label>
@@ -21,7 +22,7 @@
               class="form-control"
               ng-model="model.poem.text"
               placeholder="Write poem here"
-              rows="{{!model.poemEditFlag ? model.poem.lines.length : 15}}"
+              rows="{{!model.poemEditFlag ? model.poem.lines.length : 20}}"
               ng-readonly="!model.poemEditFlag"
     >{{model.poem.text}}</textarea>
 </div>

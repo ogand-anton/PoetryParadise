@@ -3,10 +3,18 @@
 <div class="container-fluid">
     <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
-    <div ng-include="model.templates.poem"></div>
-    <hr>
-    <div ng-include="model.templates.review"></div>
-    <a ng-if="model.reviewEditFlag" class="btn btn-danger btn-block" ng-click="model.deleteReview()">Delete Review</a>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div ng-include="model.templates.poem"></div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div ng-include="model.templates.review"></div>
+        </div>
+    </div>
+
+    <!-- TODO: create landing pages for reviews so permissions can apply -->
+    <a class="btn btn-danger btn-block" ng-click="model.deleteReview()">Delete Review</a>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>

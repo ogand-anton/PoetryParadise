@@ -1,8 +1,7 @@
-<!-- TODO bring out into separate template -->
+<!-- TODO bring out title, author, and text into separate template for use in translation, poem, and review -->
 <div class="form-group">
     <label for="translationTitle">Translated Title</label>
-    <input type="text"
-           id="translationTitle"
+    <input id="translationTitle"
            ng-model="model.translation.title"
            class="form-control"
            placeholder="Translated Title"
@@ -11,10 +10,11 @@
 </div>
 <div class="form-group">
     <label>Translator</label>
-    <br/>
-    <a href="#!/profile/{{model.translation.author._id}}">
-        <i>{{model.translation.author.username}}</i>
-    </a>
+    <div>
+        <a href="#!/profile/{{model.translation.author._id}}">
+            <i>{{model.translation.author.username}}</i>
+        </a>
+    </div>
 </div>
 <div class="form-group">
     <label for="translationText">Translated Text</label>

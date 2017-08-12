@@ -12,9 +12,13 @@
             <div ng-include="model.templates.translation"></div>
         </div>
     </div>
+
     <a ng-if="model.translationEditFlag"
        class="btn btn-danger btn-block"
-       ng-click="model.deleteTranslation()">Delete Translation</a>
+       ng-click="model.deleteTranslation()"
+    >
+        Delete Translation
+    </a>
 </div>
 
 <div ng-include="model.templates.navFooter"></div>
