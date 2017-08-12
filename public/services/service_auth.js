@@ -38,11 +38,10 @@
             });
         }
 
-        function loginGoogle(loginCredentials) {
+        function loginGoogle() {
             return $http({
                 url: "/api/login/google",
-                method: "POST",
-                params: loginCredentials
+                method: "GET"
             }).then(function (res) {
                 return res.data;
             });

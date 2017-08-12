@@ -33,9 +33,9 @@
                 });
         }
 
-        function loginGoogle(user) {
+        function loginGoogle() {
             authService
-                .loginGoogle(user)
+                .loginGoogle()
                 .then(function (res) {
                     if (res.msg) {
                         vm.errorMsg = res.msg;
