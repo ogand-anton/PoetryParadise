@@ -126,7 +126,7 @@ module.exports = function (app, model) {
                     return done(null, user);
                 } else {
                     var newFacebookUser = {
-                            username: displayName.split(" ").join(""),
+                            username: profile.displayName.split(" ").join(""),
                             firstName: profile.name.givenName,
                             lastName: profile.name.familyName,
                             facebook: {
