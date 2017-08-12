@@ -18,8 +18,12 @@ module.exports = function (app, model) {
     var userModel = model.userModel;
 
     passport.use(new LocalStrategy(_localStrategy));
-    passport.use(new GoogleStrategy(googleConfig, _googleStrategy));
-    passport.use(new FacebookStrategy(facebookConfig, _facebookStrategy));
+    if (process.env.GOOGLE_CLIENTID) {
+        passport.use(new GoogleStrategy(googleConfig, _googleStrategy));
+    }
+    if (process.env.FACEBOOK_CLIENTID) {
+        passport.use(new FacebookStrategy(facebookConfig, _facebookStrategy));
+    }
     passport.serializeUser(_serializeUser);
     passport.deserializeUser(_deserializeUser);
 
