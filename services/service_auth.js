@@ -119,27 +119,23 @@ module.exports = function (app, model) {
 
     // PASSPORT
     function _facebookStrategy(token, refreshToken, profile, done) {
-        console.log(profile);
         userModel
             .findUserByFacebookId(profile.id)
             .then(function (user) {
                 if (user) {
                     return done(null, user);
                 } else {
-                    var email = profile.emails[0].value,
-                        emailParts = email.split("@"),
-                        newGoogleUser = {
-                            username: emailParts[0],
+                    var newFacebookUser = {
+                            username: displayName.split(" ").join(""),
                             firstName: profile.name.givenName,
                             lastName: profile.name.familyName,
-                            emailAddress: email,
                             facebook: {
                                 id: profile.id,
                                 token: token
                             }
                         };
 
-                    return userModel.createUser(newGoogleUser);
+                    return userModel.createUser(newFacebookUser);
                 }
             }, function (err) {
                 if (err) { return done(err); }
