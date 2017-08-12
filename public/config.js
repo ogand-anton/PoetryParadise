@@ -12,6 +12,11 @@
                 controller: "homeController",
                 controllerAs: "model"
             })
+            .when("/admin", {
+                templateUrl: "views/home/templates/template_admin_profile.html",
+                controller: "adminController",
+                controllerAs: "model"
+            })
             .when("/edit", {
                 templateUrl: "views/poem/templates/template_poem_edit.html",
                 controller: "poemEditController",

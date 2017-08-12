@@ -1,0 +1,151 @@
+<div ng-include="model.templates.navHeader"></div>
+
+<!-- ADMIN Profile -->
+
+<div class="container-fluid">
+    <label>Users</label>
+    <ul class="list-group">
+
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-md-6">Username</div>
+                <div class="col-md-6">Action</div>
+            </div>
+        </li>
+        <!--TODO: is user known as user or profile? what should we pass in as an argument to delete? -->
+        <li class="list-group-item" ng-repeat="user in model.users">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-6">{{model.user.username}}</div>
+                    <a class="col-md-6" ng-click="model.deleteUser(user._id)">Delete User</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid">
+    <label>Poems by Users</label>
+    <ul class="list-group">
+
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-md-4">Title</div>
+                <div class="col-md-4">Author's Username</div>
+                <div class="col-md-4">Action</div>
+            </div>
+        </li>
+
+        <li class="list-group-item" ng-repeat="poem in model.poems">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-4">{{model.poem.title}}</div>
+                    <!--TODO: DO we know who is the author? -->
+                    <div class="col-md-4">{{model.profile.username}}</div>
+                    <a class="col-md-4" ng-click="model.deletePoemByUser(model.poem._id, model.user._id)">Delete Poem</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid">
+    <label>Reviews</label>
+    <ul class="list-group">
+
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-md-4">Review</div>
+                <div class="col-md-4">Username</div>
+                <div class="col-md-4">Action</div>
+            </div>
+        </li>
+
+        <li class="list-group-item" ng-repeat="review in model.reviews">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-4">{{model.review}}</div>
+                    <div class="col-md-4">{{model.reviewer.username}}</div>
+                    <a class="col-md-4" ng-click="model.deleteReviewByReviewer(model.review._id, model.reviewer._id)">Delete Review</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid">
+    <label>Translated Poems</label>
+    <ul class="list-group">
+
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-md-4">Title</div>
+                <div class="col-md-4">Translator's Username</div>
+                <div class="col-md-4">Action</div>
+            </div>
+        </li>
+
+        <li class="list-group-item" ng-repeat="translation in model.translations">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-4">{{model.translation}}</div>
+                    <div class="col-md-4">{{model.profile.username}}</div>
+                    <a class="col-md-4" ng-click="model.deleteTranslatedPoem(model.translation._id, model.user._id)">Delete Review</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid">
+    <label>Favorite Poems</label>
+    <ul class="list-group">
+
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-md-4">Username</div>
+                <!--should we do ng-repeat for each user?-->
+                <div class="col-md-4">Title</div>
+                <div class="col-md-4">Action</div>
+            </div>
+        </li>
+
+        <li class="list-group-item" ng-repeat="model.profile in model.profiles">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-4">{{model.profile.username}}</div>
+        <li class="list-group-item" ng-repeat="favorite in model.favorites">
+            <div class="col-md-4">{{favorite.title}}</div>
+        </li>
+        <a class="col-md-4" ng-click="model.deleteFavorite(model.favorite._id, model.user._id)">Delete Favorite</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="container-fluid">
+    <label>Followers</label>
+    <ul class="list-group">
+
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-md-4">Username</div>
+                <!--should we do ng-repeat for each user?-->
+                <div class="col-md-4">Followers</div>
+                <div class="col-md-4">Action</div>
+            </div>
+        </li>
+
+        <li class="list-group-item" ng-repeat="model.profile in model.profiles">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-4">{{model.profile.username}}</div>
+        <li class="list-group-item" ng-repeat="follower in model.followers">
+            <div class="col-md-4">{{follower.username}}</div>
+        </li>
+        <a class="col-md-4" ng-click="model.deleteFollower(follower._id, model.user._id)">Delete Follower</a>
+        </li>
+    </ul>
+</div>
+
+<div ng-include="model.templates.navFooter"></div>
