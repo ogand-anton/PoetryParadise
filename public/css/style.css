@@ -1,4 +1,23 @@
 /************************/
+/*       Background     */
+/************************/
+
+.background {
+    background: url("/images/background_parchment.jpg") no-repeat 0 0 fixed;
+    background-size: cover;
+    height: 100%;
+    left: 0;
+    opacity: 0.85;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+/************************/
 /*    Misc. Components  */
 /************************/
 
