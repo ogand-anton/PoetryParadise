@@ -7,7 +7,6 @@
         return {
             authenticate: authenticate,
             login: login,
-            loginGoogle: loginGoogle,
             logout: logout
         };
 
