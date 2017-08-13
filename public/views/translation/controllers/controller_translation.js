@@ -85,7 +85,7 @@
 
         function _initHeaderFooter() {
             vm.navHeader = {
-                leftLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"},
+                leftLink: {href: "#!/poem/" + poemId, iconClass: "glyphicon-chevron-left", name: "Poem"},
                 name: "Translation",
                 rightLink: vm.translationEditFlag === undefined || vm.translationEditFlag ? {
                     clickCb: saveTranslation,

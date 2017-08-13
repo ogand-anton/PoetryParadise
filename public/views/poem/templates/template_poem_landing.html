@@ -47,21 +47,23 @@
         </div>
     </div>
 
-    <div ng-if="model.poem._id && model.translations.length" class="col-xs-12 aoa-list-box-400 aoa-no-height-force">
-        <label>Translations</label>
-        <!-- TODO bring out into separate template -->
-        <ul class="list-group aoa-list-group">
-            <li class="list-group-item" ng-repeat="translation in model.translations">
-                <div>
-                    <a href="#!/poem/{{model.poem._id}}/translation/{{translation._id}}">
-                        <b>{{translation.title || "NO TITLE"}}</b>
-                    </a>
-                </div>
-                <i>{{translation.author.username}}</i>
-                <div ng-repeat="line in translation.lines | limitTo: model.maxLines track by $index">{{line}}</div>
-                <span ng-if="translation.lines.length > model.maxLines">...</span>
-            </li>
-        </ul>
+    <div ng-if="model.poem._id" class="col-xs-12 aoa-list-box-400 aoa-no-height-force">
+        <div ng-if="model.translations.length">
+            <label>Translations</label>
+            <!-- TODO bring out into separate template -->
+            <ul class="list-group aoa-list-group">
+                <li class="list-group-item" ng-repeat="translation in model.translations">
+                    <div>
+                        <a href="#!/poem/{{model.poem._id}}/translation/{{translation._id}}">
+                            <b>{{translation.title || "NO TITLE"}}</b>
+                        </a>
+                    </div>
+                    <i>{{translation.author.username}}</i>
+                    <div ng-repeat="line in translation.lines | limitTo: model.maxLines track by $index">{{line}}</div>
+                    <span ng-if="translation.lines.length > model.maxLines">...</span>
+                </li>
+            </ul>
+        </div>
         <a ng-click="model.addTranslation()" class="btn btn-success btn-block">Add Translation</a>
     </div>
 
