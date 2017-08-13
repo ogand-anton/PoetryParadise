@@ -22,6 +22,7 @@
 /************************/
 
 /* TODO this is where SASS would be nice */
+.aoa-list-box-140,
 .aoa-list-box-200,
 .aoa-list-box-300,
 .aoa-list-box-400,
@@ -29,14 +30,18 @@
     margin-bottom: 20px;
 }
 
+.aoa-list-box-140 ul,
 .aoa-list-box-200 ul,
 .aoa-list-box-300 ul,
 .aoa-list-box-400 ul,
 .aoa-list-box-500 ul,
 .aoa-list-box-600 ul{
     background-color: rgba(255, 255, 255, 0.5);
-    max-height: 300px;
     overflow-y: auto;
+}
+
+.aoa-list-box-140 ul {
+    max-height: 140px;
 }
 
 .aoa-list-box-200 ul {
@@ -60,6 +65,10 @@
 }
 
 @media (min-width: 769px) {
+    .aoa-list-box-140:not(.aoa-no-height-force) ul {
+        height: 140px;
+    }
+
     .aoa-list-box-200:not(.aoa-no-height-force) ul {
         height: 200px;
     }
@@ -192,6 +201,10 @@ textarea {
 /************************/
 /*      Utilities       */
 /************************/
+.aoa-margin-bottom-none {
+    margin-bottom: 0;
+}
+
 .aoa-margin-lr-none {
     margin-left: 0;
     margin-right: 0;

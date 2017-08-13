@@ -13,9 +13,9 @@
     </div>
 
     <div ng-if="model.poemEditFlag && model.poem._id" class="col-xs-12 col-sm-6">
-        <div ng-if="model.reviews.length" class="aoa-list-box-200">
+        <div ng-if="model.reviews.length" class="aoa-list-box-300">
             <label>Reviews</label>
-            <ul class="list-group aoa-list-group">
+            <ul class="list-group aoa-list-group aoa-margin-bottom-none">
                 <li class="list-group-item" ng-repeat="review in model.reviews">
                     <a href="#!/profile/{{review.reviewer._id}}">
                         <i>{{review.reviewer.username}}</i>
@@ -26,13 +26,12 @@
                     </div>
                 </li>
             </ul>
-            <br/>
         </div>
 
-        <div class="aoa-list-box-200">
+        <div class="aoa-list-box-140">
             <label>Request a Review:</label>
             <!-- TODO need generic user list template to use here and in profile -->
-            <ul class="list-group aoa-list-group">
+            <ul class="list-group aoa-list-group aoa-margin-bottom-none">
                 <li class="list-group-item row aoa-margin-lr-none" ng-repeat="follower in model.followers">
                     <div class="col-xs-7">
                         <a href="#!/profile/{{follower._id}}">{{follower.username}}</a>
