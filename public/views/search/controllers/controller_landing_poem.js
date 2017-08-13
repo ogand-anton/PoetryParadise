@@ -59,6 +59,7 @@
                     vm.users = favorites.map(function (fav) {
                         if (authUser && fav._user._id === authUser._id) {
                             poem.favoriteFlag = true;
+                            poem.favoriteId = fav._id;
                         }
                         return fav._user;
                     });
