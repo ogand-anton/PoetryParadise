@@ -57,6 +57,7 @@
             userService
                 .unFollowUser(authUser._id, followerId)
                 .then(function () {
+                    _findFollowing();
                     _findFollowedBy();
                 });
         }
