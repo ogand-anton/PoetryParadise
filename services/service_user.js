@@ -33,7 +33,11 @@ module.exports = function (app, model) {
     function findAllUsers(req, res) {
         userModel
             .findAllUsers()
-            .then(_genSuccessCb(res), _genErrorCb(res));
+            .then(function(users){
+                res.json(users.sort(function(userA, userB) {
+                    return userA.username < userB.username ? -1  : 1;
+                }));
+            }, _genErrorCb(res));
     }
 
     function findFollowers(req, res) {
