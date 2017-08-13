@@ -26,6 +26,8 @@
                     .then(function (favorite) {
                         poem.favoriteFlag = true;
                         poem.favoriteId = favorite._id;
+
+                        _findFavoriteUsers();
                     });
             } else {
                 authService.referToLogin();
@@ -38,6 +40,8 @@
                 .then(function () {
                     poem.favoriteFlag = false;
                     poem.favoriteId = undefined;
+
+                    _findFavoriteUsers();
                 })
         }
 
