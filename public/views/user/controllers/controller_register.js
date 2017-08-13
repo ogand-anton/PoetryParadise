@@ -20,7 +20,7 @@
                     if (res.msg) {
                         vm.errorMsg = res.msg;
                     } else {
-                        $location.url(profile);
+                        $location.url("profile");
                     }
             });
         }
