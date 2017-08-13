@@ -79,7 +79,9 @@ module.exports = function (app, model) {
                     userModel
                         .createUser(newUser)
                         .then(function (user) {
-                            if (user) {
+                            if (req.user.adminFlag) {
+                                res.sendStatus(200); // admin created this user, do not log in as new user
+                            } else if (user) {
                                 req.login(user, function (err) {
                                     if (err) {
                                         res.status(400).send(err);
