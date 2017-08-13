@@ -22,7 +22,7 @@
               class="form-control"
               ng-model="model.poem.text"
               placeholder="Write poem here"
-              rows="{{!model.poemEditFlag ? model.poem.lines.length : 20}}"
+              rows="{{!model.poemEditFlag && !model.reviewFlag ? model.poem.lines.length : 20}}"
               ng-readonly="!model.poemEditFlag"
     >{{model.poem.text}}</textarea>
 </div>

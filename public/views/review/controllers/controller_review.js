@@ -94,6 +94,8 @@
         }
 
         function _loadContent() {
+            vm.reviewFlag = true;
+
             _findPoem();
             _findReview();
         }
