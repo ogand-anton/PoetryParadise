@@ -56,16 +56,11 @@ module.exports = function (app, model) {
     }
 
     function registerUser(req, res) {
-        var newUser = {
-                username: req.query.username,
-                password: req.query.password,
-                emailAddress: req.query.emailAddress
-            },
-            passwordVerified = req.query.verifyPassword;
+        var newUser = req.body.user;
 
         if (!(newUser.username && newUser.password)) {
             res.json({msg: "User must have a username and a password"});
-        } else if (newUser.password !== passwordVerified) {
+        } else if (newUser.password !== newUser.verifyPassword) {
             res.json({msg: "Passwords do not match"});
         } else {
             userModel

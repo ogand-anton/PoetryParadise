@@ -16,6 +16,7 @@ module.exports = function () {
             id: {type: String},
             token: {type: String}
         },
+        adminFlag: {type: Boolean},
         dateCreated: {type: Date, required: true, default: Date.now}
     }, {collection: "user"});
 };

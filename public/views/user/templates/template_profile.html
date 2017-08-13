@@ -5,6 +5,7 @@
     <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
 
     <div class="aoa-list-box-300 col-xs-12 col-sm-6">
+        <!-- TODO utilize user info template here -->
         <form ng-if="model.profileEditFlag">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -73,7 +74,7 @@
                 <div class="col-xs-3">
                     <button ng-if="model.profileEditFlag"
                             class="btn btn-danger pull-right glyphicon glyphicon-remove"
-                            ng-click="model.unFavoritePoem(favorite._id)"
+                            ng-click="model.deleteFavorite(favorite._id)"
                     >
                     </button>
                 </div>
@@ -160,6 +161,10 @@
                 </div>
             </li>
         </ul>
+    </div>
+
+    <div ng-if="model.adminFlag" class="col-xs-12">
+        <a href="#!/admin" class="btn btn-block btn-danger">Admin Console</a>
     </div>
 </div>
 

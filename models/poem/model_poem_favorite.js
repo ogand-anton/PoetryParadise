@@ -5,30 +5,30 @@ module.exports = function (app) {
 
     return Object.assign(poemFavoriteModel, {
         addFavorite: addFavorite,
+        deleteFavorite: deleteFavorite,
         findFavorites: findFavorites,
-        findFavoritesByUser: findFavoritesByUser,
-        removeFavorite: removeFavorite
+        findFavoritesByUser: findFavoritesByUser
     });
 
     function addFavorite(userId, author, title) {
         return poemFavoriteModel.create({
-            _userId: userId,
+            _user: userId,
             author: author,
             title: title
         });
     }
 
+    function deleteFavorite(userId, favoriteId) {
+        return poemFavoriteModel.remove({_id: favoriteId, _user: userId});
+    }
+
     function findFavorites(author, title) {
-        return poemFavoriteModel.find({author: author, title: title}, function(err, favorites){
-            return favorites;
-        });
+        return poemFavoriteModel
+            .find({author: author, title: title})
+            .populate("_user");
     }
 
     function findFavoritesByUser(userId) {
-        return poemFavoriteModel.find({_userId: userId});
-    }
-
-    function removeFavorite(userId, favoriteId) {
-        return poemFavoriteModel.remove({_id: favoriteId, _userId: userId});
+        return poemFavoriteModel.find({_user: userId});
     }
 };

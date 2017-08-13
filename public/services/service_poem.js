@@ -9,6 +9,7 @@
         };
 
         return {
+            deleteFavorite: deleteFavorite,
             deletePoem: deletePoem,
             favoritePoem: favoritePoem,
             findFavoriteUsers: findFavoriteUsers,
@@ -16,9 +17,18 @@
             findPoem: findPoem,
             findPoems: findPoems,
             getTemplates: getTemplates,
-            savePoem: savePoem,
-            unFavoritePoem: unFavoritePoem
+            savePoem: savePoem
         };
+
+        function deleteFavorite(userId, favoriteId) {
+            return $http({
+                url: "/api/poem/" + userId,
+                method: "DELETE",
+                params: {favoriteId: favoriteId}
+            }).then(function (res) {
+                return res.data;
+            });
+        }
 
         function deletePoem(poemId) {
             return $http({
@@ -97,16 +107,6 @@
                         return res.data;
                     });
             }
-        }
-
-        function unFavoritePoem(userId, favoriteId) {
-            return $http({
-                url: "/api/poem/" + userId,
-                method: "DELETE",
-                params: {favoriteId: favoriteId}
-            }).then(function (res) {
-                return res.data;
-            });
         }
     }
 })();

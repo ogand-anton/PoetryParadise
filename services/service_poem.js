@@ -1,11 +1,9 @@
 module.exports = function (app, model) {
-    var mongoose = require("mongoose"),
-        poemModel = model.poemModel,
-        poemFavoriteModel = model.poemFavoriteModel,
-        userModel = model.userModel;
+    var poemFavoriteModel = model.poemFavoriteModel,
+        poemModel = model.poemModel;
 
     app.delete("/api/poem", deletePoem);
-    app.delete("/api/poem/:userId", unFavoritePoem);
+    app.delete("/api/poem/:userId", deleteFavorite);
     app.get("/api/poem/users", findFavoriteUsers);
     app.get("/api/poem/:userId", findFavoritesByUser);
     app.put("/api/poem/:userId", favoritePoem);
@@ -25,6 +23,15 @@ module.exports = function (app, model) {
             }, function () {
                 res.status(501).send("unable to create poem");
             });
+    }
+
+    function deleteFavorite(req, res) {
+        var userId = req.params.userId,
+            favoriteId = req.query.favoriteId;
+
+        poemFavoriteModel
+            .deleteFavorite(userId, favoriteId)
+            .then(_genSuccessCb(res), _genErrorCb(res));
     }
 
     function deletePoem(req, res) {
@@ -59,13 +66,7 @@ module.exports = function (app, model) {
 
         poemFavoriteModel
             .findFavorites(author, title)
-            .then(function (favorites) {
-                var userIds = favorites.map(function (fav) {return mongoose.Types.ObjectId(fav._userId)});
-
-                userModel
-                    .findUsers(userIds)
-                    .then(_genSuccessCb(res), _genErrorCb(res));
-            });
+            .then(_genSuccessCb(res), _genErrorCb(res));
     }
 
     function findFavoritesByUser(req, res) {
@@ -113,15 +114,6 @@ module.exports = function (app, model) {
         } else {
             res.status(404);
         }
-    }
-
-    function unFavoritePoem(req, res) {
-        var userId = req.params.userId,
-            favoriteId = req.query.favoriteId;
-
-        poemFavoriteModel
-            .removeFavorite(userId, favoriteId)
-            .then(_genSuccessCb(res), _genErrorCb(res));
     }
 
     function updatePoem(req, res) {

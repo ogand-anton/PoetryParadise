@@ -4,20 +4,21 @@ module.exports = function (app, model) {
     var followerModel = model.followerModel,
         userModel = model.userModel;
 
-    app.delete("/api/user/:userId/delete", deleteUser);
+    app.delete("/api/user", deleteUser);
     app.delete("/api/user/unfollow", unFollowUser);
 
     app.get("/api/user", findUserByUsername);
     app.get("/api/user/followers", findFollowers);
     app.get("/api/user/:userId", findUserById);
     app.get("/api/user/:userId/followers", findUserFollowers);
+    app.get("/api/users", findAllUsers);
 
     app.post("/api/user/follow", followUser);
 
     app.put("/api/user/:userId", updateUser);
 
     function deleteUser(req, res) {
-        var userId = req.param.userId;
+        var userId = req.query.userId;
 
         userModel
             .deleteUser(userId)
@@ -27,6 +28,12 @@ module.exports = function (app, model) {
                 },
                 _genErrorCb(res)
             )
+    }
+
+    function findAllUsers(req, res) {
+        userModel
+            .findAllUsers()
+            .then(_genSuccessCb(res), _genErrorCb(res));
     }
 
     function findFollowers(req, res) {
@@ -60,7 +67,7 @@ module.exports = function (app, model) {
     }
 
     function findUserById(req, res) {
-        var userId = req.params.userId;
+        var userId = req.query.userId;
 
         userModel
             .findUserById(userId)
@@ -90,8 +97,8 @@ module.exports = function (app, model) {
     }
 
     function followUser(req, res) {
-        var userId = req.query.userId,
-            followerId = req.query.followerId;
+        var userId = req.body.userId,
+            followerId = req.body.followerId;
 
         followerModel
             .addFollower(userId, followerId)
@@ -109,39 +116,36 @@ module.exports = function (app, model) {
 
     function updateUser(req, res) {
         var userId = req.params.userId,
-            newUserInfo = {
-                username: req.query.username,
-                password: req.query.password,
-                firstName: req.query.firstName,
-                lastName: req.query.lastName,
-                emailAddress: req.query.emailAddress
-            };
+            newUserInfo = req.body.user;
 
-        userModel
-            .findUserById(userId)
-            .then(function (user) {
-                if (user) {
-                    userModel
-                        .findUserByUsername(newUserInfo.username)
-                        .then(function (newUser) {
-                            if (!newUser || newUser._id.equals(userId)) {
-                                userModel
-                                    .updateUser(userId, newUserInfo)
-                                    .then(
-                                        function (updatedUser) {
-                                            res.json({user: updatedUser});
-                                        },
-                                        _genErrorCb(res)
-                                    )
-                            } else {
-                                res.json({msg: "Username unavailable"});
-                            }
-                        })
-
-                } else {
-                    res.json({msg: "User not found"});
-                }
-            });
+        if (newUserInfo.password !== newUserInfo.verifyPassword) {
+            res.json({msg: "Passwords do not match"});
+        } else {
+            userModel
+                .findUserById(userId)
+                .then(function (user) {
+                    if (user) {
+                        userModel
+                            .findUserByUsername(newUserInfo.username)
+                            .then(function (newUser) {
+                                if (!newUser || newUser._id.equals(userId)) {
+                                    userModel
+                                        .updateUser(userId, newUserInfo)
+                                        .then(
+                                            function (updatedUser) {
+                                                res.json({user: updatedUser});
+                                            },
+                                            _genErrorCb(res)
+                                        )
+                                } else {
+                                    res.json({msg: "Username unavailable"});
+                                }
+                            })
+                    } else {
+                        res.json({msg: "User not found"});
+                    }
+                });
+        }
     }
 
     function _genErrorCb(res) {

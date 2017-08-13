@@ -13,7 +13,7 @@
         vm.followUser = followUser;
         vm.saveUser = saveUser;
         vm.logout = logout;
-        vm.unFavoritePoem = unFavoritePoem;
+        vm.deleteFavorite = deleteFavorite;
         vm.unFollowUser = unFollowUser;
 
         (function init() {
@@ -22,6 +22,14 @@
             _initHeaderFooter();
             _loadContent();
         })();
+
+        function deleteFavorite(favoriteId) {
+            poemService
+                .deleteFavorite(uid, favoriteId)
+                .then(function () {
+                    _findFavoritesByUser();
+                })
+        }
 
         function followUser() {
             userService
@@ -44,20 +52,12 @@
                 });
         }
 
-        function unFavoritePoem(favoriteId) {
-            poemService
-                .unFavoritePoem(uid, favoriteId)
-                .then(function () {
-                    _findFavoritesByUser();
-                })
-        }
-
         function unFollowUser(followerId) {
             followerId = followerId || uid;
             userService
                 .unFollowUser(authUser._id, followerId)
                 .then(function () {
-                    _findFollowing();
+                    _findFollowedBy();
                 });
         }
 
@@ -142,10 +142,21 @@
                     href: "javacript:void(0)",
                     iconClass: followingFlag ? "glyphicon-thumbs-down" : "glyphicon-thumbs-up",
                     name: followingFlag ? "Stop Following" : "Follow"
+                },
+                logoutNav = {
+                    clickCb: logout,
+                    href: "javacript:void(0)",
+                    iconClass: "glyphicon-log-out",
+                    name: "Logout"
+                },
+                profileNav = {
+                    href: "#!/profile",
+                    iconClass: "glyphicon-user",
+                    name: "My Profile"
                 };
 
             vm.navHeader = {
-                leftLink: {clickCb: logout, href: "javacript:void(0)", iconClass: "glyphicon-log-out", name: "Logout"},
+                leftLink: profileEditFlag ? logoutNav : profileNav,
                 name: "Profile",
                 rightLink: profileEditFlag ? saveUserNav : followNav
             };
@@ -160,6 +171,7 @@
             vm.maxLines = 3;
 
             uid = uid || authUser._id;
+            vm.adminFlag = uid === authUser._id && authUser.adminFlag;
 
             _findFavoritesByUser();
             _findFollowedBy();

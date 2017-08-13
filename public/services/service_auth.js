@@ -6,6 +6,7 @@
     function authService($location, $http) {
         return {
             authenticate: authenticate,
+            createUser: createUser,
             login: login,
             logout: logout,
             referBack: referBack,
@@ -23,14 +24,20 @@
                 });
         }
 
+        function createUser(user) {
+            return $http
+                .post("/api/register", {user: user})
+                .then(function (res) {
+                    return res.data;
+                });
+        }
+
         function login(loginCredentials) {
-            return $http({
-                url: "/api/login",
-                method: "POST",
-                params: loginCredentials
-            }).then(function (res) {
-                return res.data;
-            });
+            return $http
+                .post("/api/login", loginCredentials)
+                .then(function (res) {
+                    return res.data;
+                });
         }
 
         function logout() {
@@ -48,7 +55,7 @@
             $location.url(referrerUrl || "profile");
         }
 
-        function referToLogin(){
+        function referToLogin() {
             cookies.set("referrerUrl", $location.$$url);
             $location.url("login");
         }

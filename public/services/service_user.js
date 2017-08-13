@@ -5,32 +5,31 @@
 
     function userService($location, $http) {
         return {
-            createUser: createUser,
             deleteUser: deleteUser,
+            findAllUsers: findAllUsers,
             findFollowers: findFollowers,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
             findUserFollowers: findUserFollowers,
             followUser: followUser,
-            navToProfile: navToProfile,
             unFollowUser: unFollowUser,
             updateUser: updateUser
         };
 
-        function createUser(user) {
+        function deleteUser(userId) {
             return $http({
-                url: "/api/register",
-                method: "POST",
-                params: user
+                url: "/api/user/",
+                method: "DELETE",
+                params: {userId: userId}
             }).then(function (res) {
                 return res.data;
             });
         }
 
-        function deleteUser(userId) {
+        function findAllUsers() {
             return $http({
-                url: "/api/user/" + userId + "/delete",
-                method: "DELETE"
+                url: "/api/users",
+                method: "GET"
             }).then(function (res) {
                 return res.data;
             });
@@ -75,13 +74,11 @@
         }
 
         function followUser(userId, followerId) {
-            return $http({
-                url: "/api/user/follow",
-                method: "POST",
-                params: {userId: userId, followerId: followerId}
-            }).then(function (res) {
-                return res.data;
-            });
+            return $http
+                .post("/api/user/follow", {userId: userId, followerId: followerId})
+                .then(function (res) {
+                    return res.data;
+                });
         }
 
         function navToProfile() {
@@ -99,13 +96,11 @@
         }
 
         function updateUser(userId, user) {
-            return $http({
-                url: "/api/user/" + userId,
-                method: "PUT",
-                params: user
-            }).then(function (res) {
-                return res.data;
-            });
+            return $http
+                .put("/api/user/" + userId, {user: user})
+                .then(function (res) {
+                    return res.data;
+                });
         }
     }
 })();

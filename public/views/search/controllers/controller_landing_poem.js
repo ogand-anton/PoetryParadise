@@ -10,7 +10,7 @@
             poem;
 
         vm.favoritePoem = favoritePoem;
-        vm.unFavoritePoem = unFavoritePoem;
+        vm.deleteFavorite = deleteFavorite;
 
         (function init() {
             _parseRouteParams();
@@ -32,9 +32,9 @@
             }
         }
 
-        function unFavoritePoem(favoriteId) {
+        function deleteFavorite(favoriteId) {
             poemService
-                .unFavoritePoem(authUser._id, favoriteId)
+                .deleteFavorite(authUser._id, favoriteId)
                 .then(function () {
                     poem.favoriteFlag = false;
                     poem.favoriteId = undefined;
@@ -51,28 +51,14 @@
         function _findFavoriteUsers() {
             poemService
                 .findFavoriteUsers(poem)
-                .then(function (users) {
-                    vm.users = users;
-                });
-        }
-
-        function _findIfUserFavorited() {
-            if (authUser) {
-                // TODO need better way to check if poem already favorited with DB
-                poemService
-                    .findFavoritesByUser(authUser._id)
-                    .then(function (res) {
-                        var userFavorites = res.favorites;
-
-                        for (var i = 0; userFavorites && i < userFavorites.length; i++) {
-                            if (userFavorites[i].title === poem.title && userFavorites[i].author === poem.author) {
-                                poem.favoriteFlag = true;
-                                poem.favoriteId = userFavorites[i]._id;
-                                break;
-                            }
+                .then(function (favorites) {
+                    vm.users = favorites.map(function (fav) {
+                        if (authUser && fav._user._id === authUser._id) {
+                            poem.favoriteFlag = true;
                         }
+                        return fav._user;
                     });
-            }
+                });
         }
 
         function _initHeaderFooter() {
@@ -95,7 +81,6 @@
 
                     poem = vm.results[0]; // only one poem expected to be on this page
 
-                    _findIfUserFavorited();
                     _findFavoriteUsers();
                 });
         }

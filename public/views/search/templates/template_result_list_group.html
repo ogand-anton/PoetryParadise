@@ -13,7 +13,7 @@
             <i ng-show="result.favoriteFlag" class="glyphicon glyphicon-heart"></i>
             <span ng-show="result.favoriteFlag">Favorited</span>
             <br/>
-            <a ng-show="result.favoriteFlag" class="btn btn-danger" ng-click="model.unFavoritePoem(result.favoriteId)">
+            <a ng-show="result.favoriteFlag" class="btn btn-danger" ng-click="model.deleteFavorite(result.favoriteId)">
                 Remove from favorites
             </a>
             <a class="btn btn-success" ng-hide="result.favoriteFlag" ng-click="model.favoritePoem(result)">

@@ -3,135 +3,69 @@
         .module("pp")
         .controller("adminController", adminController);
 
-    function adminController($location, authUser,
-                             adminService, poemService, sharedService, userService) {
-        var vm = this,
-            authenticatedUid;
+    function adminController(authService, sharedService, userService) {
+        var vm = this;
 
+        vm.createUser = createUser;
         vm.deleteUser = deleteUser;
-        vm.deletePoemByUser = deletePoemByUser;
-        vm.deleteReviewByReviewer = deleteReviewByReviewer;
-        vm.deleteTranslatedPoem = deleteTranslatedPoem;
-        vm.deleteFavorite = deleteFavorite;
-        vm.deleteFollower = deleteFollower;
+        vm.updateUser = updateUser;
 
-        function init() {
+        (function init() {
             _fetchTemplates();
+            _initHeaderFooter();
             _loadContent();
+        })();
+
+        function createUser(user) {
+            authService
+                .createUser(user)
+                .then(function (res) {
+                    vm.errorMsg = res.msg;
+                    vm.successMsg = res.msg ? undefined : "User created";
+                    _findUsers();
+                })
         }
 
-        function deleteUser(uid) {
-            adminService
-                .deleteUser(uid)
-                .then(function() {
-                    $location.url('/admin');
+        function deleteUser(user) {
+            userService
+                .deleteUser(user._id)
+                .then(function () {
+                    _findUsers();
                 });
         }
 
-        function deletePoemByUser(pid, uid) {
-            adminService
-                .deletePoemByUser(pid, uid)
-                .then(function() {
-                    _findPoems();
-                    $location.url('/admin');
-                });
-        }
-
-        function deleteReviewByReviewer(reviewId, reviewerId) {
-            adminService
-                .deleteReviewByReviewer(reviewId, reviewerId)
-                .then(function() {
-                    _findReviews();
-                    $location.url('/admin');
-                });
-        }
-
-        function deleteTranslatedPoem(transId, uid) {
-            adminService
-                .deleteTranslatedPoem(transId, uid)
-                .then(function() {
-                    $location.url('/admin');
-                });
-        }
-
-        function deleteFavorite(favoriteId, uid) {
-            adminService
-                .deleteFavorite(favoriteId, uid)
-                .then(function() {
-                    $location.url('/admin');
-                });
-        }
-
-        function deleteFollower(followerId, uid) {
-            adminService
-                .deleteFollower(followerId, uid)
-                .then(function() {
-                    $location.url('/admin');
-                });
+        function updateUser(user) {
+            userService
+                .updateUser(user._id, user)
+                .then(function (res) {
+                    vm.errorMsg = res.msg;
+                    vm.successMsg = res.msg ? undefined : "User updated";
+                    _findUsers();
+                })
         }
 
         function _fetchTemplates() {
             vm.templates = sharedService.getTemplates();
         }
 
-        function _loadContent() {
-            vm.maxLines = 3;
-
-            _findUser();
-            _findFavoritesByUser();
-            _findFollowers();
-            _findPoems();
-            _findReviews();
-        }
-
-        function _findReviews() {
-            poemService
-                ._findReviews(reviewerId)
-                .then(function (res) {
-                    vm.reviewes = res.findAllReviewsByReviewer;
-                })
-        }
-
-        function _findFavoritesByUser() {
-            poemService
-                .findFavoritesByUser(uid)
-                .then(function (res) {
-                    vm.favorites = res.favorites;
-                })
-        }
-
-        function _findFollowers() {
-            if (uid !== authenticatedUid) { // read only profile
-                userService
-                    .findUserFollowers(uid)
-                    .then(function (followers) {
-                        vm.followers = followers;
-                    });
-            } else { // your actual profile
-                userService
-                    .findFollowers(uid)
-                    .then(function (followers) {
-                        vm.followers = followers;
-                    });
-            }
-        }
-
-        function _findPoems() {
-            poemService
-                .findPoems(uid !== authenticatedUid ? uid : undefined)
-                .then(function (poems) {
-                    vm.poems = poems;
-                });
-        }
-
-        function _findUser(){
+        function _findUsers() {
             userService
-                .findUserById(uid)
-                .then(function (res) {
-                    vm.errorMsg = res.msg;
-                    vm.profile = res.user;
+                .findAllUsers()
+                .then(function (users) {
+                    vm.users = users;
                 });
         }
 
+        function _initHeaderFooter() {
+            vm.navHeader = {
+                leftLink: {href: "/", iconClass: "glyphicon-home", name: "Home"},
+                name: "Admin Console",
+                rightLink: {href: "#!/profile", iconClass: "glyphicon-user", name: "Profile"}
+            };
+        }
+
+        function _loadContent() {
+            _findUsers();
+        }
     }
 })();

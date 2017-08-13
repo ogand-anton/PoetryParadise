@@ -1,0 +1,84 @@
+<div ng-include="model.templates.navHeader"></div>
+
+<div class="container-fluid">
+    <div class="alert-danger" ng-show="model.errorMsg">{{model.errorMsg}}</div>
+    <div class="alert-success" ng-show="model.successMsg">{{model.successMsg}}</div>
+
+    <div class="col-xs-12 col-sm-6">
+        <label>New User</label>
+        <!-- TODO abstract into template to use with register and profile -->
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" id="username" ng-model="newUser.username">
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input class="form-control" id="email" ng-model="newUser.emailAddress">
+        </div>
+        <div class="form-group">
+            <label for="first">First Name</label>
+            <input class="form-control" id="first" ng-model="newUser.firstName">
+        </div>
+        <div class="form-group">
+            <label for="last">Last Name</label>
+            <input class="form-control" id="last" ng-model="newUser.lastName">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" ng-model="newUser.password">
+        </div>
+        <div class="form-group">
+            <label for="vp">Verify Password</label>
+            <input type="password" class="form-control" id="vp" ng-model="newUser.verifyPassword">
+        </div>
+        <div class="form-group">
+            <label for="admin">Admin?</label>
+            <input type="checkbox" class="form-control" id="admin" ng-model="newUser.adminFlag">
+        </div>
+        <div class="col-xs-12">
+            <button class="btn btn-success btn-block" ng-click="model.createUser(newUser)">Add</button>
+        </div>
+        <br/>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 aoa-list-box-600">
+        <label>Users</label>
+        <ul class="list-group aoa-list-group">
+            <li class="list-group-item" ng-repeat="user in model.users track by $index">
+                <!-- TODO abstract into template to use with register and profile -->
+                <div class="form-group">
+                    <label for="{{'username' + $index}}">Username</label>
+                    <input class="form-control" id="{{'username' + $index}}" ng-model="user.username">
+                </div>
+                <div class="form-group">
+                    <label for="{{'email' + $index}}">Email Address</label>
+                    <input class="form-control" id="{{'email' + $index}}" ng-model="user.emailAddress">
+                </div>
+                <div class="form-group">
+                    <label for="{{'first' + $index}}">First Name</label>
+                    <input class="form-control" id="{{'first' + $index}}" ng-model="user.firstName">
+                </div>
+                <div class="form-group">
+                    <label for="{{'last' + $index}}">Last Name</label>
+                    <input class="form-control" id="{{'last' + $index}}" ng-model="user.lastName">
+                </div>
+                <div class="form-group">
+                    <label for="{{'password' + $index}}">Password</label>
+                    <input type="password" class="form-control" id="{{'password' + $index}}" ng-model="user.password">
+                </div>
+                <div class="form-group">
+                    <label for="{{'vp' + $index}}">Verify Password</label>
+                    <input type="password" class="form-control" id="{{'vp' + $index}}" ng-model="user.verifyPassword">
+                </div>
+                <div class="form-group">
+                    <label for="{{'admin' + $index}}">Admin?</label>
+                    <input type="checkbox" class="form-control" id="{{'admin' + $index}}" ng-model="user.adminFlag">
+                </div>
+                <button class="btn btn-success" ng-click="model.updateUser(user)">Save</button>
+                <button class="btn btn-danger" ng-click="model.deleteUser(user)">Delete</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div ng-include="model.templates.navFooter"></div>

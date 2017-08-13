@@ -7,6 +7,7 @@ module.exports = function (app) {
     return Object.assign(userModel, {
         createUser: createUser,
         deleteUser: deleteUser,
+        findAllUsers: findAllUsers,
         findUserByCredentials: findUserByCredentials,
         findUserByFacebookId: findUserByFacebookId,
         findUserByGoogleId: findUserByGoogleId,
@@ -25,6 +26,10 @@ module.exports = function (app) {
 
     function deleteUser(userId) {
         return userModel.remove({_id: userId});
+    }
+
+    function findAllUsers() {
+        return userModel.find({});
     }
 
     function findUserByCredentials(username, password) {
@@ -66,6 +71,9 @@ module.exports = function (app) {
     }
 
     function updateUser(userId, user) {
+        if (user.password) {
+            user.password = bcrypt.hashSync(user.password);
+        }
         return userModel.update({_id: userId}, {$set: user});
     }
 };

@@ -3,7 +3,7 @@
         .module("pp")
         .controller("registerController", registerController);
 
-    function registerController(sharedService, userService) {
+    function registerController($location, authService, sharedService) {
         var vm = this;
 
         vm.registerUser = registerUser;
@@ -14,13 +14,13 @@
         })();
 
         function registerUser(user) {
-            userService
+            authService
                 .createUser(user || {})
                 .then(function(res){
                     if (res.msg) {
                         vm.errorMsg = res.msg;
                     } else {
-                        userService.navToProfile();
+                        $location.url(profile);
                     }
             });
         }

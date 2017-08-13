@@ -21,15 +21,19 @@
 /*       List Box       */
 /************************/
 
+/* TODO this is where SASS would be nice */
 .aoa-list-box-200,
 .aoa-list-box-300,
-.aoa-list-box-400 {
+.aoa-list-box-400,
+.aoa-list-box-500 {
     margin-bottom: 20px;
 }
 
 .aoa-list-box-200 ul,
 .aoa-list-box-300 ul,
-.aoa-list-box-400 ul{
+.aoa-list-box-400 ul,
+.aoa-list-box-500 ul,
+.aoa-list-box-600 ul{
     background-color: rgba(255, 255, 255, 0.5);
     max-height: 300px;
     overflow-y: auto;
@@ -47,6 +51,14 @@
     max-height: 400px;
 }
 
+.aoa-list-box-500 ul {
+    max-height: 500px;
+}
+
+.aoa-list-box-600 ul {
+    max-height: 600px;
+}
+
 @media (min-width: 769px) {
     .aoa-list-box-200:not(.aoa-no-height-force) ul {
         height: 200px;
@@ -58,6 +70,14 @@
 
     .aoa-list-box-400:not(.aoa-no-height-force) ul {
         height: 400px;
+    }
+
+    .aoa-list-box-500:not(.aoa-no-height-force) ul {
+        height: 500px;
+    }
+
+    .aoa-list-box-600:not(.aoa-no-height-force) ul {
+        height: 600px;
     }
 }
 
@@ -152,6 +172,10 @@ a:hover {
 
 textarea {
     width: 100%;
+}
+
+.list-group-item {
+    min-height: 60px;
 }
 
 .aoa-list-group > .list-group-item,

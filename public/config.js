@@ -13,10 +13,10 @@
                 controllerAs: "model"
             })
             .when("/admin", {
-                templateUrl: "views/home/templates/template_admin_profile.html",
+                templateUrl: "views/admin/templates/template_admin_console.html",
                 controller: "adminController",
                 controllerAs: "model",
-                resolve: {authUser: genAuthenticateCb()}
+                resolve: {authUser: genAuthenticateCb(true, true)}
             })
             .when("/login", {
                 templateUrl: "views/user/templates/template_login.html",
@@ -91,14 +91,18 @@
             });
     }
 
-    function genAuthenticateCb(redirectFlag) {
+    function genAuthenticateCb(redirectFlag, checkAdmin) {
         return function ($q, authService) {
             var authPromise = $q.defer();
 
             authService
                 .authenticate()
                 .then(function (user) {
-                    if (user || redirectFlag === false) {
+                    if (redirectFlag === false){
+                        authPromise.resolve(user);
+                    } else if (checkAdmin && user && user.adminFlag) { // TODO this is NOT secure
+                        authPromise.resolve(user);
+                    } else if (!checkAdmin && user) {
                         authPromise.resolve(user);
                     } else {
                         authPromise.reject();
