@@ -35,7 +35,7 @@ module.exports = function (app, model) {
             .findAllUsers()
             .then(function(users){
                 res.json(users.sort(function(userA, userB) {
-                    return userA.username < userB.username ? -1  : 1;
+                    return userA.username.localeCompare(userB.username, "en", {"sensitivity": "base"});
                 }));
             }, _genErrorCb(res));
     }
