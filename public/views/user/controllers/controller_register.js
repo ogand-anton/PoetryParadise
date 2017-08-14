@@ -1,4 +1,4 @@
-(function() {
+(function () {
     angular
         .module("pp")
         .controller("registerController", registerController);
@@ -14,15 +14,24 @@
         })();
 
         function registerUser(user) {
+            vm.successMsg = "Registering...";
+            vm.errorMsg = undefined;
+
             authService
                 .createUser(user || {})
-                .then(function(res){
+                .then(function (res) {
                     if (res.msg) {
                         vm.errorMsg = res.msg;
+                        vm.successMsg = undefined;
                     } else {
                         $location.url("profile");
                     }
-            });
+                })
+                .catch(function (err) {
+                    vm.errorMsg = err.statusText;
+                    vm.successMsg = undefined;
+                });
+            ;
         }
 
         function _fetchTemplates() {

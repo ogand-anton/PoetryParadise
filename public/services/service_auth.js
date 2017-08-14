@@ -24,9 +24,9 @@
                 });
         }
 
-        function createUser(user) {
+        function createUser(user, createdByAdminFlag) {
             return $http
-                .post("/api/register", {user: user})
+                .post("/api/register", {user: user, createdByAdminFlag: createdByAdminFlag || false})
                 .then(function (res) {
                     return res.data;
                 });

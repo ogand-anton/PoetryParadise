@@ -18,7 +18,7 @@
 
         function createUser(user) {
             authService
-                .createUser(user)
+                .createUser(user, true)
                 .then(function (res) {
                     vm.errorMsg = res.msg;
                     vm.successMsg = res.msg ? undefined : "User created";

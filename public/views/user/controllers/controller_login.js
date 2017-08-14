@@ -15,11 +15,15 @@
         })();
 
         function login(user) {
+            vm.successMsg = "Logging in...";
+            vm.errorMsg = undefined;
+
             authService
                 .login(user)
                 .then(function (res) {
                     if (res.msg) {
                         vm.errorMsg = res.msg;
+                        vm.successMsg = undefined;
                     }
                     else {
                         authService.referBack();
@@ -27,6 +31,7 @@
                 })
                 .catch(function (err) {
                     vm.errorMsg = err.statusText;
+                    vm.successMsg = undefined;
                 });
         }
 

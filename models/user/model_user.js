@@ -8,7 +8,7 @@ module.exports = function (app) {
         createUser: createUser,
         deleteUser: deleteUser,
         findAllUsers: findAllUsers,
-        findUserByCredentials: findUserByCredentials,
+        findUserCredentials: findUserCredentials,
         findUserByFacebookId: findUserByFacebookId,
         findUserByGoogleId: findUserByGoogleId,
         findUserById: findUserById,
@@ -32,22 +32,10 @@ module.exports = function (app) {
         return userModel.find({});
     }
 
-    function findUserByCredentials(username, password) {
+    function findUserCredentials(username) {
         return userModel
             .findOne({username: username})
-            .select("+password")
-            .exec(function (err, user) {
-                if (err) return err;
-
-                try {
-                    if (bcrypt.compareSync(password, user.password)) {
-                        return user;
-                    }
-                }
-                catch (ex) {
-                    return undefined;
-                }
-            });
+            .select("+password");
     }
 
     function findUserById(userId) {

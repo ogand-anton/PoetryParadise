@@ -10,7 +10,8 @@ module.exports = function (app, model) {
             callbackURL: process.env.FACEBOOK_CALLBACK
         };
 
-    var passport = require("passport"),
+    var bcrypt = require("bcrypt-nodejs"),
+        passport = require("passport"),
         LocalStrategy = require("passport-local").Strategy,
         GoogleStrategy = require("passport-google-oauth").OAuth2Strategy,
         FacebookStrategy = require("passport-facebook").Strategy;
@@ -56,7 +57,8 @@ module.exports = function (app, model) {
     }
 
     function registerUser(req, res) {
-        var newUser = req.body.user;
+        var newUser = req.body.user,
+            createdByAdminFlag = req.body.createdByAdminFlag;
 
         if (!(newUser.username && newUser.password)) {
             res.json({msg: "User must have a username and a password"});
@@ -79,7 +81,7 @@ module.exports = function (app, model) {
                     userModel
                         .createUser(newUser)
                         .then(function (user) {
-                            if (req.user.adminFlag) {
+                            if (createdByAdminFlag) {
                                 res.sendStatus(200); // admin created this user, do not log in as new user
                             } else if (user) {
                                 req.login(user, function (err) {
@@ -180,10 +182,10 @@ module.exports = function (app, model) {
     // PASSPORT: authenticate a new session
     function _localStrategy(username, password, done) {
         userModel
-            .findUserByCredentials(username, password)
+            .findUserCredentials(username)
             .then(
                 function (user) {
-                    return done(null, user || false);
+                    return done(null, user && bcrypt.compareSync(password, user.password) ? user : false);
                 },
                 function (err) {
                     if (err) { return done(err); }
